@@ -13,12 +13,15 @@ import (
 	"strings"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
 	"github.com/astaxie/beego/orm"
 	"github.com/jasonlvhit/gocron"
 	log "github.com/sirupsen/logrus"
+
+	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+
+	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/Cepave/open-falcon-backend/modules/query/graph"
+	"github.com/Cepave/open-falcon-backend/modules/query/http/boss"
 )
 
 type IDCMapItem struct {
@@ -183,7 +186,7 @@ func syncIDCsTable() {
 	var result = make(map[string]interface{})
 	result["error"] = errors
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
 	url += "/pop/yes/pop_id/yes.json"
 	log.Debugf("url = %v", url)
@@ -203,6 +206,7 @@ func syncIDCsTable() {
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
 	var nodes = make(map[string]interface{})
 	if err := json.Unmarshal(body, &nodes); err != nil {
 		log.Errorf("Error = %v", err.Error())
@@ -317,7 +321,7 @@ func addBondingAndSpeedToHostsTable() {
 
 func getPlatformsType(nodes map[string]interface{}, result map[string]interface{}, platformsMap map[string]map[string]string) map[string]map[string]string {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Platform
 	params := map[string]string{
 		"fcname":  fcname,

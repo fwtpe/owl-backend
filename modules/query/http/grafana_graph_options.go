@@ -10,9 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
 	"github.com/astaxie/beego/orm"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/Cepave/open-falcon-backend/modules/query/http/boss"
 )
 
 type Idc struct {
@@ -48,7 +50,7 @@ func getLocation(pop_id int) map[string]string {
 		"city":     "",
 	}
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Geo
 
 	args := map[string]interface{}{
@@ -295,7 +297,7 @@ func getMapValues(chartType string) map[string]interface{} {
 
 func updateMapData() {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
 	url += "/eqt/yes/hostname/yes/pop/yes/pop_id/yes/show_active/yes/show_isp/yes.json"
 	log.Debugf("url = %v", url)

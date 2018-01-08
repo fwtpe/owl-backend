@@ -12,13 +12,16 @@ import (
 	"strings"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
-	"github.com/Cepave/open-falcon-backend/modules/query/proc"
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
 	log "github.com/sirupsen/logrus"
+
+	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+
+	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/Cepave/open-falcon-backend/modules/query/graph"
+	"github.com/Cepave/open-falcon-backend/modules/query/http/boss"
+	"github.com/Cepave/open-falcon-backend/modules/query/proc"
 )
 
 type Tag struct {
@@ -473,7 +476,7 @@ func getTemplateStrategies(rw http.ResponseWriter, req *http.Request) {
 
 func getPlatformJSON(nodes map[string]interface{}, result map[string]interface{}) {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
 	url += "/show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
 	req, err := http.NewRequest("GET", url, nil)
@@ -1736,7 +1739,7 @@ func getPlatformContact(platformName string, nodes map[string]interface{}) {
 	result["error"] = errors
 	var platformMap = make(map[string]interface{})
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Contact
 	params := map[string]string{
 		"fcname":       fcname,
@@ -2513,7 +2516,7 @@ func queryIDCsBandwidths(IDCName string, result map[string]interface{}) {
 	var nodes = make(map[string]interface{})
 	upperLimitSum := float64(0)
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Uplink
 	params := map[string]string{
 		"fcname":   fcname,

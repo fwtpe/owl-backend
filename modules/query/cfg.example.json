@@ -47,6 +47,7 @@
     "api": {
         "name": "apiName",
         "token": "apiToken",
+				"boss_base": "https://example.com/",
         "contact": "https://example.com/api_contact_path",
         "dashboard": "http://example.com/dashboard_path",
         "event": "https://example.com/api_event_path",

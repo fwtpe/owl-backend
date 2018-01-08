@@ -53,6 +53,7 @@ type ApiConfig struct {
 	Event     string `json:"event"`
 	Geo       string `json:"geo"`
 	Map       string `json:"map"`
+	BossBase  string `json:"boss_base"`
 	Max       int    `json:"max"`
 	Platform  string `json:"platform"`
 	Query     string `json:"query"`

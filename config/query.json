@@ -37,6 +37,7 @@
     "api": {
         "name": "api_owl",
         "token": "fastweb_owl",
+				"boss_base": "https://cdnboss-api.fastweb.com.cn/",
         "event": "https://cdnboss-api.fastweb.com.cn/Monitor/add_zabbix_event",
         "map": "https://cdnboss-api.fastweb.com.cn/Base/platform/get_ip",
         "geo": "https://cdnboss-api.fastweb.com.cn/pop/get_area",
