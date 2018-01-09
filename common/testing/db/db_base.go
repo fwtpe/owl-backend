@@ -11,8 +11,8 @@ package db
 import (
 	"fmt"
 
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	tflag "github.com/Cepave/open-falcon-backend/common/testing/flag"
+	commonDb "github.com/fwtpe/owl/common/db"
+	tflag "github.com/fwtpe/owl/common/testing/flag"
 )
 
 // This callback is used to setup a viable database configuration for testing.

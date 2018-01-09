@@ -2,10 +2,10 @@ package nqm
 
 import (
 	"fmt"
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	t "github.com/Cepave/open-falcon-backend/common/testing"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	ojson "github.com/fwtpe/owl/common/json"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
+	t "github.com/fwtpe/owl/common/testing"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
 	. "gopkg.in/check.v1"
 	"time"
 )

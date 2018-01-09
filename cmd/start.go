@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/g"
+	"github.com/fwtpe/owl/g"
 	"github.com/spf13/cobra"
 )
 

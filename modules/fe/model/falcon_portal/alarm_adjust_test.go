@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
+	"github.com/fwtpe/owl/modules/fe/g"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	. "github.com/smartystreets/goconvey/convey"

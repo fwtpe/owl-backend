@@ -11,10 +11,10 @@ import (
 
 	tcache "github.com/toolkits/cache/localcache/timedcache"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	cutils "github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/graph/g"
-	"github.com/Cepave/open-falcon-backend/modules/graph/proc"
+	cmodel "github.com/fwtpe/owl/common/model"
+	cutils "github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/graph/g"
+	"github.com/fwtpe/owl/modules/graph/proc"
 )
 
 const (

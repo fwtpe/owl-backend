@@ -12,7 +12,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	or "github.com/Cepave/open-falcon-backend/common/reflect"
+	or "github.com/fwtpe/owl/common/reflect"
 	"github.com/etgryphon/stringUp"
 	e "github.com/juju/errors"
 )

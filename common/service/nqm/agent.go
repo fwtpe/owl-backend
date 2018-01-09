@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"fmt"
-	cache "github.com/Cepave/open-falcon-backend/common/ccache"
-	nqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
+	cache "github.com/fwtpe/owl/common/ccache"
+	nqmDb "github.com/fwtpe/owl/common/db/nqm"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
 )
 
 type AgentService struct {

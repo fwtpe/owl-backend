@@ -3,12 +3,12 @@ package restful
 import (
 	"net"
 
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	cModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/service"
+	ogin "github.com/fwtpe/owl/common/gin"
+	"github.com/fwtpe/owl/common/gin/mvc"
+	cModel "github.com/fwtpe/owl/common/model"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl/modules/mysqlapi/service"
 	"github.com/gin-gonic/gin"
 )
 

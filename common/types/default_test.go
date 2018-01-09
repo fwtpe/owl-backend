@@ -5,7 +5,7 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	t "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	t "github.com/fwtpe/owl/common/reflect/types"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

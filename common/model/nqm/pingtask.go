@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	owlGin "github.com/Cepave/open-falcon-backend/common/gin"
-	commonOwlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
+	owlGin "github.com/fwtpe/owl/common/gin"
+	commonOwlModel "github.com/fwtpe/owl/common/model/owl"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )

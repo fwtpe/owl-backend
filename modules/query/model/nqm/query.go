@@ -9,12 +9,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/compress"
-	"github.com/Cepave/open-falcon-backend/common/digest"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/compress"
+	"github.com/fwtpe/owl/common/digest"
+	"github.com/fwtpe/owl/common/utils"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
+	ojson "github.com/fwtpe/owl/common/json"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
 	sjson "github.com/bitly/go-simplejson"
 )
 

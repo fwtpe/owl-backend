@@ -2,9 +2,9 @@ package cron
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/g"
-	"github.com/Cepave/open-falcon-backend/sdk/portal"
-	"github.com/Cepave/open-falcon-backend/sdk/sender"
+	"github.com/fwtpe/owl/modules/aggregator/g"
+	"github.com/fwtpe/owl/sdk/portal"
+	"github.com/fwtpe/owl/sdk/sender"
 	log "github.com/sirupsen/logrus"
 	"strconv"
 	"strings"

@@ -10,9 +10,9 @@ import (
 
 	"regexp"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
-	"github.com/Cepave/open-falcon-backend/modules/query/proc"
+	cmodel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/query/graph"
+	"github.com/fwtpe/owl/modules/query/proc"
 )
 
 type GraphHistoryParam struct {

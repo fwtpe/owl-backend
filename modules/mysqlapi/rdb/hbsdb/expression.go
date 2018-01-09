@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl/common/model"
 	log "github.com/sirupsen/logrus"
 )
 

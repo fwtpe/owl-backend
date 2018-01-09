@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl/common/vipercfg"
 	"os"
 
-	"github.com/Cepave/open-falcon-backend/modules/nodata/collector"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/config"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/g"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/http"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/judge"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/sender"
+	"github.com/fwtpe/owl/modules/nodata/collector"
+	"github.com/fwtpe/owl/modules/nodata/config"
+	"github.com/fwtpe/owl/modules/nodata/g"
+	"github.com/fwtpe/owl/modules/nodata/http"
+	"github.com/fwtpe/owl/modules/nodata/judge"
+	"github.com/fwtpe/owl/modules/nodata/sender"
 )
 
 func main() {

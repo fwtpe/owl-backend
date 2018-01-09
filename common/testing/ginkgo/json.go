@@ -1,7 +1,7 @@
 package ginkgo
 
 import (
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
+	ojson "github.com/fwtpe/owl/common/json"
 	sjson "github.com/bitly/go-simplejson"
 
 	. "github.com/onsi/gomega"

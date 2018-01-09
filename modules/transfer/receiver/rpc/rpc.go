@@ -5,9 +5,9 @@ import (
 	"net/rpc"
 	"net/rpc/jsonrpc"
 
-	onet "github.com/Cepave/open-falcon-backend/common/net"
+	onet "github.com/fwtpe/owl/common/net"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
+	"github.com/fwtpe/owl/modules/transfer/g"
 )
 
 func StartRpc() {

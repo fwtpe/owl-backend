@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strings"
 
-	cutils "github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/graph/proc"
-	"github.com/Cepave/open-falcon-backend/modules/graph/store"
+	cutils "github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/graph/proc"
+	"github.com/fwtpe/owl/modules/graph/store"
 )
 
 func configProcRoutes() {

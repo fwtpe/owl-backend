@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/model/boss"
+	"github.com/fwtpe/owl/modules/fe/model/boss"
 	"github.com/astaxie/beego/orm"
 	log "github.com/sirupsen/logrus"
 )

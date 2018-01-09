@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl/common/vipercfg"
 	"github.com/fsnotify/fsnotify"
 )
 

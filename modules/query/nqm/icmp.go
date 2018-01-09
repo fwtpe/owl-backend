@@ -2,10 +2,10 @@ package nqm
 
 import (
 	"encoding/json"
-	osling "github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	model "github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
+	osling "github.com/fwtpe/owl/common/http/client"
+	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/query/g"
+	model "github.com/fwtpe/owl/modules/query/model/nqm"
 	sjson "github.com/bitly/go-simplejson"
 	"github.com/dghubble/sling"
 	"net/http"

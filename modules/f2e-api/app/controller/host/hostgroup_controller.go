@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	f "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/falcon_portal"
-	u "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/utils"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	f "github.com/fwtpe/owl/modules/f2e-api/app/model/falcon_portal"
+	u "github.com/fwtpe/owl/modules/f2e-api/app/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"

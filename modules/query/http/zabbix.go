@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/fwtpe/owl/modules/query/g"
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
 	log "github.com/sirupsen/logrus"

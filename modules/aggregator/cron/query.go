@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/sdk/graph"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/sdk/graph"
 )
 
 func queryCounterLast(numeratorOperands, denominatorOperands, hostnames []string, begin, end int64) (map[string]float64, error) {

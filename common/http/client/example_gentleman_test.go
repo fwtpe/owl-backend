@@ -8,7 +8,7 @@ import (
 	gt "gopkg.in/h2non/gentleman.v2"
 	"gopkg.in/h2non/gock.v1"
 
-	"github.com/Cepave/open-falcon-backend/common/http/client"
+	"github.com/fwtpe/owl/common/http/client"
 )
 
 // Send request and confirm status code.

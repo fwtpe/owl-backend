@@ -3,9 +3,9 @@ package graph
 import (
 	"testing"
 
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
-	tDb "github.com/Cepave/open-falcon-backend/common/testing/db"
-	tflag "github.com/Cepave/open-falcon-backend/common/testing/flag"
+	f "github.com/fwtpe/owl/common/db/facade"
+	tDb "github.com/fwtpe/owl/common/testing/db"
+	tflag "github.com/fwtpe/owl/common/testing/flag"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

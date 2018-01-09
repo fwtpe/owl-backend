@@ -1,7 +1,7 @@
 package cmdb
 
 import (
-	cmdbModel "github.com/Cepave/open-falcon-backend/modules/mysqlapi/model"
+	cmdbModel "github.com/fwtpe/owl/modules/mysqlapi/model"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"

@@ -1,7 +1,7 @@
 package model
 
 import (
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
 	json "github.com/bitly/go-simplejson"
 )
 

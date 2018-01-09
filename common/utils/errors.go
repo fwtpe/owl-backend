@@ -73,7 +73,7 @@ package utils
 
 import (
 	"fmt"
-	gr "github.com/Cepave/open-falcon-backend/common/runtime"
+	gr "github.com/fwtpe/owl/common/runtime"
 )
 
 // Defines the converter from converting any value to error object

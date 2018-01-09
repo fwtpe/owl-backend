@@ -3,10 +3,10 @@ package service
 import (
 	"strings"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+	cmodel "github.com/fwtpe/owl/common/model"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/sender"
+	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl/modules/transfer/sender"
 )
 
 var DefaultRelayStationFactory *RelayStationFactory

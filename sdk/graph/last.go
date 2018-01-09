@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/sdk/requests"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/sdk/requests"
 )
 
 var GraphLastUrl = "http://127.0.0.1:9966/graph/last"

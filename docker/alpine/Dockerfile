@@ -4,7 +4,7 @@
 FROM golang:1.8.5-alpine3.6 as build-base
 LABEL maintainer cheminlin@cepave.com
 ENV FALCON_DIR=/home CONFIG_DIR=/config
-ENV PROJ_PATH=${GOPATH}/src/github.com/Cepave/open-falcon-backend
+ENV PROJ_PATH=${GOPATH}/src/github.com/fwtpe/owl
 
 RUN apk add --no-cache ca-certificates bash git g++ perl make
 COPY . ${PROJ_PATH}

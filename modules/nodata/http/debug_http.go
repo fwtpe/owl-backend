@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/nodata/collector"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/config"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/sender"
+	"github.com/fwtpe/owl/modules/nodata/collector"
+	"github.com/fwtpe/owl/modules/nodata/config"
+	"github.com/fwtpe/owl/modules/nodata/sender"
 )
 
 func configDebugHttpRoutes() {

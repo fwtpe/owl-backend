@@ -7,11 +7,11 @@ import (
 	nlist "github.com/toolkits/container/list"
 	tproc "github.com/toolkits/proc"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+	cmodel "github.com/fwtpe/owl/common/model"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/proc"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/sender"
+	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl/modules/transfer/proc"
+	"github.com/fwtpe/owl/modules/transfer/sender"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

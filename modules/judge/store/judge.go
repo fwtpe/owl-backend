@@ -3,8 +3,8 @@ package store
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/judge/g"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/judge/g"
 	"time"
 )
 

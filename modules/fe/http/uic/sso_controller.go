@@ -1,9 +1,9 @@
 package uic
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/base"
-	"github.com/Cepave/open-falcon-backend/modules/fe/model/uic"
-	"github.com/Cepave/open-falcon-backend/modules/fe/utils"
+	"github.com/fwtpe/owl/modules/fe/http/base"
+	"github.com/fwtpe/owl/modules/fe/model/uic"
+	"github.com/fwtpe/owl/modules/fe/utils"
 	"time"
 )
 

@@ -3,8 +3,8 @@ package dashboard_graph
 import (
 	"net/http"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/utils"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	"github.com/fwtpe/owl/modules/f2e-api/app/utils"
+	"github.com/fwtpe/owl/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 )
 

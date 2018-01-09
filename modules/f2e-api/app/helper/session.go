@@ -7,8 +7,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/uic"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	"github.com/fwtpe/owl/modules/f2e-api/app/model/uic"
+	"github.com/fwtpe/owl/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 )
 

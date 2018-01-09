@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl/common/model"
 )
 
 func PostPush(L []*model.JsonMetaData) error {

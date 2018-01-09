@@ -6,9 +6,9 @@ import (
 
 	"database/sql"
 
-	coommonModel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/model/boss"
+	coommonModel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/alarm/model/boss"
 	"github.com/astaxie/beego/orm"
 	log "github.com/sirupsen/logrus"
 )

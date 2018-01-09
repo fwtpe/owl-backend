@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/Cepave/open-falcon-backend/scripts/mysql/dbpatch/go/changelog"
+	"github.com/fwtpe/owl/scripts/mysql/dbpatch/go/changelog"
 	. "gopkg.in/check.v1"
 )
 

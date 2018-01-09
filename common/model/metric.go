@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	MUtils "github.com/Cepave/open-falcon-backend/common/utils"
+	MUtils "github.com/fwtpe/owl/common/utils"
 )
 
 type MetricValue struct {

@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+	cmodel "github.com/fwtpe/owl/common/model"
 	influxdb "github.com/influxdata/influxdb/client/v2"
 	log "github.com/sirupsen/logrus"
 )

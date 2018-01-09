@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
-	eventmodel "github.com/Cepave/open-falcon-backend/modules/alarm/model/event"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/alarm/g"
+	eventmodel "github.com/fwtpe/owl/modules/alarm/model/event"
 	"github.com/garyburd/redigo/redis"
 )
 

@@ -3,7 +3,7 @@ package utils
 import (
 	"net/http"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

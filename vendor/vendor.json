@@ -4,7 +4,7 @@
 	"package": [
 		{
 			"checksumSHA1": "2ECAzL3kjB89h9nO/kToOIhoJRU=",
-			"path": "github.com/Cepave/consistent",
+			"path": "github.com/fwtpe/consistent",
 			"revision": "e793e5e459c4af7c32a8541a10389950048e4069",
 			"revisionTime": "2016-05-17T02:40:03Z"
 		},
@@ -1597,5 +1597,5 @@
 			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
-	"rootPath": "github.com/Cepave/open-falcon-backend"
+	"rootPath": "github.com/fwtpe/owl"
 }

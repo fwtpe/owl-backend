@@ -1,7 +1,7 @@
 package owl
 
 import (
-	t "github.com/Cepave/open-falcon-backend/common/testing"
+	t "github.com/fwtpe/owl/common/testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

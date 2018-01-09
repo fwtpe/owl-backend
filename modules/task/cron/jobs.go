@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	ocron "github.com/Cepave/open-falcon-backend/common/cron"
+	ocron "github.com/fwtpe/owl/common/cron"
 )
 
 // Configurations for vacuum of query objects

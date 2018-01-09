@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	gb "github.com/Cepave/open-falcon-backend/common/testing/ginkgo/builder"
+	gb "github.com/fwtpe/owl/common/testing/ginkgo/builder"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

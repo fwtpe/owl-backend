@@ -3,7 +3,7 @@ package rpc
 import (
 	"testing"
 
-	tflag "github.com/Cepave/open-falcon-backend/common/testing/flag"
+	tflag "github.com/fwtpe/owl/common/testing/flag"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

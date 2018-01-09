@@ -9,8 +9,8 @@ import (
 	"net/url"
 	"strings"
 
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/common/model"
+	ogin "github.com/fwtpe/owl/common/gin"
+	"github.com/fwtpe/owl/common/model"
 	"github.com/gin-gonic/gin"
 )
 

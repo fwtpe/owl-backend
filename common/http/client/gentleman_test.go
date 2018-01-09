@@ -10,9 +10,9 @@ import (
 	gt "gopkg.in/h2non/gentleman.v2"
 	"gopkg.in/h2non/gock.v1"
 
-	tl "github.com/Cepave/open-falcon-backend/common/http/client"
-	mock "github.com/Cepave/open-falcon-backend/common/testing/http/gock"
-	gp "github.com/Cepave/open-falcon-backend/common/testing/http/gock_plugin"
+	tl "github.com/fwtpe/owl/common/http/client"
+	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	gp "github.com/fwtpe/owl/common/testing/http/gock_plugin"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

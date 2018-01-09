@@ -3,9 +3,9 @@ package rpc
 import (
 	"fmt"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
+	cmodel "github.com/fwtpe/owl/common/model"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/service"
+	"github.com/fwtpe/owl/modules/transfer/service"
 )
 
 type Transfer int

@@ -1,8 +1,8 @@
 package dashboard
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/fe/g"
 	"github.com/astaxie/beego/orm"
 )
 

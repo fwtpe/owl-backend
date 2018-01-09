@@ -1,9 +1,9 @@
 package model
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/model/event"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/model/uic"
+	"github.com/fwtpe/owl/modules/alarm/g"
+	"github.com/fwtpe/owl/modules/alarm/model/event"
+	"github.com/fwtpe/owl/modules/alarm/model/uic"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )

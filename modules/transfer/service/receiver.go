@@ -4,11 +4,11 @@ import (
 	"strconv"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	cutils "github.com/Cepave/open-falcon-backend/common/utils"
+	cmodel "github.com/fwtpe/owl/common/model"
+	cutils "github.com/fwtpe/owl/common/utils"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/proc"
+	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl/modules/transfer/proc"
 )
 
 // process new metric values

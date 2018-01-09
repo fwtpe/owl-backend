@@ -6,7 +6,7 @@ import (
 	"fmt"
 	_ "net/http/pprof"
 
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
+	"github.com/fwtpe/owl/modules/alarm/g"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/astaxie/beego"

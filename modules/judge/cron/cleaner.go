@@ -3,7 +3,7 @@ package cron
 import (
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/judge/store"
+	"github.com/fwtpe/owl/modules/judge/store"
 	log "github.com/sirupsen/logrus"
 )
 

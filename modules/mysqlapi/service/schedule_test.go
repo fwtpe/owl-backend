@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
 
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/model"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

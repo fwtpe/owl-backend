@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl/common/vipercfg"
 	"github.com/spf13/pflag"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/cron"
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/db"
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/g"
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/http"
-	"github.com/Cepave/open-falcon-backend/sdk/graph"
-	"github.com/Cepave/open-falcon-backend/sdk/portal"
-	"github.com/Cepave/open-falcon-backend/sdk/sender"
+	"github.com/fwtpe/owl/modules/aggregator/cron"
+	"github.com/fwtpe/owl/modules/aggregator/db"
+	"github.com/fwtpe/owl/modules/aggregator/g"
+	"github.com/fwtpe/owl/modules/aggregator/http"
+	"github.com/fwtpe/owl/sdk/graph"
+	"github.com/fwtpe/owl/sdk/portal"
+	"github.com/fwtpe/owl/sdk/sender"
 )
 
 func main() {

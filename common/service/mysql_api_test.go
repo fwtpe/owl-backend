@@ -3,9 +3,9 @@ package service
 import (
 	"net/http"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	apiModel "github.com/Cepave/open-falcon-backend/common/model/mysqlapi"
-	mock "github.com/Cepave/open-falcon-backend/common/testing/http/gock"
+	ojson "github.com/fwtpe/owl/common/json"
+	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
+	mock "github.com/fwtpe/owl/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

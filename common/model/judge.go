@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/utils"
 )
 
 type JudgeItem struct {

@@ -6,11 +6,11 @@ import (
 
 	"encoding/json"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/gin_http/computeFunc"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/gin_http/openFalcon"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/model"
+	cmodel "github.com/fwtpe/owl/common/model"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/gin_http/computeFunc"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/gin_http/openFalcon"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/model"
 	"github.com/Jeffail/gabs"
 	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gin-gonic/gin"

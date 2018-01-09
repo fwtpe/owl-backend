@@ -3,9 +3,9 @@ package service
 import (
 	"time"
 
-	cModel "github.com/Cepave/open-falcon-backend/common/model"
-	cQueue "github.com/Cepave/open-falcon-backend/common/queue"
-	"github.com/Cepave/open-falcon-backend/modules/hbs/cache"
+	cModel "github.com/fwtpe/owl/common/model"
+	cQueue "github.com/fwtpe/owl/common/queue"
+	"github.com/fwtpe/owl/modules/hbs/cache"
 	"github.com/icrowley/fake"
 
 	. "github.com/onsi/ginkgo"

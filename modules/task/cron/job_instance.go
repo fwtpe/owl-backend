@@ -6,9 +6,9 @@ import (
 	"github.com/juju/errors"
 	"github.com/satori/go.uuid"
 
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
 
-	"github.com/Cepave/open-falcon-backend/modules/task/database"
+	"github.com/fwtpe/owl/modules/task/database"
 )
 
 type syncCmdbFromBoss struct {

@@ -6,9 +6,9 @@ import (
 	"math"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	cutils "github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	cmodel "github.com/fwtpe/owl/common/model"
+	cutils "github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/query/g"
 	log "github.com/sirupsen/logrus"
 	rings "github.com/toolkits/consistent/rings"
 	nset "github.com/toolkits/container/set"

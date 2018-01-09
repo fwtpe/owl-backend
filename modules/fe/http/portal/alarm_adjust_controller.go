@@ -1,6 +1,6 @@
 package portal
 
-import events "github.com/Cepave/open-falcon-backend/modules/fe/model/falcon_portal"
+import events "github.com/fwtpe/owl/modules/fe/model/falcon_portal"
 
 func (this *PortalController) WhenStrategyUpdated() {
 	baseResp := this.BasicRespGen()

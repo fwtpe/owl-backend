@@ -1,7 +1,7 @@
 package net
 
 import (
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
+	log "github.com/fwtpe/owl/common/logruslog"
 )
 
 var logger = log.NewDefaultLogger("INFO")

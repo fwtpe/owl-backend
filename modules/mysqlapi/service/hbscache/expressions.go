@@ -3,8 +3,8 @@ package hbscache
 import (
 	"sync"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	db "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/hbsdb"
+	"github.com/fwtpe/owl/common/model"
+	db "github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
 )
 
 type SafeExpressionCache struct {

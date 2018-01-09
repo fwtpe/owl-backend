@@ -3,8 +3,8 @@ package computeFunc
 import (
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/conf"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/gin_http/openFalcon"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/conf"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/gin_http/openFalcon"
 	"github.com/gin-gonic/gin"
 	_ "github.com/robertkrimen/otto/underscore"
 )

@@ -7,8 +7,8 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	cdb "github.com/Cepave/open-falcon-backend/common/db"
-	"github.com/Cepave/open-falcon-backend/common/model/owl"
+	cdb "github.com/fwtpe/owl/common/db"
+	"github.com/fwtpe/owl/common/model/owl"
 )
 
 type Schedule struct {

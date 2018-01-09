@@ -1,18 +1,18 @@
 package rdb
 
 import (
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
-	commonNqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	commonOwlDb "github.com/Cepave/open-falcon-backend/common/db/owl"
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
-	apiModel "github.com/Cepave/open-falcon-backend/common/model/mysqlapi"
+	commonDb "github.com/fwtpe/owl/common/db"
+	f "github.com/fwtpe/owl/common/db/facade"
+	commonNqmDb "github.com/fwtpe/owl/common/db/nqm"
+	commonOwlDb "github.com/fwtpe/owl/common/db/owl"
+	log "github.com/fwtpe/owl/common/logruslog"
+	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
 
-	bossdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/boss"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/cmdb"
-	graphdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/graph"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/hbsdb"
-	apiOwlDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/owl"
+	bossdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/boss"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb/cmdb"
+	graphdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/graph"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
+	apiOwlDb "github.com/fwtpe/owl/modules/mysqlapi/rdb/owl"
 )
 
 const (

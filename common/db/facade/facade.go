@@ -3,8 +3,8 @@ package facade
 import (
 	"database/sql"
 	"fmt"
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	commonSqlx "github.com/Cepave/open-falcon-backend/common/db/sqlx"
+	commonDb "github.com/fwtpe/owl/common/db"
+	commonSqlx "github.com/fwtpe/owl/common/db/sqlx"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/jmoiron/sqlx"
@@ -14,7 +14,7 @@ import (
 //
 // This facade supports:
 // 	gorm - github.com/jinzhu/gorm
-// 	sqlx - github.com/Cepave/open-falcon-backend/common/db/sqlx
+// 	sqlx - github.com/fwtpe/owl/common/db/sqlx
 // 	database/sql.DB
 // 	dbCtrl
 //

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/common/strconv"
+	"github.com/fwtpe/owl/common/strconv"
 	json "github.com/bitly/go-simplejson"
 )
 

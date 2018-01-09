@@ -1,7 +1,7 @@
 package model
 
 import (
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
 	. "gopkg.in/check.v1"
 )
 

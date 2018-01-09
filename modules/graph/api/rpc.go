@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/graph/g"
+	"github.com/fwtpe/owl/modules/graph/g"
 )
 
 type conn_list struct {

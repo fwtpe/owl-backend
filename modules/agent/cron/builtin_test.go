@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl/common/model"
 )
 
 // test line number 125~130

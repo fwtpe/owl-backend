@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/agent/g"
+	"github.com/fwtpe/owl/modules/agent/g"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/file"
 	"github.com/toolkits/sys"

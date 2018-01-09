@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/model/boss"
+	"github.com/fwtpe/owl/modules/fe/model/boss"
 	"github.com/emirpasic/gods/sets/hashset"
 	log "github.com/sirupsen/logrus"
 )

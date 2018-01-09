@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	jconf "github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/conf"
-	. "github.com/Cepave/open-falcon-backend/modules/f2e-api/test_utils"
+	jconf "github.com/fwtpe/owl/modules/f2e-api/lambda_extends/conf"
+	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/spf13/viper"
 	"github.com/tidwall/gjson"

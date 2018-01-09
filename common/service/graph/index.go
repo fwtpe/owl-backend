@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
+	ojson "github.com/fwtpe/owl/common/json"
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	oHttp "github.com/Cepave/open-falcon-backend/common/http"
-	"github.com/Cepave/open-falcon-backend/common/http/client"
+	oHttp "github.com/fwtpe/owl/common/http"
+	"github.com/fwtpe/owl/common/http/client"
 )
 
 // Configurations for constructing "GraphService"

@@ -1,8 +1,8 @@
 package restful
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl/common/gin/mvc"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
 )
 
 func getAgentConfig(
