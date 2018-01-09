@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"net/rpc"
 
-	commonModel "github.com/fwtpe/owl/common/model"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

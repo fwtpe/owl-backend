@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/judge/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/judge/g"
 	log "github.com/sirupsen/logrus"
 )
 

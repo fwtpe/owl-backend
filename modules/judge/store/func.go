@@ -2,7 +2,7 @@ package store
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"math"
 	"strconv"
 	"strings"

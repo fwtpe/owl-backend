@@ -2,7 +2,7 @@ package sender
 
 import (
 	"github.com/fwtpe/consistent"
-	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
 )
 
 func initNodeRings() {

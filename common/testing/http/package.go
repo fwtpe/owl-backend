@@ -1,9 +1,9 @@
 package http
 
 import (
-	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/logruslog"
 
-	oflag "github.com/fwtpe/owl/common/testing/flag"
+	oflag "github.com/fwtpe/owl-backend/common/testing/flag"
 )
 
 var logger = logruslog.NewDefaultLogger("INFO")

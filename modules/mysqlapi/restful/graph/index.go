@@ -3,9 +3,9 @@ package graph
 import (
 	"time"
 
-	"github.com/fwtpe/owl/common/gin/mvc"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
 
-	db "github.com/fwtpe/owl/modules/mysqlapi/rdb/graph"
+	db "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/graph"
 )
 
 type relativeTimeParams struct {

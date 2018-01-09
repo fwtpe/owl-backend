@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/fwtpe/owl/modules/alarm/model/event"
-	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
-	alm "github.com/fwtpe/owl/modules/f2e-api/app/model/alarm"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/alarm/model/event"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	alm "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/alarm"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 )
 

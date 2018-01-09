@@ -3,8 +3,8 @@ package computeFunc
 import (
 	"strings"
 
-	"github.com/fwtpe/owl/modules/query/conf"
-	"github.com/fwtpe/owl/modules/query/gin_http/openFalcon"
+	"github.com/fwtpe/owl-backend/modules/query/conf"
+	"github.com/fwtpe/owl-backend/modules/query/gin_http/openFalcon"
 	"github.com/gin-gonic/gin"
 	_ "github.com/robertkrimen/otto/underscore"
 )

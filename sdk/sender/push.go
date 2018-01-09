@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 func PostPush(L []*model.JsonMetaData) error {

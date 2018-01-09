@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 	"github.com/spf13/pflag"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/fwtpe/owl/modules/aggregator/cron"
-	"github.com/fwtpe/owl/modules/aggregator/db"
-	"github.com/fwtpe/owl/modules/aggregator/g"
-	"github.com/fwtpe/owl/modules/aggregator/http"
-	"github.com/fwtpe/owl/sdk/graph"
-	"github.com/fwtpe/owl/sdk/portal"
-	"github.com/fwtpe/owl/sdk/sender"
+	"github.com/fwtpe/owl-backend/modules/aggregator/cron"
+	"github.com/fwtpe/owl-backend/modules/aggregator/db"
+	"github.com/fwtpe/owl-backend/modules/aggregator/g"
+	"github.com/fwtpe/owl-backend/modules/aggregator/http"
+	"github.com/fwtpe/owl-backend/sdk/graph"
+	"github.com/fwtpe/owl-backend/sdk/portal"
+	"github.com/fwtpe/owl-backend/sdk/sender"
 )
 
 func main() {

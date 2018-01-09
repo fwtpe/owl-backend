@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/utils"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/utils"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/spf13/viper"

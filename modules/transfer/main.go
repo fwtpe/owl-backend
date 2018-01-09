@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/transfer/g"
-	"github.com/fwtpe/owl/modules/transfer/http"
-	"github.com/fwtpe/owl/modules/transfer/proc"
-	"github.com/fwtpe/owl/modules/transfer/receiver"
-	"github.com/fwtpe/owl/modules/transfer/sender"
-	"github.com/fwtpe/owl/modules/transfer/service"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/http"
+	"github.com/fwtpe/owl-backend/modules/transfer/proc"
+	"github.com/fwtpe/owl-backend/modules/transfer/receiver"
+	"github.com/fwtpe/owl-backend/modules/transfer/sender"
+	"github.com/fwtpe/owl-backend/modules/transfer/service"
 )
 
 func main() {

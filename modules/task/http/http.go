@@ -2,10 +2,10 @@ package http
 
 import (
 	"encoding/json"
-	log "github.com/fwtpe/owl/common/logruslog"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
 	"net/http"
 
-	"github.com/fwtpe/owl/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/g"
 )
 
 var logger = log.NewDefaultLogger("INFO")

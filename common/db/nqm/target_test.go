@@ -3,12 +3,12 @@ package nqm
 import (
 	"reflect"
 
-	owlDb "github.com/fwtpe/owl/common/db/owl"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	dbTest "github.com/fwtpe/owl/common/testing/db"
-	"github.com/fwtpe/owl/common/utils"
+	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	. "gopkg.in/check.v1"
 )

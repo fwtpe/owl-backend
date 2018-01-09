@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	or "github.com/fwtpe/owl/common/runtime"
-	"github.com/fwtpe/owl/common/utils"
+	or "github.com/fwtpe/owl-backend/common/runtime"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 type TxFinale byte

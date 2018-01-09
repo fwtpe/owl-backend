@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 func TestUpdatedMsg(t *testing.T) {

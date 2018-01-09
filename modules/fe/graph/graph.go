@@ -7,13 +7,13 @@ import (
 	"math"
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	cutils "github.com/fwtpe/owl/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 	rings "github.com/toolkits/consistent/rings"
 	nset "github.com/toolkits/container/set"
 	spool "github.com/toolkits/pool/simple_conn_pool"
 
-	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 )
 
 // 连接池

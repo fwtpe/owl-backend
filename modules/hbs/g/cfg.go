@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"sync"
 
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/file"
 )

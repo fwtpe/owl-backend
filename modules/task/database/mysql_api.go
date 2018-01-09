@@ -1,9 +1,9 @@
 package database
 
 import (
-	oHttp "github.com/fwtpe/owl/common/http"
-	graphSrv "github.com/fwtpe/owl/common/service/graph"
-	owlSrv "github.com/fwtpe/owl/common/service/owl"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	graphSrv "github.com/fwtpe/owl-backend/common/service/graph"
+	owlSrv "github.com/fwtpe/owl-backend/common/service/owl"
 )
 
 var QueryObjectService owlSrv.QueryService

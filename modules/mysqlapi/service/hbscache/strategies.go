@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/fwtpe/owl/common/model"
-	db "github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
+	"github.com/fwtpe/owl-backend/common/model"
+	db "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/container/set"
 )

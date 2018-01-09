@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	m "github.com/fwtpe/owl/modules/f2e-api/app/model/dashboard"
+	m "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/dashboard"
 )
 
 type GraphObj struct {

@@ -8,18 +8,18 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	dbt "github.com/fwtpe/owl/common/db"
-	nqmDb "github.com/fwtpe/owl/common/db/nqm"
-	ojson "github.com/fwtpe/owl/common/json"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	"github.com/fwtpe/owl/common/types"
-	"github.com/fwtpe/owl/common/utils"
+	dbt "github.com/fwtpe/owl-backend/common/db"
+	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/types"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	db "github.com/fwtpe/owl/modules/query/database"
-	metricDsl "github.com/fwtpe/owl/modules/query/dsl/metric_parser"
-	model "github.com/fwtpe/owl/modules/query/model/nqm"
+	db "github.com/fwtpe/owl-backend/modules/query/database"
+	metricDsl "github.com/fwtpe/owl-backend/modules/query/dsl/metric_parser"
+	model "github.com/fwtpe/owl-backend/modules/query/model/nqm"
 )
 
 // Loads data by compound query.

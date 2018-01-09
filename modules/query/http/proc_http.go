@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/fwtpe/owl/modules/query/graph"
-	"github.com/fwtpe/owl/modules/query/proc"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
+	"github.com/fwtpe/owl-backend/modules/query/proc"
 )
 
 func configProcHttpRoutes() {

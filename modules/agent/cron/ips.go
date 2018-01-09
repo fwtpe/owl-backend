@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/agent/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
 	log "github.com/sirupsen/logrus"
 	"time"
 )

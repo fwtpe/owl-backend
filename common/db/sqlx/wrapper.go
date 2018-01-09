@@ -6,10 +6,10 @@ import (
 
 	"github.com/jmoiron/sqlx"
 
-	"github.com/fwtpe/owl/common/db"
-	commonModel "github.com/fwtpe/owl/common/model"
-	or "github.com/fwtpe/owl/common/runtime"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/db"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	or "github.com/fwtpe/owl-backend/common/runtime"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 var buildError = utils.BuildErrorWithCaller

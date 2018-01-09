@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/sdk/graph"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/sdk/graph"
 )
 
 func queryCounterLast(numeratorOperands, denominatorOperands, hostnames []string, begin, end int64) (map[string]float64, error) {

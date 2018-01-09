@@ -7,21 +7,21 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"github.com/jinzhu/gorm"
 	"github.com/jmoiron/sqlx"
 	"github.com/juju/errors"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	owlDb "github.com/fwtpe/owl/common/db/owl"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	ojson "github.com/fwtpe/owl/common/json"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	tb "github.com/fwtpe/owl/common/textbuilder"
-	sqlb "github.com/fwtpe/owl/common/textbuilder/sql"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	tb "github.com/fwtpe/owl-backend/common/textbuilder"
+	sqlb "github.com/fwtpe/owl-backend/common/textbuilder/sql"
 )
 
 type ErrDuplicatedNqmAgent struct {

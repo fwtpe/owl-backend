@@ -6,10 +6,10 @@ import (
 	"github.com/satori/go.uuid"
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	"github.com/fwtpe/owl/common/http/client"
-	oJson "github.com/fwtpe/owl/common/json"
-	model "github.com/fwtpe/owl/common/model/owl"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	"github.com/fwtpe/owl-backend/common/http/client"
+	oJson "github.com/fwtpe/owl-backend/common/json"
+	model "github.com/fwtpe/owl-backend/common/model/owl"
 	"github.com/juju/errors"
 )
 

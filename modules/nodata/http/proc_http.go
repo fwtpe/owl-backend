@@ -3,11 +3,11 @@ package http
 import (
 	"net/http"
 
-	"github.com/fwtpe/owl/modules/nodata/collector"
-	"github.com/fwtpe/owl/modules/nodata/config"
-	"github.com/fwtpe/owl/modules/nodata/config/service"
-	"github.com/fwtpe/owl/modules/nodata/g"
-	"github.com/fwtpe/owl/modules/nodata/judge"
+	"github.com/fwtpe/owl-backend/modules/nodata/collector"
+	"github.com/fwtpe/owl-backend/modules/nodata/config"
+	"github.com/fwtpe/owl-backend/modules/nodata/config/service"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/judge"
 )
 
 func configProcHttpRoutes() {

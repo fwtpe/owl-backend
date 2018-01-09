@@ -3,7 +3,7 @@ package owl
 import (
 	"time"
 
-	"github.com/fwtpe/owl/common/db"
+	"github.com/fwtpe/owl-backend/common/db"
 )
 
 func RemoveOldScheduleLogs(t time.Time) int64 {

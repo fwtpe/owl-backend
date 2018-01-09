@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/fwtpe/owl/modules/hbs/g"
+	"github.com/fwtpe/owl-backend/modules/hbs/g"
 
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
-	tg "github.com/fwtpe/owl/common/testing/ginkgo"
-	tHttp "github.com/fwtpe/owl/common/testing/http"
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
+	tg "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

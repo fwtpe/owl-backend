@@ -1,12 +1,12 @@
 package rdb
 
 import (
-	"github.com/fwtpe/owl/common/db"
-	commonDb "github.com/fwtpe/owl/common/db"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	cModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	"github.com/fwtpe/owl-backend/common/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 	"github.com/jinzhu/gorm"
 	"github.com/jmoiron/sqlx"
 )

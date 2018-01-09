@@ -5,7 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fwtpe/owl/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/g"
 )
 
 var DB *sql.DB

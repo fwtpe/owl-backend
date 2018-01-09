@@ -6,11 +6,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	nqmDb "github.com/fwtpe/owl/common/db/nqm"
-	utils "github.com/fwtpe/owl/common/utils"
+	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	utils "github.com/fwtpe/owl-backend/common/utils"
 
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 )
 
 // Configuration of HBS service for NQM agent

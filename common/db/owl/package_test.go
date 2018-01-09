@@ -3,8 +3,8 @@ package owl
 import (
 	"testing"
 
-	dbTest "github.com/fwtpe/owl/common/testing/db"
-	tFlag "github.com/fwtpe/owl/common/testing/flag"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
 	ch "gopkg.in/check.v1"
 
 	. "github.com/onsi/ginkgo"

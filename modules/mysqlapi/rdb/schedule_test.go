@@ -6,9 +6,9 @@ import (
 	"math/rand"
 	"time"
 
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 	"github.com/satori/go.uuid"
 
 	. "github.com/onsi/ginkgo"

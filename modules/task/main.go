@@ -7,19 +7,19 @@ import (
 
 	"github.com/spf13/viper"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	client "github.com/fwtpe/owl/common/http/client"
-	"github.com/fwtpe/owl/common/logruslog"
-	oos "github.com/fwtpe/owl/common/os"
-	"github.com/fwtpe/owl/common/vipercfg"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	client "github.com/fwtpe/owl-backend/common/http/client"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	oos "github.com/fwtpe/owl-backend/common/os"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 
-	"github.com/fwtpe/owl/modules/task/collector"
-	"github.com/fwtpe/owl/modules/task/cron"
-	"github.com/fwtpe/owl/modules/task/database"
-	"github.com/fwtpe/owl/modules/task/g"
-	"github.com/fwtpe/owl/modules/task/http"
-	"github.com/fwtpe/owl/modules/task/index"
-	"github.com/fwtpe/owl/modules/task/proc"
+	"github.com/fwtpe/owl-backend/modules/task/collector"
+	"github.com/fwtpe/owl-backend/modules/task/cron"
+	"github.com/fwtpe/owl-backend/modules/task/database"
+	"github.com/fwtpe/owl-backend/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/http"
+	"github.com/fwtpe/owl-backend/modules/task/index"
+	"github.com/fwtpe/owl-backend/modules/task/proc"
 )
 
 func main() {

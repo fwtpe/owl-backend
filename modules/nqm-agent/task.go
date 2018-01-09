@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 func getTargetAddressList(targets []model.NqmTarget) []string {

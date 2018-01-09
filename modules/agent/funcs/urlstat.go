@@ -7,8 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"strings"
 
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/agent/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
 	"github.com/toolkits/file"
 	"github.com/toolkits/sys"
 )

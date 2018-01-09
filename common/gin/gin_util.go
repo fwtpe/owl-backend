@@ -2,7 +2,7 @@ package gin
 
 import (
 	"fmt"
-	model "github.com/fwtpe/owl/common/model"
+	model "github.com/fwtpe/owl-backend/common/model"
 	"github.com/gin-gonic/gin"
 	"regexp"
 	"strconv"

@@ -1,7 +1,7 @@
 package boss
 
 import (
-	model "github.com/fwtpe/owl/modules/mysqlapi/model"
+	model "github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 )
 
 // Get the Data from boss.hosts

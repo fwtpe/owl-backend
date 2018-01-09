@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 type Strategy struct {

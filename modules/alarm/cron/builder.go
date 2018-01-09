@@ -2,9 +2,9 @@ package cron
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
 )
 
 func BuildCommonSMSContent(event *model.Event) string {

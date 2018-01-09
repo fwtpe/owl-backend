@@ -1,8 +1,8 @@
 package testing
 
 import (
-	dbTest "github.com/fwtpe/owl/common/testing/db"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 	check "gopkg.in/check.v1"
 )
 

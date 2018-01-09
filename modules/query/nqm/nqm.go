@@ -2,17 +2,17 @@ package nqm
 
 import (
 	"fmt"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	dsl "github.com/fwtpe/owl/modules/query/dsl/nqm_parser" // As NQM intermediate representation
-	model "github.com/fwtpe/owl/modules/query/model/nqm"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	dsl "github.com/fwtpe/owl-backend/modules/query/dsl/nqm_parser" // As NQM intermediate representation
+	model "github.com/fwtpe/owl-backend/modules/query/model/nqm"
 	"reflect"
 	"time"
 
-	cache "github.com/fwtpe/owl/common/ccache"
-	nqmService "github.com/fwtpe/owl/common/service/nqm"
-	owlService "github.com/fwtpe/owl/common/service/owl"
-	"github.com/fwtpe/owl/common/utils"
+	cache "github.com/fwtpe/owl-backend/common/ccache"
+	nqmService "github.com/fwtpe/owl-backend/common/service/nqm"
+	owlService "github.com/fwtpe/owl-backend/common/service/owl"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 /**

@@ -2,7 +2,7 @@ package home
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 )
 
 type HomeController struct {

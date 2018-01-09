@@ -180,10 +180,10 @@ import (
 	"net/http"
 	"reflect"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"github.com/gin-gonic/gin"
 
-	oreflect "github.com/fwtpe/owl/common/reflect"
+	oreflect "github.com/fwtpe/owl-backend/common/reflect"
 )
 
 // Could be any type of function

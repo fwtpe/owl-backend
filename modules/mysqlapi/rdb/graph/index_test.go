@@ -3,7 +3,7 @@ package graph
 import (
 	"time"
 
-	gb "github.com/fwtpe/owl/common/testing/ginkgo/builder"
+	gb "github.com/fwtpe/owl-backend/common/testing/ginkgo/builder"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

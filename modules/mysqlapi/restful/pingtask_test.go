@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	nqmTestinglDb "github.com/fwtpe/owl/common/db/nqm/testing"
-	"github.com/fwtpe/owl/common/json"
-	testingHttp "github.com/fwtpe/owl/common/testing/http"
-	rdb "github.com/fwtpe/owl/modules/mysqlapi/rdb"
-	testingDb "github.com/fwtpe/owl/modules/mysqlapi/testing"
+	nqmTestinglDb "github.com/fwtpe/owl-backend/common/db/nqm/testing"
+	"github.com/fwtpe/owl-backend/common/json"
+	testingHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	rdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	testingDb "github.com/fwtpe/owl-backend/modules/mysqlapi/testing"
 
 	. "gopkg.in/check.v1"
 )

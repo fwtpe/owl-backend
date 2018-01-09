@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 func TestConvToKeyValueString(t *testing.T) {

@@ -1,10 +1,10 @@
 package uic
 
 import (
-	"github.com/fwtpe/owl/modules/fe/g"
-	"github.com/fwtpe/owl/modules/fe/http/base"
-	. "github.com/fwtpe/owl/modules/fe/model/uic"
-	"github.com/fwtpe/owl/modules/fe/utils"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/http/base"
+	. "github.com/fwtpe/owl-backend/modules/fe/model/uic"
+	"github.com/fwtpe/owl-backend/modules/fe/utils"
 	"github.com/toolkits/rsc/qr"
 	"github.com/toolkits/str"
 	"strconv"

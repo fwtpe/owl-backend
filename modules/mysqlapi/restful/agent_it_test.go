@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	nqmSql "github.com/fwtpe/owl/common/db/nqm/testing"
-	json "github.com/fwtpe/owl/common/json"
-	ogko "github.com/fwtpe/owl/common/testing/ginkgo"
-	tHttp "github.com/fwtpe/owl/common/testing/http"
+	nqmSql "github.com/fwtpe/owl-backend/common/db/nqm/testing"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

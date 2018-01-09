@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/fwtpe/owl/modules/graph/api"
-	"github.com/fwtpe/owl/modules/graph/g"
-	"github.com/fwtpe/owl/modules/graph/http"
-	"github.com/fwtpe/owl/modules/graph/index"
-	"github.com/fwtpe/owl/modules/graph/rrdtool"
+	"github.com/fwtpe/owl-backend/modules/graph/api"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/http"
+	"github.com/fwtpe/owl-backend/modules/graph/index"
+	"github.com/fwtpe/owl-backend/modules/graph/rrdtool"
 )
 
 func start_signal(pid int, cfg *g.GlobalConfig) {

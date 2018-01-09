@@ -3,8 +3,8 @@ package conform
 import (
 	"reflect"
 
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	"github.com/fwtpe/owl/common/utils"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	"github.com/fwtpe/owl-backend/common/utils"
 	. "gopkg.in/check.v1"
 )
 

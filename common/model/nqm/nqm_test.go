@@ -1,7 +1,7 @@
 package nqm
 
 import (
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	. "gopkg.in/check.v1"
 )
 

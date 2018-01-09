@@ -1,7 +1,7 @@
 package owl
 
 import (
-	t "github.com/fwtpe/owl/common/testing"
+	t "github.com/fwtpe/owl-backend/common/testing"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

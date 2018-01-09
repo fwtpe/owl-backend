@@ -7,11 +7,11 @@ import (
 	nlist "github.com/toolkits/container/list"
 	tproc "github.com/toolkits/proc"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 
-	"github.com/fwtpe/owl/modules/transfer/g"
-	"github.com/fwtpe/owl/modules/transfer/proc"
-	"github.com/fwtpe/owl/modules/transfer/sender"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/proc"
+	"github.com/fwtpe/owl-backend/modules/transfer/sender"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

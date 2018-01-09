@@ -5,13 +5,13 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/judge/cron"
-	"github.com/fwtpe/owl/modules/judge/g"
-	"github.com/fwtpe/owl/modules/judge/http"
-	"github.com/fwtpe/owl/modules/judge/rpc"
-	"github.com/fwtpe/owl/modules/judge/store"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/judge/cron"
+	"github.com/fwtpe/owl-backend/modules/judge/g"
+	"github.com/fwtpe/owl-backend/modules/judge/http"
+	"github.com/fwtpe/owl-backend/modules/judge/rpc"
+	"github.com/fwtpe/owl-backend/modules/judge/store"
 	log "github.com/sirupsen/logrus"
 )
 

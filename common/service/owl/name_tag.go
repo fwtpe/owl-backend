@@ -2,9 +2,9 @@ package owl
 
 import (
 	"fmt"
-	cache "github.com/fwtpe/owl/common/ccache"
-	owlDb "github.com/fwtpe/owl/common/db/owl"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	cache "github.com/fwtpe/owl-backend/common/ccache"
+	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type NameTagService struct {

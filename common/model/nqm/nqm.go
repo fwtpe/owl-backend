@@ -4,7 +4,7 @@ import (
 	"net"
 	"strings"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 // Represents the model of NQM agent, which is only used in HBS

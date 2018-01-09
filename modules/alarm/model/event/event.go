@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"time"
 
 	log "github.com/sirupsen/logrus"

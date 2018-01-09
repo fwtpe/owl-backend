@@ -1,7 +1,7 @@
 package check
 
 import (
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"gopkg.in/check.v1"
 	"reflect"
 )

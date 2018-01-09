@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/fwtpe/owl/modules/graph/g"
-	"github.com/fwtpe/owl/modules/graph/store"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/store"
 	"github.com/toolkits/file"
 )
 

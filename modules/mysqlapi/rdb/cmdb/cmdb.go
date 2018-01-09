@@ -3,11 +3,11 @@ package cmdb
 import (
 	"github.com/jmoiron/sqlx"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
-	"github.com/fwtpe/owl/common/utils"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	cmdbModel "github.com/fwtpe/owl/modules/mysqlapi/model"
+	cmdbModel "github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 )
 
 const (

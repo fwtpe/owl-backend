@@ -3,11 +3,11 @@ package restful
 import (
 	"net/http"
 
-	"github.com/fwtpe/owl/common/gin/mvc"
-	oJson "github.com/fwtpe/owl/common/json"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
-	"github.com/fwtpe/owl/modules/mysqlapi/service/cmdb"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	oJson "github.com/fwtpe/owl-backend/common/json"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service/cmdb"
 
 	"github.com/satori/go.uuid"
 )

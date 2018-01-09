@@ -14,9 +14,9 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	cmodel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/query/g"
-	"github.com/fwtpe/owl/modules/query/graph"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/jasonlvhit/gocron"
 	log "github.com/sirupsen/logrus"
 )

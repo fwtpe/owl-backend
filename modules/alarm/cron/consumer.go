@@ -2,10 +2,10 @@ package cron
 
 import (
 	"encoding/json"
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/alarm/api"
-	"github.com/fwtpe/owl/modules/alarm/g"
-	"github.com/fwtpe/owl/modules/alarm/redis"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/alarm/api"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/modules/alarm/redis"
 )
 
 func consume(event *model.Event, isHigh bool) {

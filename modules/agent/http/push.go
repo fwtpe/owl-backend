@@ -2,8 +2,8 @@ package http
 
 import (
 	"encoding/json"
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/agent/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
 	"net/http"
 )
 

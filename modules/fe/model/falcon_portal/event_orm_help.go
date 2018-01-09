@@ -5,7 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/model/uic"
+	"github.com/fwtpe/owl-backend/modules/fe/model/uic"
 )
 
 func getUserRole(username string) (int64, bool) {

@@ -2,7 +2,7 @@ package owl
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 // Use the pre-defined column name to generate syntax of "ORDER BY XX"

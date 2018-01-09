@@ -1,11 +1,11 @@
 package nqm
 
 import (
-	cache "github.com/fwtpe/owl/common/ccache"
-	nqmDb "github.com/fwtpe/owl/common/db/nqm"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	dbTest "github.com/fwtpe/owl/common/testing/db"
+	cache "github.com/fwtpe/owl-backend/common/ccache"
+	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
 	. "gopkg.in/check.v1"
 	"time"
 )

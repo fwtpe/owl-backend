@@ -3,7 +3,7 @@ package hbscache
 import (
 	"sync"
 
-	db "github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
+	db "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
 )
 
 // 一个机器可能在多个group下，做一个map缓存hostid与groupid的对应关系

@@ -7,9 +7,9 @@ import (
 
 	"fmt"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/query/graph"
-	"github.com/fwtpe/owl/modules/query/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
+	"github.com/fwtpe/owl-backend/modules/query/model"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )

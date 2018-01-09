@@ -3,8 +3,8 @@ package nqm
 import (
 	"testing"
 
-	tHttp "github.com/fwtpe/owl/common/testing/http"
-	qtest "github.com/fwtpe/owl/modules/query/test"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	qtest "github.com/fwtpe/owl-backend/modules/query/test"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

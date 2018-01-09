@@ -7,7 +7,7 @@ import (
 
 	rdata "github.com/Pallinder/go-randomdata"
 
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 // Defines the type of database error

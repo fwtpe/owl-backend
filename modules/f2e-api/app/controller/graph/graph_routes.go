@@ -3,8 +3,8 @@ package graph
 import (
 	"net/http"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/utils"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/utils"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 )
 

@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
-	hutil "github.com/fwtpe/owl/modules/f2e-api/test_utils/util"
+	. "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils"
+	hutil "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils/util"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

@@ -3,8 +3,8 @@ package nqm
 import (
 	"encoding/json"
 	sjson "github.com/bitly/go-simplejson"
-	testHttp "github.com/fwtpe/owl/common/testing/http"
-	"github.com/fwtpe/owl/modules/query/g"
+	testHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/gin-gonic/gin"
 	. "gopkg.in/check.v1"
 	"net/http"

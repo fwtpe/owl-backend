@@ -1,7 +1,7 @@
 package sender
 
 import (
-	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
 	nlist "github.com/toolkits/container/list"
 )
 

@@ -2,8 +2,8 @@ package redis
 
 import (
 	"encoding/json"
-	"github.com/fwtpe/owl/modules/alarm/g"
-	"github.com/fwtpe/owl/modules/sender/model"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/modules/sender/model"
 	log "github.com/sirupsen/logrus"
 	"strings"
 )

@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
-	m "github.com/fwtpe/owl/modules/f2e-api/app/model/dashboard"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	m "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/dashboard"
 	"github.com/gin-gonic/gin"
 )
 

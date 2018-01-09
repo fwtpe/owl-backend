@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/model/uic"
+	"github.com/fwtpe/owl-backend/modules/fe/model/uic"
 )
 
 const timeLayout = "2006-01-02 15:04:05"

@@ -3,7 +3,7 @@ package graph
 import (
 	"time"
 
-	"github.com/fwtpe/owl/common/db"
+	"github.com/fwtpe/owl-backend/common/db"
 )
 
 type VacuumEndpointResult struct {

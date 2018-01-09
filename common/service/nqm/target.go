@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"fmt"
-	cache "github.com/fwtpe/owl/common/ccache"
-	nqmDb "github.com/fwtpe/owl/common/db/nqm"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	cache "github.com/fwtpe/owl-backend/common/ccache"
+	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 )
 
 type TargetService struct {

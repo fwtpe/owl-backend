@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	cl "github.com/fwtpe/owl/common/http/client"
-	tHttp "github.com/fwtpe/owl/common/testing/http"
+	cl "github.com/fwtpe/owl-backend/common/http/client"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

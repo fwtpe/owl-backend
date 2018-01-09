@@ -3,7 +3,7 @@ package owl
 import (
 	"testing"
 
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 	ch "gopkg.in/check.v1"
 
 	. "github.com/onsi/ginkgo"

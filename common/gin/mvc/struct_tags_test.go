@@ -10,10 +10,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/fwtpe/owl/common/model"
-	rt "github.com/fwtpe/owl/common/reflect/types"
-	ot "github.com/fwtpe/owl/common/types"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/model"
+	rt "github.com/fwtpe/owl-backend/common/reflect/types"
+	ot "github.com/fwtpe/owl-backend/common/types"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

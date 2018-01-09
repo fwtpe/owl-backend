@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 
-	"github.com/fwtpe/owl/g"
+	"github.com/fwtpe/owl-backend/g"
 	"github.com/spf13/cobra"
 )
 

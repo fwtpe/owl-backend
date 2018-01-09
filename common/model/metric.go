@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	MUtils "github.com/fwtpe/owl/common/utils"
+	MUtils "github.com/fwtpe/owl-backend/common/utils"
 )
 
 type MetricValue struct {

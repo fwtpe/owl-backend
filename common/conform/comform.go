@@ -13,7 +13,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/etgryphon/stringUp"
-	or "github.com/fwtpe/owl/common/reflect"
+	or "github.com/fwtpe/owl-backend/common/reflect"
 	e "github.com/juju/errors"
 )
 

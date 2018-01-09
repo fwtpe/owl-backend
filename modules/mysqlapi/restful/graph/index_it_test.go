@@ -3,10 +3,10 @@ package graph
 import (
 	"net/http"
 
-	oClient "github.com/fwtpe/owl/common/http/client"
-	json "github.com/fwtpe/owl/common/json"
-	tg "github.com/fwtpe/owl/common/testing/ginkgo"
-	tc "github.com/fwtpe/owl/common/testing/http"
+	oClient "github.com/fwtpe/owl-backend/common/http/client"
+	json "github.com/fwtpe/owl-backend/common/json"
+	tg "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tc "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

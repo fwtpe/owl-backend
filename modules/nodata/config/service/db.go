@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"sync"
 
-	"github.com/fwtpe/owl/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
 )
 
 const (

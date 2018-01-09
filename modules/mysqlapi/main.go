@@ -10,17 +10,17 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	commonGin "github.com/fwtpe/owl/common/gin"
-	log "github.com/fwtpe/owl/common/logruslog"
-	commonOs "github.com/fwtpe/owl/common/os"
-	commonQueue "github.com/fwtpe/owl/common/queue"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
-	"github.com/fwtpe/owl/modules/mysqlapi/restful"
-	"github.com/fwtpe/owl/modules/mysqlapi/service"
-	"github.com/fwtpe/owl/modules/mysqlapi/service/hbscache"
-	owlSrv "github.com/fwtpe/owl/modules/mysqlapi/service/owl"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	commonGin "github.com/fwtpe/owl-backend/common/gin"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	commonOs "github.com/fwtpe/owl-backend/common/os"
+	commonQueue "github.com/fwtpe/owl-backend/common/queue"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/restful"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service/hbscache"
+	owlSrv "github.com/fwtpe/owl-backend/modules/mysqlapi/service/owl"
 )
 
 var logger = log.NewDefaultLogger("INFO")

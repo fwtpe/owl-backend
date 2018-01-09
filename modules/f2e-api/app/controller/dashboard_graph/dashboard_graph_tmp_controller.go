@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	cutils "github.com/fwtpe/owl/common/utils"
-	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
-	m "github.com/fwtpe/owl/modules/f2e-api/app/model/dashboard"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	m "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/dashboard"
 	"github.com/gin-gonic/gin"
 )
 

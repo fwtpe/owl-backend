@@ -31,12 +31,12 @@ package types
 
 import (
 	"fmt"
-	oreflect "github.com/fwtpe/owl/common/reflect"
+	oreflect "github.com/fwtpe/owl-backend/common/reflect"
 	"reflect"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	. "github.com/fwtpe/owl/common/reflect/types"
+	. "github.com/fwtpe/owl-backend/common/reflect/types"
 )
 
 // Main interface provided by convsersion service

@@ -73,7 +73,7 @@ package utils
 
 import (
 	"fmt"
-	gr "github.com/fwtpe/owl/common/runtime"
+	gr "github.com/fwtpe/owl-backend/common/runtime"
 )
 
 // Defines the converter from converting any value to error object

@@ -3,9 +3,9 @@ package owl
 import (
 	"time"
 
-	"github.com/fwtpe/owl/common/db"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
-	model "github.com/fwtpe/owl/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	model "github.com/fwtpe/owl-backend/common/model/owl"
 	"github.com/jmoiron/sqlx"
 	"github.com/satori/go.uuid"
 )

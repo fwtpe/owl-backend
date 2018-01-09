@@ -1,7 +1,7 @@
 package reflect
 
 import (
-	ocheck "github.com/fwtpe/owl/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 	. "gopkg.in/check.v1"
 	"reflect"
 )

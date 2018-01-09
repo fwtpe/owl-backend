@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	ojson "github.com/fwtpe/owl/common/json"
+	ojson "github.com/fwtpe/owl-backend/common/json"
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	"github.com/fwtpe/owl/common/http/client"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	"github.com/fwtpe/owl-backend/common/http/client"
 )
 
 // Configurations for constructing "GraphService"

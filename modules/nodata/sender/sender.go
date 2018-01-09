@@ -8,14 +8,14 @@ import (
 	"net/http"
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 	tsema "github.com/toolkits/concurrent/semaphore"
 	"github.com/toolkits/container/nmap"
 	thttpclient "github.com/toolkits/http/httpclient"
 	ttime "github.com/toolkits/time"
 
-	"github.com/fwtpe/owl/modules/nodata/config"
-	"github.com/fwtpe/owl/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/config"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
 )
 
 var (

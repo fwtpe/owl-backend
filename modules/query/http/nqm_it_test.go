@@ -7,11 +7,11 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	oHttp "github.com/fwtpe/owl/common/http/client"
-	ojson "github.com/fwtpe/owl/common/json"
-	tg "github.com/fwtpe/owl/common/testing/ginkgo"
-	tHttp "github.com/fwtpe/owl/common/testing/http"
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	oHttp "github.com/fwtpe/owl-backend/common/http/client"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	tg "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

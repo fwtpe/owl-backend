@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/fwtpe/owl/modules/alarm/g"
-	"github.com/fwtpe/owl/modules/alarm/model"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/modules/alarm/model"
 )
 
 func initTest() {

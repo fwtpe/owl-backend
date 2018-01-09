@@ -7,9 +7,9 @@ import (
 	"hash/crc32"
 	"sync"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 
-	"github.com/fwtpe/owl/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
 )
 
 var GraphItems *GraphItemMap

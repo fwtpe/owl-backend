@@ -1,9 +1,9 @@
 package cron
 
 import (
-	log "github.com/fwtpe/owl/common/logruslog"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
 
-	ocron "github.com/fwtpe/owl/common/cron"
+	ocron "github.com/fwtpe/owl-backend/common/cron"
 
 	"github.com/juju/errors"
 	"github.com/robfig/cron"

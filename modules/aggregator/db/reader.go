@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/modules/aggregator/g"
+	"github.com/fwtpe/owl-backend/modules/aggregator/g"
 	log "github.com/sirupsen/logrus"
 )
 

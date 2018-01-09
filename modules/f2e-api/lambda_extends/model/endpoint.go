@@ -3,8 +3,8 @@ package model
 import (
 	"fmt"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/model/graph"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/graph"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )

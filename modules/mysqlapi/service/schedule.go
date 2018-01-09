@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 )
 
 // ScheduleService is designed to be a Execute function with namespace.

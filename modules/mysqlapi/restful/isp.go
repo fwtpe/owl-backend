@@ -3,8 +3,8 @@ package restful
 import (
 	"net/http"
 
-	commonOwlDb "github.com/fwtpe/owl/common/db/owl"
-	"github.com/fwtpe/owl/common/gin/mvc"
+	commonOwlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
 	"github.com/gin-gonic/gin"
 )
 

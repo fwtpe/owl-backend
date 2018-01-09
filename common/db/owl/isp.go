@@ -1,8 +1,8 @@
 package owl
 
 import (
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 func GetISPsByName(name string) []*owlModel.Isp {

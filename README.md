@@ -2,11 +2,11 @@
 
 ![Open-Falcon](./logo.png)
 
-[![Build Status](https://travis-ci.org/fwtpe/owl.svg?branch=develop)](https://travis-ci.org/fwtpe/owl)
-[![codecov](https://codecov.io/gh/fwtpe/owl/branch/develop/graph/badge.svg)](https://codecov.io/gh/fwtpe/owl)
-[![GoDoc](https://godoc.org/github.com/fwtpe/owl?status.svg)](https://godoc.org/github.com/fwtpe/owl)
+[![Build Status](https://travis-ci.org/fwtpe/owl-backend.svg?branch=develop)](https://travis-ci.org/fwtpe/owl-backend)
+[![codecov](https://codecov.io/gh/fwtpe/owl-backend/branch/develop/graph/badge.svg)](https://codecov.io/gh/fwtpe/owl-backend)
+[![GoDoc](https://godoc.org/github.com/fwtpe/owl-backend?status.svg)](https://godoc.org/github.com/fwtpe/owl-backend)
 [![Join the chat at https://gitter.im/goappmonitor/Lobby](https://badges.gitter.im/goappmonitor/Lobby.svg)](https://gitter.im/goappmonitor/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Go Report Card](https://goreportcard.com/badge/github.com/fwtpe/owl)](https://goreportcard.com/report/github.com/fwtpe/owl)
+[![Go Report Card](https://goreportcard.com/badge/github.com/fwtpe/owl-backend)](https://goreportcard.com/report/github.com/fwtpe/owl-backend)
 [![License](https://img.shields.io/badge/LICENSE-Apache2.0-ff69b4.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Documentations

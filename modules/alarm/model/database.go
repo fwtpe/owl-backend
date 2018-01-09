@@ -2,9 +2,9 @@ package model
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/alarm/g"
-	"github.com/fwtpe/owl/modules/alarm/model/event"
-	"github.com/fwtpe/owl/modules/alarm/model/uic"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/modules/alarm/model/event"
+	"github.com/fwtpe/owl-backend/modules/alarm/model/uic"
 	_ "github.com/go-sql-driver/mysql"
 )
 

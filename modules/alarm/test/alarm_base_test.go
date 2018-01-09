@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/astaxie/beego/orm"
-	coommonModel "github.com/fwtpe/owl/common/model"
-	eventOpt "github.com/fwtpe/owl/modules/alarm/model/event"
+	coommonModel "github.com/fwtpe/owl-backend/common/model"
+	eventOpt "github.com/fwtpe/owl-backend/modules/alarm/model/event"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 )

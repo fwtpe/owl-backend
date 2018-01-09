@@ -2,11 +2,11 @@ package nqm
 
 import (
 	"database/sql"
-	commonDb "github.com/fwtpe/owl/common/db"
-	osqlx "github.com/fwtpe/owl/common/db/sqlx"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	utils "github.com/fwtpe/owl/common/utils"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	utils "github.com/fwtpe/owl-backend/common/utils"
 	"github.com/jmoiron/sqlx"
 	"time"
 )

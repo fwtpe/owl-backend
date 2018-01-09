@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	json "github.com/fwtpe/owl/common/json"
-	ogko "github.com/fwtpe/owl/common/testing/ginkgo"
-	tHttp "github.com/fwtpe/owl/common/testing/http"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

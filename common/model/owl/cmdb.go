@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	ojson "github.com/fwtpe/owl/common/json"
+	ojson "github.com/fwtpe/owl-backend/common/json"
 )
 
 type UnableToLockCmdbSyncJob struct {

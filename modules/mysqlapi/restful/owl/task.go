@@ -3,8 +3,8 @@ package owl
 import (
 	"time"
 
-	"github.com/fwtpe/owl/common/gin/mvc"
-	owlDb "github.com/fwtpe/owl/modules/mysqlapi/rdb/owl"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	owlDb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/owl"
 )
 
 func ClearLogsOfTasks(

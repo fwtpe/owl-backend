@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 	"regexp"
 	"strings"
 )

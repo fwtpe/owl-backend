@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 	_ "github.com/go-sql-driver/mysql"
 	. "github.com/smartystreets/goconvey/convey"
 )

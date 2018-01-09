@@ -4,11 +4,11 @@ import (
 	"strconv"
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	cutils "github.com/fwtpe/owl/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 
-	"github.com/fwtpe/owl/modules/transfer/g"
-	"github.com/fwtpe/owl/modules/transfer/proc"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/proc"
 )
 
 // process new metric values

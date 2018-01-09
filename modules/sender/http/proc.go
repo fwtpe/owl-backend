@@ -2,7 +2,7 @@ package http
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/modules/sender/proc"
+	"github.com/fwtpe/owl-backend/modules/sender/proc"
 	"net/http"
 )
 

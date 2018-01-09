@@ -1,8 +1,8 @@
 package nqm
 
 import (
-	"github.com/fwtpe/owl/common/conform"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/conform"
+	"github.com/fwtpe/owl-backend/common/utils"
 	. "gopkg.in/check.v1"
 )
 

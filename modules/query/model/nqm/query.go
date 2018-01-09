@@ -9,13 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fwtpe/owl/common/compress"
-	"github.com/fwtpe/owl/common/digest"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/compress"
+	"github.com/fwtpe/owl-backend/common/digest"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	sjson "github.com/bitly/go-simplejson"
-	ojson "github.com/fwtpe/owl/common/json"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 )
 
 var flateCompressor = compress.NewDefaultFlateCompressor()

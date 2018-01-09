@@ -5,9 +5,9 @@ import (
 	"net/rpc"
 	"net/rpc/jsonrpc"
 
-	onet "github.com/fwtpe/owl/common/net"
+	onet "github.com/fwtpe/owl-backend/common/net"
 
-	"github.com/fwtpe/owl/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
 )
 
 func StartRpc() {

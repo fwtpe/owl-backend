@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"testing"
 
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	"github.com/fwtpe/owl/common/http/client"
-	tg "github.com/fwtpe/owl/common/testing/ginkgo"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	"github.com/fwtpe/owl-backend/common/http/client"
+	tg "github.com/fwtpe/owl-backend/common/testing/ginkgo"
 
 	. "github.com/onsi/ginkgo"
 	//. "github.com/onsi/ginkgo/extensions/table"

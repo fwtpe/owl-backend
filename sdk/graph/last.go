@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/sdk/requests"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/sdk/requests"
 )
 
 var GraphLastUrl = "http://127.0.0.1:9966/graph/last"

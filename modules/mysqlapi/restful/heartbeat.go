@@ -3,12 +3,12 @@ package restful
 import (
 	"net"
 
-	ogin "github.com/fwtpe/owl/common/gin"
-	"github.com/fwtpe/owl/common/gin/mvc"
-	cModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
-	"github.com/fwtpe/owl/modules/mysqlapi/service"
+	ogin "github.com/fwtpe/owl-backend/common/gin"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service"
 	"github.com/gin-gonic/gin"
 )
 

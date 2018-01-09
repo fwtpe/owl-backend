@@ -1,7 +1,7 @@
 package metric_parser
 
 import (
-//"github.com/fwtpe/owl/common/utils"
+//"github.com/fwtpe/owl-backend/common/utils"
 //"log"
 )
 

@@ -4,11 +4,11 @@ import (
 	"github.com/satori/go.uuid"
 	"time"
 
-	oJson "github.com/fwtpe/owl/common/json"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	owlSrv "github.com/fwtpe/owl/common/service/owl"
+	oJson "github.com/fwtpe/owl-backend/common/json"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	owlSrv "github.com/fwtpe/owl-backend/common/service/owl"
 
-	"github.com/fwtpe/owl/modules/task/database"
+	"github.com/fwtpe/owl-backend/modules/task/database"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

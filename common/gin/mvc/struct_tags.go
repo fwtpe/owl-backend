@@ -10,10 +10,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	ogin "github.com/fwtpe/owl/common/gin"
-	"github.com/fwtpe/owl/common/model"
-	rt "github.com/fwtpe/owl/common/reflect/types"
-	ot "github.com/fwtpe/owl/common/types"
+	ogin "github.com/fwtpe/owl-backend/common/gin"
+	"github.com/fwtpe/owl-backend/common/model"
+	rt "github.com/fwtpe/owl-backend/common/reflect/types"
+	ot "github.com/fwtpe/owl-backend/common/types"
 )
 
 const mvcTag = "mvc"

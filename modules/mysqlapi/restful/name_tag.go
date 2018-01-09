@@ -1,10 +1,10 @@
 package restful
 
 import (
-	"github.com/fwtpe/owl/common/gin/mvc"
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	"github.com/fwtpe/owl-backend/common/model"
 
-	dbOwl "github.com/fwtpe/owl/common/db/owl"
+	dbOwl "github.com/fwtpe/owl-backend/common/db/owl"
 )
 
 func listNameTags(

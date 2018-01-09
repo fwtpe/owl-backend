@@ -5,13 +5,13 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/fwtpe/owl/common/logruslog"
-	oos "github.com/fwtpe/owl/common/os"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/hbs/g"
-	"github.com/fwtpe/owl/modules/hbs/http"
-	"github.com/fwtpe/owl/modules/hbs/rpc"
-	"github.com/fwtpe/owl/modules/hbs/service"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	oos "github.com/fwtpe/owl-backend/common/os"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/hbs/g"
+	"github.com/fwtpe/owl-backend/modules/hbs/http"
+	"github.com/fwtpe/owl-backend/modules/hbs/rpc"
+	"github.com/fwtpe/owl-backend/modules/hbs/service"
 )
 
 func main() {

@@ -6,10 +6,10 @@ import (
 	"time"
 
 	json "github.com/bitly/go-simplejson"
-	owlGin "github.com/fwtpe/owl/common/gin"
-	owlJson "github.com/fwtpe/owl/common/json"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	"github.com/fwtpe/owl/common/utils"
+	owlGin "github.com/fwtpe/owl-backend/common/gin"
+	owlJson "github.com/fwtpe/owl-backend/common/json"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"github.com/gin-gonic/gin"
 )
 

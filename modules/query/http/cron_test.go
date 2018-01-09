@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/astaxie/beego/orm"
-	tFlag "github.com/fwtpe/owl/common/testing/flag"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
 
 	_ "github.com/go-sql-driver/mysql" // import your used driver
 )

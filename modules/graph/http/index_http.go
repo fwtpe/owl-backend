@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/fwtpe/owl/modules/graph/index"
+	"github.com/fwtpe/owl-backend/modules/graph/index"
 )
 
 func configIndexRoutes() {

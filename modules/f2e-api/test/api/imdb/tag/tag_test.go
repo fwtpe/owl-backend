@@ -8,9 +8,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/model/imdb"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
-	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/imdb"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
+	. "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/tidwall/gjson"

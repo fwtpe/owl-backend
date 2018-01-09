@@ -9,15 +9,15 @@ import (
 	"net/http"
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	cutils "github.com/fwtpe/owl/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 	tsema "github.com/toolkits/concurrent/semaphore"
 	tcron "github.com/toolkits/cron"
 	thttpclient "github.com/toolkits/http/httpclient"
 	ttime "github.com/toolkits/time"
 
-	"github.com/fwtpe/owl/modules/nodata/config"
-	"github.com/fwtpe/owl/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/config"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
 )
 
 var (

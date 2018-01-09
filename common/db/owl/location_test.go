@@ -1,9 +1,9 @@
 package owl
 
 import (
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	dbTest "github.com/fwtpe/owl/common/testing/db"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
 	. "gopkg.in/check.v1"
 )
 

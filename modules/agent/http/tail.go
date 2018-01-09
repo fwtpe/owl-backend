@@ -2,7 +2,7 @@ package http
 
 import (
 	"encoding/json"
-	"github.com/fwtpe/owl/modules/agent/g"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
 	"io"
 	"net/http"
 	"os"

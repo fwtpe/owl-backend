@@ -1,7 +1,7 @@
 package rdb
 
 import (
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

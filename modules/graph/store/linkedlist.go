@@ -4,7 +4,7 @@ import (
 	"container/list"
 	"sync"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 )
 
 type SafeLinkedList struct {

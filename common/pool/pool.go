@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"github.com/toolkits/pool"
 )
 

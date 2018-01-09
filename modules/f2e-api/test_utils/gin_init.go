@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/controller"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/controller"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

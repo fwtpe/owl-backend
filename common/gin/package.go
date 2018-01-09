@@ -1,7 +1,7 @@
 package gin
 
 import (
-	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/logruslog"
 )
 
 var logger = logruslog.NewDefaultLogger("INFO")

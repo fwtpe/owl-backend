@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	oClient "github.com/fwtpe/owl/common/http/client"
-	oJson "github.com/fwtpe/owl/common/json"
-	oGko "github.com/fwtpe/owl/common/testing/ginkgo"
-	gb "github.com/fwtpe/owl/common/testing/ginkgo/builder"
+	oClient "github.com/fwtpe/owl-backend/common/http/client"
+	oJson "github.com/fwtpe/owl-backend/common/json"
+	oGko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	gb "github.com/fwtpe/owl-backend/common/testing/ginkgo/builder"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

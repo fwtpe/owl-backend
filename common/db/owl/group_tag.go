@@ -2,16 +2,16 @@ package owl
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	"github.com/fwtpe/owl/common/db"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
+	"github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
 	"github.com/jmoiron/sqlx"
 
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	t "github.com/fwtpe/owl/common/textbuilder"
-	tsql "github.com/fwtpe/owl/common/textbuilder/sql"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	t "github.com/fwtpe/owl-backend/common/textbuilder"
+	tsql "github.com/fwtpe/owl-backend/common/textbuilder/sql"
 )
 
 type ProcessGroupTagFunc func(tx *sqlx.Tx, nameOfGroupTag string)

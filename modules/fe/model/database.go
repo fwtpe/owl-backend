@@ -2,10 +2,10 @@ package model
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/g"
-	"github.com/fwtpe/owl/modules/fe/model/dashboard"
-	event "github.com/fwtpe/owl/modules/fe/model/falcon_portal"
-	"github.com/fwtpe/owl/modules/fe/model/uic"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/model/dashboard"
+	event "github.com/fwtpe/owl-backend/modules/fe/model/falcon_portal"
+	"github.com/fwtpe/owl-backend/modules/fe/model/uic"
 	_ "github.com/go-sql-driver/mysql"
 )
 

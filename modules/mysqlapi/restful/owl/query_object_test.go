@@ -1,9 +1,9 @@
 package owl
 
 import (
-	"github.com/fwtpe/owl/common/gin/mvc"
-	json "github.com/fwtpe/owl/common/json"
-	ogk "github.com/fwtpe/owl/common/testing/ginkgo"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogk "github.com/fwtpe/owl-backend/common/testing/ginkgo"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

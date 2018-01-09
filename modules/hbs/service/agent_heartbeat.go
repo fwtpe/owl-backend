@@ -5,9 +5,9 @@ import (
 	"sync"
 	"sync/atomic"
 
-	cModel "github.com/fwtpe/owl/common/model"
-	cQueue "github.com/fwtpe/owl/common/queue"
-	"github.com/fwtpe/owl/modules/hbs/cache"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	cQueue "github.com/fwtpe/owl-backend/common/queue"
+	"github.com/fwtpe/owl-backend/modules/hbs/cache"
 )
 
 var (

@@ -3,9 +3,9 @@ package types
 import (
 	"fmt"
 
-	ocheck "github.com/fwtpe/owl/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 
-	. "github.com/fwtpe/owl/common/reflect/types"
+	. "github.com/fwtpe/owl-backend/common/reflect/types"
 	. "gopkg.in/check.v1"
 )
 

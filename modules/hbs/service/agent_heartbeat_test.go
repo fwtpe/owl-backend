@@ -3,9 +3,9 @@ package service
 import (
 	"time"
 
-	cModel "github.com/fwtpe/owl/common/model"
-	cQueue "github.com/fwtpe/owl/common/queue"
-	"github.com/fwtpe/owl/modules/hbs/cache"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	cQueue "github.com/fwtpe/owl-backend/common/queue"
+	"github.com/fwtpe/owl-backend/modules/hbs/cache"
 	"github.com/icrowley/fake"
 
 	. "github.com/onsi/ginkgo"

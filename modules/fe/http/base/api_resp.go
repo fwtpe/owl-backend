@@ -4,7 +4,7 @@ import (
 	"errors"
 	"regexp"
 
-	"github.com/fwtpe/owl/modules/fe/model/uic"
+	"github.com/fwtpe/owl-backend/modules/fe/model/uic"
 )
 
 type ApiResp struct {

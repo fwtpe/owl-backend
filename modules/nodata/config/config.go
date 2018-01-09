@@ -4,11 +4,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"sync"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 	"github.com/toolkits/container/nmap"
 
-	"github.com/fwtpe/owl/modules/nodata/config/service"
-	"github.com/fwtpe/owl/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/config/service"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
 )
 
 // nodata配置(mockcfg)的缓存, 这些数据来自配置中心

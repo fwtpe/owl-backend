@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 	"os"
 
-	"github.com/fwtpe/owl/modules/nodata/collector"
-	"github.com/fwtpe/owl/modules/nodata/config"
-	"github.com/fwtpe/owl/modules/nodata/g"
-	"github.com/fwtpe/owl/modules/nodata/http"
-	"github.com/fwtpe/owl/modules/nodata/judge"
-	"github.com/fwtpe/owl/modules/nodata/sender"
+	"github.com/fwtpe/owl-backend/modules/nodata/collector"
+	"github.com/fwtpe/owl-backend/modules/nodata/config"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/http"
+	"github.com/fwtpe/owl-backend/modules/nodata/judge"
+	"github.com/fwtpe/owl-backend/modules/nodata/sender"
 )
 
 func main() {

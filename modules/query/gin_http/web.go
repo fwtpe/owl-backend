@@ -3,12 +3,12 @@ package ginHttp
 import (
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 
-	"github.com/fwtpe/owl/modules/query/g"
-	"github.com/fwtpe/owl/modules/query/gin_http/computeFunc"
-	grahttp "github.com/fwtpe/owl/modules/query/gin_http/grafana"
-	"github.com/fwtpe/owl/modules/query/gin_http/openFalcon"
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/gin_http/computeFunc"
+	grahttp "github.com/fwtpe/owl-backend/modules/query/gin_http/grafana"
+	"github.com/fwtpe/owl-backend/modules/query/gin_http/openFalcon"
 	"github.com/gin-gonic/gin"
 )
 

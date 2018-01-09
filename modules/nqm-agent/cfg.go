@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/chyeh/pubip"
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 	log "github.com/sirupsen/logrus"
 )
 

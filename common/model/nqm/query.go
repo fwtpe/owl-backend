@@ -1,7 +1,7 @@
 package nqm
 
 import (
-	commonDb "github.com/fwtpe/owl/common/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
 )
 
 // The query conditions of agent

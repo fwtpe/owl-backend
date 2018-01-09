@@ -5,12 +5,12 @@ import (
 	"reflect"
 	"time"
 
-	ojson "github.com/fwtpe/owl/common/json"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	"github.com/fwtpe/owl/common/utils"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	t "github.com/fwtpe/owl/common/testing"
+	t "github.com/fwtpe/owl-backend/common/testing"
 	. "gopkg.in/check.v1"
 )
 

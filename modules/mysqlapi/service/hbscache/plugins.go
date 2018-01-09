@@ -4,7 +4,7 @@ import (
 	"sort"
 	"sync"
 
-	db "github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
+	db "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
 )
 
 // 一个HostGroup可以绑定多个Plugin

@@ -3,9 +3,9 @@ package rpc
 import (
 	"fmt"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 
-	"github.com/fwtpe/owl/modules/transfer/service"
+	"github.com/fwtpe/owl-backend/modules/transfer/service"
 )
 
 type Transfer int

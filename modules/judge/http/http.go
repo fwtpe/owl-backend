@@ -5,7 +5,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	"github.com/fwtpe/owl/modules/judge/g"
+	"github.com/fwtpe/owl-backend/modules/judge/g"
 	log "github.com/sirupsen/logrus"
 )
 

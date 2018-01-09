@@ -5,10 +5,10 @@ import (
 	"strconv"
 	"strings"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/transfer/g"
-	"github.com/fwtpe/owl/modules/transfer/proc"
-	cpool "github.com/fwtpe/owl/modules/transfer/sender/conn_pool"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/proc"
+	cpool "github.com/fwtpe/owl-backend/modules/transfer/sender/conn_pool"
 	nlist "github.com/toolkits/container/list"
 )
 

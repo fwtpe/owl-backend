@@ -9,12 +9,12 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/jmoiron/sqlx"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	tb "github.com/fwtpe/owl/common/textbuilder"
-	sqlb "github.com/fwtpe/owl/common/textbuilder/sql"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	tb "github.com/fwtpe/owl-backend/common/textbuilder"
+	sqlb "github.com/fwtpe/owl-backend/common/textbuilder/sql"
 )
 
 type addAgentPingtaskTx struct {

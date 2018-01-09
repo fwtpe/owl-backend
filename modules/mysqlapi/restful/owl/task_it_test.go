@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	json "github.com/fwtpe/owl/common/json"
-	ogko "github.com/fwtpe/owl/common/testing/ginkgo"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"

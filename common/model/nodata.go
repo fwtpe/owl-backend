@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	ttime "github.com/toolkits/time"
 )
 

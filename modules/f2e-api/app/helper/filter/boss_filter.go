@@ -3,7 +3,7 @@ package filter
 import (
 	"strings"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/model/boss"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/boss"
 )
 
 func PlatformFilter(dat []boss.BossHost, filterTxt string, limit int) []boss.BossHost {

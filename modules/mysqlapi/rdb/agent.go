@@ -3,12 +3,12 @@ package rdb
 import (
 	"time"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	osqlx "github.com/fwtpe/owl/common/db/sqlx"
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 	"github.com/jmoiron/sqlx"
 )
 

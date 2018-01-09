@@ -7,9 +7,9 @@ import (
 	"database/sql"
 
 	"github.com/astaxie/beego/orm"
-	coommonModel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/alarm/model/boss"
+	coommonModel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/alarm/model/boss"
 	log "github.com/sirupsen/logrus"
 )
 

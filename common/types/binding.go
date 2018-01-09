@@ -2,7 +2,7 @@ package types
 
 import (
 	"fmt"
-	oreflect "github.com/fwtpe/owl/common/reflect"
+	oreflect "github.com/fwtpe/owl-backend/common/reflect"
 	"reflect"
 )
 

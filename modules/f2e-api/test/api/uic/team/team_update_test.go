@@ -8,7 +8,7 @@ import (
 
 	"github.com/tidwall/gjson"
 
-	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
+	. "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

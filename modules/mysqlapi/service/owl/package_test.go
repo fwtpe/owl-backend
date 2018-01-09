@@ -3,10 +3,10 @@ package owl
 import (
 	"testing"
 
-	f "github.com/fwtpe/owl/common/db/facade"
-	tDb "github.com/fwtpe/owl/common/testing/db"
-	tFlag "github.com/fwtpe/owl/common/testing/flag"
-	owlDb "github.com/fwtpe/owl/modules/mysqlapi/rdb/owl"
+	f "github.com/fwtpe/owl-backend/common/db/facade"
+	tDb "github.com/fwtpe/owl-backend/common/testing/db"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
+	owlDb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/owl"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/fwtpe/owl/modules/hbs/service"
+	"github.com/fwtpe/owl-backend/modules/hbs/service"
 	"github.com/gin-gonic/gin"
 )
 

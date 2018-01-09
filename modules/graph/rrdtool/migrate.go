@@ -13,9 +13,9 @@ import (
 	"github.com/fwtpe/consistent"
 	pfc "github.com/niean/goperfcounter"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/graph/g"
-	"github.com/fwtpe/owl/modules/graph/store"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/store"
 )
 
 const (

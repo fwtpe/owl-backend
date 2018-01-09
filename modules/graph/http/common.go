@@ -6,7 +6,7 @@ import (
 
 	"github.com/toolkits/file"
 
-	"github.com/fwtpe/owl/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
 )
 
 func configCommonRoutes() {

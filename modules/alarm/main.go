@@ -6,12 +6,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/alarm/cron"
-	"github.com/fwtpe/owl/modules/alarm/g"
-	"github.com/fwtpe/owl/modules/alarm/http"
-	"github.com/fwtpe/owl/modules/alarm/model"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/alarm/cron"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	"github.com/fwtpe/owl-backend/modules/alarm/http"
+	"github.com/fwtpe/owl-backend/modules/alarm/model"
 	"github.com/spf13/pflag"
 )
 

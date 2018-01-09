@@ -3,8 +3,8 @@ package nqm
 import (
 	"fmt"
 	sjson "github.com/bitly/go-simplejson"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	"github.com/fwtpe/owl/common/utils"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"net"
 )
 

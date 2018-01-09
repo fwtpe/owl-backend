@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/modules/task/database"
-	srv "github.com/fwtpe/owl/modules/task/service"
+	"github.com/fwtpe/owl-backend/modules/task/database"
+	srv "github.com/fwtpe/owl-backend/modules/task/service"
 )
 
 func buildProcOfVacuumQueryObjects(forDays int) func() {

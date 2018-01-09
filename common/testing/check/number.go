@@ -2,7 +2,7 @@ package check
 
 import (
 	"fmt"
-	ot "github.com/fwtpe/owl/common/reflect/types"
+	ot "github.com/fwtpe/owl-backend/common/reflect/types"
 	"gopkg.in/check.v1"
 	"reflect"
 )

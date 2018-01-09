@@ -1,7 +1,7 @@
 package vipercfg
 
 import (
-	owlPflag "github.com/fwtpe/owl/common/pflag"
+	owlPflag "github.com/fwtpe/owl-backend/common/pflag"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

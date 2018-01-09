@@ -1,18 +1,18 @@
 package rdb
 
 import (
-	commonDb "github.com/fwtpe/owl/common/db"
-	f "github.com/fwtpe/owl/common/db/facade"
-	commonNqmDb "github.com/fwtpe/owl/common/db/nqm"
-	commonOwlDb "github.com/fwtpe/owl/common/db/owl"
-	log "github.com/fwtpe/owl/common/logruslog"
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	f "github.com/fwtpe/owl-backend/common/db/facade"
+	commonNqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	commonOwlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
 
-	bossdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/boss"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb/cmdb"
-	graphdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/graph"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb/hbsdb"
-	apiOwlDb "github.com/fwtpe/owl/modules/mysqlapi/rdb/owl"
+	bossdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/boss"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/cmdb"
+	graphdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/graph"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
+	apiOwlDb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/owl"
 )
 
 const (

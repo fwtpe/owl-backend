@@ -2,7 +2,7 @@ package ginkgo
 
 import (
 	sjson "github.com/bitly/go-simplejson"
-	ojson "github.com/fwtpe/owl/common/json"
+	ojson "github.com/fwtpe/owl-backend/common/json"
 
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/types"

@@ -29,7 +29,7 @@ func init() {
 	 * Figures out the $GOPATH of current file
 	 */
 	size := len(file)
-	suffix := len("github.com/fwtpe/owl/common/runtime/stack.go")
+	suffix := len("github.com/fwtpe/owl-backend/common/runtime/stack.go")
 
 	goPath = file[0 : size-suffix]
 	prefixLength = len(goPath)

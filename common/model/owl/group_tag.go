@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	json "github.com/bitly/go-simplejson"
-	"github.com/fwtpe/owl/common/strconv"
+	"github.com/fwtpe/owl-backend/common/strconv"
 )
 
 type GroupTag struct {

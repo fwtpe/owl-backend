@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/fwtpe/owl/modules/task/proc"
+	"github.com/fwtpe/owl-backend/modules/task/proc"
 )
 
 func configProcHttpRoutes() {

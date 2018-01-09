@@ -3,7 +3,7 @@ package cron
 import (
 	"time"
 
-	"github.com/fwtpe/owl/modules/judge/store"
+	"github.com/fwtpe/owl-backend/modules/judge/store"
 	log "github.com/sirupsen/logrus"
 )
 

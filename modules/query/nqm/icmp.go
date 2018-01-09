@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	sjson "github.com/bitly/go-simplejson"
 	"github.com/dghubble/sling"
-	osling "github.com/fwtpe/owl/common/http/client"
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/query/g"
-	model "github.com/fwtpe/owl/modules/query/model/nqm"
+	osling "github.com/fwtpe/owl-backend/common/http/client"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	model "github.com/fwtpe/owl-backend/modules/query/model/nqm"
 	"net/http"
 )
 

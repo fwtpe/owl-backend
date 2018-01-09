@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/utils"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/lambda_extends/utils"
 	"github.com/spf13/viper"
 )
 

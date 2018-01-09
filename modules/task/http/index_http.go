@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	"github.com/fwtpe/owl/modules/task/index"
-	srv "github.com/fwtpe/owl/modules/task/service"
+	"github.com/fwtpe/owl-backend/modules/task/index"
+	srv "github.com/fwtpe/owl-backend/modules/task/service"
 )
 
 func configIndexHttpRoutes() {

@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"time"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	otest "github.com/fwtpe/owl/common/testing"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	dbTest "github.com/fwtpe/owl/common/testing/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	otest "github.com/fwtpe/owl-backend/common/testing"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
 
 	. "gopkg.in/check.v1"
 )

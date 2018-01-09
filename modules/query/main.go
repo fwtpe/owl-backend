@@ -7,19 +7,19 @@ import (
 
 	"github.com/spf13/viper"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	"github.com/fwtpe/owl/common/http/client"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	"github.com/fwtpe/owl-backend/common/http/client"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 
-	"github.com/fwtpe/owl/modules/query/conf"
-	"github.com/fwtpe/owl/modules/query/database"
-	"github.com/fwtpe/owl/modules/query/g"
-	ginHttp "github.com/fwtpe/owl/modules/query/gin_http"
-	"github.com/fwtpe/owl/modules/query/graph"
-	"github.com/fwtpe/owl/modules/query/grpc"
-	"github.com/fwtpe/owl/modules/query/http"
-	"github.com/fwtpe/owl/modules/query/proc"
+	"github.com/fwtpe/owl-backend/modules/query/conf"
+	"github.com/fwtpe/owl-backend/modules/query/database"
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	ginHttp "github.com/fwtpe/owl-backend/modules/query/gin_http"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
+	"github.com/fwtpe/owl-backend/modules/query/grpc"
+	"github.com/fwtpe/owl-backend/modules/query/http"
+	"github.com/fwtpe/owl-backend/modules/query/proc"
 )
 
 func main() {

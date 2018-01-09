@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl/modules/fe/model/boss"
+	"github.com/fwtpe/owl-backend/modules/fe/model/boss"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -3,7 +3,7 @@ package boss
 import (
 	"database/sql"
 
-	model "github.com/fwtpe/owl/modules/mysqlapi/model"
+	model "github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

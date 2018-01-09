@@ -1,9 +1,9 @@
 package db
 
 import (
-	commonDb "github.com/fwtpe/owl/common/db"
-	f "github.com/fwtpe/owl/common/db/facade"
-	tflag "github.com/fwtpe/owl/common/testing/flag"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	f "github.com/fwtpe/owl-backend/common/db/facade"
+	tflag "github.com/fwtpe/owl-backend/common/testing/flag"
 
 	. "github.com/onsi/gomega"
 )

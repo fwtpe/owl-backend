@@ -5,12 +5,12 @@ import (
 	"reflect"
 	"time"
 
-	log "github.com/fwtpe/owl/common/logruslog"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	commonQueue "github.com/fwtpe/owl/common/queue"
-	"github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	commonQueue "github.com/fwtpe/owl-backend/common/queue"
+	"github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 )
 
 var logger = log.NewDefaultLogger("INFO")

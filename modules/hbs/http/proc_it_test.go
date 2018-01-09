@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	json "github.com/fwtpe/owl/common/json"
-	httptesting "github.com/fwtpe/owl/common/testing/http"
+	json "github.com/fwtpe/owl-backend/common/json"
+	httptesting "github.com/fwtpe/owl-backend/common/testing/http"
 	. "gopkg.in/check.v1"
 )
 

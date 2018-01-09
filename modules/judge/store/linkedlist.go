@@ -2,7 +2,7 @@ package store
 
 import (
 	"container/list"
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"sync"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	ocron "github.com/fwtpe/owl/common/cron"
+	ocron "github.com/fwtpe/owl-backend/common/cron"
 )
 
 // Configurations for vacuum of query objects

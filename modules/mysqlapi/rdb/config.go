@@ -1,8 +1,8 @@
 package rdb
 
 import (
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 )
 
 func GetAgentConfig(key string) *model.AgentConfigResult {

@@ -2,7 +2,7 @@ package redis
 
 import (
 	"encoding/json"
-	"github.com/fwtpe/owl/modules/sender/model"
+	"github.com/fwtpe/owl-backend/modules/sender/model"
 	"github.com/garyburd/redigo/redis"
 	log "github.com/sirupsen/logrus"
 )

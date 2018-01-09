@@ -1,10 +1,10 @@
 package restful
 
 import (
-	"github.com/fwtpe/owl/common/gin/mvc"
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
-	"github.com/fwtpe/owl/modules/mysqlapi/service"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service"
 )
 
 func health() mvc.OutputBody {

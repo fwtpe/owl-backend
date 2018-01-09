@@ -3,8 +3,8 @@ package test
 import (
 	"testing"
 
-	dg "github.com/fwtpe/owl/modules/f2e-api/app/controller/dashboard_graph"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	dg "github.com/fwtpe/owl-backend/modules/f2e-api/app/controller/dashboard_graph"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"

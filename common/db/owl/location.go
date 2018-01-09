@@ -3,8 +3,8 @@ package owl
 import (
 	"fmt"
 
-	gormExt "github.com/fwtpe/owl/common/gorm"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type ErrNotInSameHierarchy struct {

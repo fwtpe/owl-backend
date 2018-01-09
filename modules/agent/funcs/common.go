@@ -1,7 +1,7 @@
 package funcs
 
 import (
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"strings"
 )
 

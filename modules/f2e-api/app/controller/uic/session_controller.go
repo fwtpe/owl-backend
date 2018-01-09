@@ -3,9 +3,9 @@ package uic
 import (
 	"net/http"
 
-	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
-	"github.com/fwtpe/owl/modules/f2e-api/app/model/uic"
-	"github.com/fwtpe/owl/modules/f2e-api/app/utils"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/uic"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )

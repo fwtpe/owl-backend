@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	ohttp "github.com/fwtpe/owl/common/testing/http"
-	"github.com/fwtpe/owl/common/testing/http/gock"
+	ohttp "github.com/fwtpe/owl-backend/common/testing/http"
+	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 	gt "gopkg.in/h2non/gentleman.v2"
 
 	. "github.com/onsi/ginkgo"

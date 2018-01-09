@@ -3,9 +3,9 @@ package service
 import (
 	"net/http"
 
-	ojson "github.com/fwtpe/owl/common/json"
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

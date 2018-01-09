@@ -1,8 +1,8 @@
 package boss
 
 import (
-	"github.com/fwtpe/owl/modules/fe/http/base"
-	"github.com/fwtpe/owl/modules/fe/model/boss"
+	"github.com/fwtpe/owl-backend/modules/fe/http/base"
+	"github.com/fwtpe/owl-backend/modules/fe/model/boss"
 )
 
 type BossController struct {

@@ -1,11 +1,11 @@
 package cmdb
 
 import (
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
-	bossRdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/boss"
-	cmdbRdb "github.com/fwtpe/owl/modules/mysqlapi/rdb/cmdb"
-	"github.com/fwtpe/owl/modules/mysqlapi/service"
-	bossSrv "github.com/fwtpe/owl/modules/mysqlapi/service/boss"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
+	bossRdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/boss"
+	cmdbRdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/cmdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service"
+	bossSrv "github.com/fwtpe/owl-backend/modules/mysqlapi/service/boss"
 )
 
 func SyncDataFromBoss() (*model.OwlScheduleLog, error) {

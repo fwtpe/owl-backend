@@ -10,10 +10,10 @@ import (
 	"github.com/toolkits/container/list"
 	nproc "github.com/toolkits/proc"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 
-	"github.com/fwtpe/owl/modules/transfer/g"
-	"github.com/fwtpe/owl/modules/transfer/proc"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
+	"github.com/fwtpe/owl-backend/modules/transfer/proc"
 )
 
 // send

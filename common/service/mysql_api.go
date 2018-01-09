@@ -3,9 +3,9 @@ package service
 import (
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	oHttp "github.com/fwtpe/owl/common/http"
-	"github.com/fwtpe/owl/common/http/client"
-	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	"github.com/fwtpe/owl-backend/common/http/client"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
 )
 
 type MysqlApiServiceConfig struct {

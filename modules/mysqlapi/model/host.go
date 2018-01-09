@@ -2,7 +2,7 @@ package model
 
 import (
 	json "github.com/bitly/go-simplejson"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type HostsResult struct {

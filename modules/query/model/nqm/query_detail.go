@@ -3,8 +3,8 @@ package nqm
 import (
 	"fmt"
 	sjson "github.com/bitly/go-simplejson"
-	ojson "github.com/fwtpe/owl/common/json"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type TimeFilterDetail TimeFilter

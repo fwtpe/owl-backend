@@ -12,12 +12,12 @@ import (
 	"strings"
 
 	sjson "github.com/bitly/go-simplejson"
-	"github.com/fwtpe/owl/common/model"
-	ot "github.com/fwtpe/owl/common/types"
+	"github.com/fwtpe/owl-backend/common/model"
+	ot "github.com/fwtpe/owl-backend/common/types"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 
-	ocheck "github.com/fwtpe/owl/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 	. "gopkg.in/check.v1"
 )
 

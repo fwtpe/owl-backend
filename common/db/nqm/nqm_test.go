@@ -5,12 +5,12 @@ import (
 	"net"
 	"time"
 
-	commonDb "github.com/fwtpe/owl/common/db"
-	commonModel "github.com/fwtpe/owl/common/model"
-	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	otest "github.com/fwtpe/owl/common/testing"
-	ocheck "github.com/fwtpe/owl/common/testing/check"
-	dbTest "github.com/fwtpe/owl/common/testing/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	otest "github.com/fwtpe/owl-backend/common/testing"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
 
 	. "gopkg.in/check.v1"
 )

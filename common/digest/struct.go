@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	log "github.com/fwtpe/owl/common/logruslog"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
 	"reflect"
 	"sort"
 	"strconv"

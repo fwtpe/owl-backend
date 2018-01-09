@@ -8,7 +8,7 @@ import (
 	"net/rpc"
 	"time"
 
-	coModel "github.com/fwtpe/owl/common/model"
+	coModel "github.com/fwtpe/owl-backend/common/model"
 
 	sjson "github.com/bitly/go-simplejson"
 	. "github.com/onsi/ginkgo"

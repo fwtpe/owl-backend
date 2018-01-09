@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/modules/aggregator/db"
-	"github.com/fwtpe/owl/modules/aggregator/g"
+	"github.com/fwtpe/owl-backend/modules/aggregator/db"
+	"github.com/fwtpe/owl-backend/modules/aggregator/g"
 	"time"
 )
 

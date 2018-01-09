@@ -1,7 +1,7 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/modules/sender/g"
+	"github.com/fwtpe/owl-backend/modules/sender/g"
 )
 
 var (

@@ -16,7 +16,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/emirpasic/gods/maps/hashmap"
 	"github.com/emirpasic/gods/sets/hashset"
-	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 	log "github.com/sirupsen/logrus"
 )
 

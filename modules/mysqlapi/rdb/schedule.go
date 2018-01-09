@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"time"
 
-	owlModel "github.com/fwtpe/owl/common/model/owl"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 
-	cdb "github.com/fwtpe/owl/common/db"
-	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
-	"github.com/fwtpe/owl/modules/mysqlapi/model"
+	cdb "github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 	"github.com/jmoiron/sqlx"
 	"github.com/satori/go.uuid"
 )

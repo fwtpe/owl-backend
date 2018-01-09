@@ -4,15 +4,15 @@ import (
 	log "github.com/sirupsen/logrus"
 	"time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	cutils "github.com/fwtpe/owl/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 	tcron "github.com/toolkits/cron"
 	ttime "github.com/toolkits/time"
 
-	"github.com/fwtpe/owl/modules/nodata/collector"
-	"github.com/fwtpe/owl/modules/nodata/config"
-	"github.com/fwtpe/owl/modules/nodata/g"
-	"github.com/fwtpe/owl/modules/nodata/sender"
+	"github.com/fwtpe/owl-backend/modules/nodata/collector"
+	"github.com/fwtpe/owl-backend/modules/nodata/config"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
+	"github.com/fwtpe/owl-backend/modules/nodata/sender"
 )
 
 var (

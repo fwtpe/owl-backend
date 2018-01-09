@@ -1,8 +1,8 @@
 package restful
 
 import (
-	"github.com/fwtpe/owl/common/gin/mvc"
-	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 )
 
 func getAgentConfig(

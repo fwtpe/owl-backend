@@ -1,9 +1,9 @@
 package rpc
 
 import (
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/judge/g"
-	"github.com/fwtpe/owl/modules/judge/store"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/judge/g"
+	"github.com/fwtpe/owl-backend/modules/judge/store"
 	"time"
 )
 

@@ -2,9 +2,9 @@ package cron
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/modules/aggregator/g"
-	"github.com/fwtpe/owl/sdk/portal"
-	"github.com/fwtpe/owl/sdk/sender"
+	"github.com/fwtpe/owl-backend/modules/aggregator/g"
+	"github.com/fwtpe/owl-backend/sdk/portal"
+	"github.com/fwtpe/owl-backend/sdk/sender"
 	log "github.com/sirupsen/logrus"
 	"strconv"
 	"strings"

@@ -1,7 +1,7 @@
 package receiver
 
 import (
-	"github.com/fwtpe/owl/modules/transfer/receiver/rpc"
+	"github.com/fwtpe/owl-backend/modules/transfer/receiver/rpc"
 )
 
 func Start() {

@@ -3,10 +3,10 @@ package rpc
 import (
 	"fmt"
 
-	log "github.com/fwtpe/owl/common/logruslog"
-	or "github.com/fwtpe/owl/common/runtime"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	or "github.com/fwtpe/owl-backend/common/runtime"
 
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 var logger = log.NewDefaultLogger("WARN")

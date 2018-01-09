@@ -8,9 +8,9 @@ import (
 	tcron "github.com/toolkits/cron"
 	ttime "github.com/toolkits/time"
 
-	cutils "github.com/fwtpe/owl/common/utils"
-	"github.com/fwtpe/owl/modules/nodata/config/service"
-	"github.com/fwtpe/owl/modules/nodata/g"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
+	"github.com/fwtpe/owl-backend/modules/nodata/config/service"
+	"github.com/fwtpe/owl-backend/modules/nodata/g"
 )
 
 var (

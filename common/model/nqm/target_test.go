@@ -1,12 +1,12 @@
 package nqm
 
 import (
-	"github.com/fwtpe/owl/common/conform"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/conform"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	"reflect"
 
-	testV "github.com/fwtpe/owl/common/testing/validator"
+	testV "github.com/fwtpe/owl-backend/common/testing/validator"
 	. "gopkg.in/check.v1"
 )
 

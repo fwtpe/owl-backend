@@ -5,10 +5,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/common/rpc"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/rpc"
 
-	"github.com/fwtpe/owl/modules/hbs/service"
+	"github.com/fwtpe/owl-backend/modules/hbs/service"
 )
 
 var AgentHeartbeatService *service.AgentHeartbeatService

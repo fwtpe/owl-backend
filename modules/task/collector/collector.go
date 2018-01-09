@@ -15,9 +15,9 @@ import (
 	nhttpclient "github.com/toolkits/http/httpclient"
 	ntime "github.com/toolkits/time"
 
-	cmodel "github.com/fwtpe/owl/common/model"
-	"github.com/fwtpe/owl/modules/task/g"
-	"github.com/fwtpe/owl/modules/task/proc"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/proc"
 )
 
 var (

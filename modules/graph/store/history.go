@@ -4,7 +4,7 @@ import (
 	tlist "github.com/toolkits/container/list"
 	tmap "github.com/toolkits/container/nmap"
 
-	cmodel "github.com/fwtpe/owl/common/model"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
 )
 
 const (

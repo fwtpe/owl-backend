@@ -3,7 +3,7 @@ package testing
 import (
 	"time"
 
-	ojson "github.com/fwtpe/owl/common/json"
+	ojson "github.com/fwtpe/owl-backend/common/json"
 	. "github.com/onsi/gomega"
 	"gopkg.in/check.v1"
 )

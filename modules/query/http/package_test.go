@@ -4,8 +4,8 @@ import (
 	ch "gopkg.in/check.v1"
 	"testing"
 
-	tFlag "github.com/fwtpe/owl/common/testing/flag"
-	"github.com/fwtpe/owl/common/testing/http/gock"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
+	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

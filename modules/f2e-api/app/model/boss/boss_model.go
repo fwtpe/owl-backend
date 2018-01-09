@@ -1,7 +1,7 @@
 package boss
 
 import (
-	con "github.com/fwtpe/owl/modules/f2e-api/config"
+	con "github.com/fwtpe/owl-backend/modules/f2e-api/config"
 )
 
 type BossHost struct {

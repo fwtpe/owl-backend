@@ -8,8 +8,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/conf"
-	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/model"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/lambda_extends/conf"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/lambda_extends/model"
 	"github.com/robertkrimen/otto"
 )
 

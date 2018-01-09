@@ -2,7 +2,7 @@ package boss
 
 import (
 	underscore "github.com/ahl5esoft/golang-underscore"
-	model "github.com/fwtpe/owl/modules/mysqlapi/model"
+	model "github.com/fwtpe/owl-backend/modules/mysqlapi/model"
 )
 
 const (

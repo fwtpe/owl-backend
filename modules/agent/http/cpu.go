@@ -2,7 +2,7 @@ package http
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/modules/agent/funcs"
+	"github.com/fwtpe/owl-backend/modules/agent/funcs"
 	"github.com/toolkits/nux"
 	"net/http"
 	"runtime"

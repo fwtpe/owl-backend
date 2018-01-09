@@ -11,7 +11,7 @@ import (
 
 	"github.com/tidwall/gjson"
 
-	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
+	. "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 )

@@ -3,8 +3,8 @@ package alarm
 import (
 	"time"
 
-	"github.com/fwtpe/owl/modules/f2e-api/app/model/uic"
-	"github.com/fwtpe/owl/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/uic"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 )
 
 // +--------------+------------------+------+-----+-------------------+-----------------------------+

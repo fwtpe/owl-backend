@@ -1,10 +1,10 @@
 package cron
 
 import (
-	"github.com/fwtpe/owl/modules/sender/g"
-	"github.com/fwtpe/owl/modules/sender/model"
-	"github.com/fwtpe/owl/modules/sender/proc"
-	"github.com/fwtpe/owl/modules/sender/redis"
+	"github.com/fwtpe/owl-backend/modules/sender/g"
+	"github.com/fwtpe/owl-backend/modules/sender/model"
+	"github.com/fwtpe/owl-backend/modules/sender/proc"
+	"github.com/fwtpe/owl-backend/modules/sender/redis"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/net/httplib"
 	"time"

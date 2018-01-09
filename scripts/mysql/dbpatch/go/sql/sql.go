@@ -4,7 +4,7 @@ package sql
 import (
 	dbsql "database/sql"
 	"fmt"
-	osqlx "github.com/fwtpe/owl/common/db/sqlx"
+	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
 	"github.com/jmoiron/sqlx"
 )
 

@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 )
 
 func main() {

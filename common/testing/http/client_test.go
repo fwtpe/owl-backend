@@ -7,8 +7,8 @@ import (
 
 	"github.com/dghubble/sling"
 
-	tHttp "github.com/fwtpe/owl/common/testing/http"
-	mock "github.com/fwtpe/owl/common/testing/http/gock"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

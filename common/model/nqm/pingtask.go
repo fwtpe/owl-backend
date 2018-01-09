@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	owlGin "github.com/fwtpe/owl/common/gin"
-	commonOwlModel "github.com/fwtpe/owl/common/model/owl"
+	owlGin "github.com/fwtpe/owl-backend/common/gin"
+	commonOwlModel "github.com/fwtpe/owl-backend/common/model/owl"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )

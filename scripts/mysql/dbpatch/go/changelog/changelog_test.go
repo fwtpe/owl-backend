@@ -3,7 +3,7 @@ package changelog
 import (
 	dbsql "database/sql"
 	"flag"
-	patchsql "github.com/fwtpe/owl/scripts/mysql/dbpatch/go/sql"
+	patchsql "github.com/fwtpe/owl-backend/scripts/mysql/dbpatch/go/sql"
 	. "gopkg.in/check.v1"
 	"testing"
 )

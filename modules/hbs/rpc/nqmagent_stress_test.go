@@ -6,9 +6,9 @@ import (
 	"net/rpc"
 	"sync"
 
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 
-	testJsonRpc "github.com/fwtpe/owl/common/testing/jsonrpc"
+	testJsonRpc "github.com/fwtpe/owl-backend/common/testing/jsonrpc"
 
 	. "gopkg.in/check.v1"
 )

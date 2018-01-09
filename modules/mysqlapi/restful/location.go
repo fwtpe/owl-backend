@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	commonOwlDb "github.com/fwtpe/owl/common/db/owl"
-	commonGin "github.com/fwtpe/owl/common/gin"
-	"github.com/fwtpe/owl/common/gin/mvc"
+	commonOwlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	commonGin "github.com/fwtpe/owl-backend/common/gin"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
 	"github.com/gin-gonic/gin"
 )
 

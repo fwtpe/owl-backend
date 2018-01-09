@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"time"
 
-	cModel "github.com/fwtpe/owl/common/model"
-	cModelConfig "github.com/fwtpe/owl/common/model/config"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	cModelConfig "github.com/fwtpe/owl-backend/common/model/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

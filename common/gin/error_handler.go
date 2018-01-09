@@ -3,7 +3,7 @@ package gin
 import (
 	"fmt"
 	json "github.com/bitly/go-simplejson"
-	or "github.com/fwtpe/owl/common/runtime"
+	or "github.com/fwtpe/owl-backend/common/runtime"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

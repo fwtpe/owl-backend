@@ -2,7 +2,7 @@ package funcs
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/nux"
 	"strings"

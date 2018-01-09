@@ -23,7 +23,7 @@ func ExampleGetCallerInfo() {
 	fmt.Printf("%s", replaceRegExp.FindStringSubmatch(callerInfo.String())[0])
 
 	// Output:
-	// github.com/fwtpe/owl/common/runtime/stack_test.go:20
+	// github.com/fwtpe/owl-backend/common/runtime/stack_test.go:20
 }
 
 func ExampleGetCallerInfoWithDepth() {

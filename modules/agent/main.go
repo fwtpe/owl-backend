@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/common/logruslog"
-	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fwtpe/owl/modules/agent/cron"
-	"github.com/fwtpe/owl/modules/agent/funcs"
-	"github.com/fwtpe/owl/modules/agent/g"
-	"github.com/fwtpe/owl/modules/agent/http"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/agent/cron"
+	"github.com/fwtpe/owl-backend/modules/agent/funcs"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
+	"github.com/fwtpe/owl-backend/modules/agent/http"
 	"os"
 )
 

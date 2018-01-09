@@ -1,10 +1,10 @@
 package owl
 
 import (
-	"github.com/fwtpe/owl/common/model"
-	owlModel "github.com/fwtpe/owl/common/model/owl"
-	rt "github.com/fwtpe/owl/common/reflect/types"
-	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl-backend/common/model"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	rt "github.com/fwtpe/owl-backend/common/reflect/types"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
