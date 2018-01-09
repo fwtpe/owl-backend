@@ -6,8 +6,6 @@
 [![codecov](https://codecov.io/gh/fwtpe/owl/branch/develop/graph/badge.svg)](https://codecov.io/gh/fwtpe/owl)
 [![GoDoc](https://godoc.org/github.com/fwtpe/owl?status.svg)](https://godoc.org/github.com/fwtpe/owl)
 [![Join the chat at https://gitter.im/goappmonitor/Lobby](https://badges.gitter.im/goappmonitor/Lobby.svg)](https://gitter.im/goappmonitor/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Code Health](https://landscape.io/github/fwtpe/owl/master/landscape.svg?style=flat)](https://landscape.io/github/fwtpe/owl/master)
-[![Code Issues](https://www.quantifiedcode.com/api/v1/project/df24b20e9c504ad0a2ac9fa3e99936f5/badge.svg)](https://www.quantifiedcode.com/app/project/df24b20e9c504ad0a2ac9fa3e99936f5)
 [![Go Report Card](https://goreportcard.com/badge/github.com/fwtpe/owl)](https://goreportcard.com/report/github.com/fwtpe/owl)
 [![License](https://img.shields.io/badge/LICENSE-Apache2.0-ff69b4.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
