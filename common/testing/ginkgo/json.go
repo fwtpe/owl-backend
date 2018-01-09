@@ -1,8 +1,8 @@
 package ginkgo
 
 import (
-	ojson "github.com/fwtpe/owl/common/json"
 	sjson "github.com/bitly/go-simplejson"
+	ojson "github.com/fwtpe/owl/common/json"
 
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/types"

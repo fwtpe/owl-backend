@@ -7,9 +7,9 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/chyeh/pubip"
 	"github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/chyeh/pubip"
 	log "github.com/sirupsen/logrus"
 )
 

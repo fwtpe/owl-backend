@@ -3,6 +3,8 @@ package http
 import (
 	"strings"
 
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
 	"github.com/fwtpe/owl/modules/fe/g"
 	"github.com/fwtpe/owl/modules/fe/http/boss"
 	"github.com/fwtpe/owl/modules/fe/http/dashboard"
@@ -10,8 +12,6 @@ import (
 	"github.com/fwtpe/owl/modules/fe/http/portal"
 	"github.com/fwtpe/owl/modules/fe/http/uic"
 	uic_model "github.com/fwtpe/owl/modules/fe/model/uic"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/plugins/cors"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -1,9 +1,9 @@
 package uic
 
 import (
-	"github.com/fwtpe/owl/modules/fe/http/base"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"github.com/fwtpe/owl/modules/fe/http/base"
 )
 
 func ConfigRoutes() {

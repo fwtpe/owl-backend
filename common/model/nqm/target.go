@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
+	json "github.com/bitly/go-simplejson"
 	owlModel "github.com/fwtpe/owl/common/model/owl"
 	"github.com/fwtpe/owl/common/utils"
-	json "github.com/bitly/go-simplejson"
 )
 
 type TargetForAdding struct {

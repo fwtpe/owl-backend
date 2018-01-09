@@ -6,10 +6,10 @@ import (
 
 	"database/sql"
 
+	"github.com/astaxie/beego/orm"
 	coommonModel "github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/common/utils"
 	"github.com/fwtpe/owl/modules/alarm/model/boss"
-	"github.com/astaxie/beego/orm"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/astaxie/beego/orm"
 	cmodel "github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/modules/query/g"
 	"github.com/fwtpe/owl/modules/query/graph"
-	"github.com/astaxie/beego/orm"
 	"github.com/jasonlvhit/gocron"
 	log "github.com/sirupsen/logrus"
 )

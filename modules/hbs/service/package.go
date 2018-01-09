@@ -4,12 +4,12 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/dghubble/sling"
 	oHttp "github.com/fwtpe/owl/common/http"
 	"github.com/fwtpe/owl/common/http/client"
 	log "github.com/fwtpe/owl/common/logruslog"
 	oConfig "github.com/fwtpe/owl/common/model/config"
 	oSrv "github.com/fwtpe/owl/common/service"
-	"github.com/dghubble/sling"
 	"github.com/h2non/gentleman/plugins/timeout"
 	"github.com/spf13/viper"
 	"gopkg.in/h2non/gentleman.v2"

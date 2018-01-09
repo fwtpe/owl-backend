@@ -6,12 +6,12 @@ import (
 
 	"encoding/json"
 
+	"github.com/Jeffail/gabs"
+	"github.com/emirpasic/gods/sets/hashset"
 	cmodel "github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/modules/query/gin_http/computeFunc"
 	"github.com/fwtpe/owl/modules/query/gin_http/openFalcon"
 	"github.com/fwtpe/owl/modules/query/model"
-	"github.com/Jeffail/gabs"
-	"github.com/emirpasic/gods/sets/hashset"
 	"github.com/gin-gonic/gin"
 	"github.com/robertkrimen/otto"
 	_ "github.com/robertkrimen/otto/underscore"

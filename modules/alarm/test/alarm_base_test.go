@@ -4,9 +4,9 @@ import (
 	"flag"
 	"testing"
 
+	"github.com/astaxie/beego/orm"
 	coommonModel "github.com/fwtpe/owl/common/model"
 	eventOpt "github.com/fwtpe/owl/modules/alarm/model/event"
-	"github.com/astaxie/beego/orm"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 )

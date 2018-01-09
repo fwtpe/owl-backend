@@ -2,12 +2,12 @@ package nqm
 
 import (
 	"encoding/json"
+	"github.com/bitly/go-simplejson"
 	nqmModel "github.com/fwtpe/owl/common/model/nqm"
 	owlModel "github.com/fwtpe/owl/common/model/owl"
 	dsl "github.com/fwtpe/owl/modules/query/dsl/nqm_parser" // As NQM intermediate representation
 	model "github.com/fwtpe/owl/modules/query/model/nqm"
 	qtest "github.com/fwtpe/owl/modules/query/test"
-	"github.com/bitly/go-simplejson"
 	. "gopkg.in/check.v1"
 	"sort"
 )

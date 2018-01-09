@@ -8,8 +8,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fwtpe/owl/modules/query/g"
 	"github.com/astaxie/beego/orm"
+	"github.com/fwtpe/owl/modules/query/g"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/juju/errors"
 )

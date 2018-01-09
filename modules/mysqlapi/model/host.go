@@ -1,8 +1,8 @@
 package model
 
 import (
-	owlModel "github.com/fwtpe/owl/common/model/owl"
 	json "github.com/bitly/go-simplejson"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
 )
 
 type HostsResult struct {

@@ -1,8 +1,8 @@
 package nqm
 
 import (
-	ojson "github.com/fwtpe/owl/common/json"
 	sjson "github.com/bitly/go-simplejson"
+	ojson "github.com/fwtpe/owl/common/json"
 )
 
 // Defines the interface for process a instance of metrics

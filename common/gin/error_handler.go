@@ -2,8 +2,8 @@ package gin
 
 import (
 	"fmt"
-	or "github.com/fwtpe/owl/common/runtime"
 	json "github.com/bitly/go-simplejson"
+	or "github.com/fwtpe/owl/common/runtime"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

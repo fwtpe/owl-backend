@@ -13,9 +13,9 @@ import (
 	"github.com/fwtpe/owl/common/digest"
 	"github.com/fwtpe/owl/common/utils"
 
+	sjson "github.com/bitly/go-simplejson"
 	ojson "github.com/fwtpe/owl/common/json"
 	nqmModel "github.com/fwtpe/owl/common/model/nqm"
-	sjson "github.com/bitly/go-simplejson"
 )
 
 var flateCompressor = compress.NewDefaultFlateCompressor()

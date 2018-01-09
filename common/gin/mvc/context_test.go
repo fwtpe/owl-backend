@@ -11,9 +11,9 @@ import (
 	"net/url"
 	"strings"
 
+	sjson "github.com/bitly/go-simplejson"
 	"github.com/fwtpe/owl/common/model"
 	ot "github.com/fwtpe/owl/common/types"
-	sjson "github.com/bitly/go-simplejson"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 

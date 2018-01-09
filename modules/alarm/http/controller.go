@@ -2,10 +2,10 @@ package http
 
 import (
 	"fmt"
-	"github.com/fwtpe/owl/modules/alarm/g"
-	. "github.com/fwtpe/owl/modules/alarm/model/uic"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/fwtpe/owl/modules/alarm/g"
+	. "github.com/fwtpe/owl/modules/alarm/model/uic"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/file"
 	"strings"

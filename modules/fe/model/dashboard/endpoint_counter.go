@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/fwtpe/owl/modules/fe/g"
 	"github.com/astaxie/beego/orm"
+	"github.com/fwtpe/owl/modules/fe/g"
 )
 
 func QueryEndpointidbyNames(endpoints []string, limit int) (enp []Endpoint, err error) {

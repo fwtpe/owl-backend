@@ -12,12 +12,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/astaxie/beego/orm"
+	"github.com/bitly/go-simplejson"
 	cmodel "github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/modules/query/g"
 	"github.com/fwtpe/owl/modules/query/graph"
 	"github.com/fwtpe/owl/modules/query/proc"
-	"github.com/astaxie/beego/orm"
-	"github.com/bitly/go-simplejson"
 	log "github.com/sirupsen/logrus"
 )
 

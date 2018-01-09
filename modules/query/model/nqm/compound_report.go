@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"fmt"
+	sjson "github.com/bitly/go-simplejson"
 	owlModel "github.com/fwtpe/owl/common/model/owl"
 	"github.com/fwtpe/owl/common/utils"
-	sjson "github.com/bitly/go-simplejson"
 	"net"
 )
 

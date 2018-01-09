@@ -5,11 +5,11 @@ import (
 	"net"
 	"time"
 
+	json "github.com/bitly/go-simplejson"
 	owlGin "github.com/fwtpe/owl/common/gin"
 	owlJson "github.com/fwtpe/owl/common/json"
 	owlModel "github.com/fwtpe/owl/common/model/owl"
 	"github.com/fwtpe/owl/common/utils"
-	json "github.com/bitly/go-simplejson"
 	"github.com/gin-gonic/gin"
 )
 

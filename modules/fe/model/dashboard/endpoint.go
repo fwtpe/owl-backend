@@ -1,9 +1,9 @@
 package dashboard
 
 import (
+	"github.com/astaxie/beego/orm"
 	"github.com/fwtpe/owl/common/model"
 	"github.com/fwtpe/owl/modules/fe/g"
-	"github.com/astaxie/beego/orm"
 )
 
 func QueryEndpintByNameRegx(queryStr string, limit int) (enp []Endpoint, err error) {

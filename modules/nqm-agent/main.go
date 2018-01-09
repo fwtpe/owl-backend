@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/fwtpe/owl/common/logruslog"
 	"github.com/fwtpe/owl/common/vipercfg"
-	"github.com/fsnotify/fsnotify"
 )
 
 func main() {

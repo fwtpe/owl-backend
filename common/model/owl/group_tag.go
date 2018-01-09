@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fwtpe/owl/common/strconv"
 	json "github.com/bitly/go-simplejson"
+	"github.com/fwtpe/owl/common/strconv"
 )
 
 type GroupTag struct {
