@@ -1,8 +1,8 @@
 package graph
 
 import (
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
+	f "github.com/fwtpe/owl/common/db/facade"
+	log "github.com/fwtpe/owl/common/logruslog"
 )
 
 var DbFacade *f.DbFacade

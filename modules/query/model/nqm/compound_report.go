@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"fmt"
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	"github.com/Cepave/open-falcon-backend/common/utils"
 	sjson "github.com/bitly/go-simplejson"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
+	"github.com/fwtpe/owl/common/utils"
 	"net"
 )
 

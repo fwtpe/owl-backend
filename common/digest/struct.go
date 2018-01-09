@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
+	log "github.com/fwtpe/owl/common/logruslog"
 	"reflect"
 	"sort"
 	"strconv"

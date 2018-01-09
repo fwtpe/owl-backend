@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"net/url"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/uic"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	"github.com/fwtpe/owl/modules/f2e-api/app/model/uic"
 	"github.com/gin-gonic/gin"
 	"github.com/masato25/resty"
 	log "github.com/sirupsen/logrus"

@@ -3,7 +3,7 @@ package graph
 import (
 	"net/http"
 
-	mock "github.com/Cepave/open-falcon-backend/common/testing/http/gock"
+	mock "github.com/fwtpe/owl/common/testing/http/gock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

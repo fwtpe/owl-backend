@@ -7,9 +7,9 @@ import (
 	"net/http/httptest"
 	"net/rpc"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	testJsonRpc "github.com/Cepave/open-falcon-backend/common/testing/jsonrpc"
+	"github.com/fwtpe/owl/common/model"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
+	testJsonRpc "github.com/fwtpe/owl/common/testing/jsonrpc"
 	. "gopkg.in/check.v1"
 )
 

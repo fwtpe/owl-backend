@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
+	"github.com/fwtpe/owl/modules/alarm/g"
 	"github.com/toolkits/net/httplib"
 	"time"
 )

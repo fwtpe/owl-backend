@@ -3,12 +3,12 @@ package nqm
 import (
 	"fmt"
 
-	nqmTestingDb "github.com/Cepave/open-falcon-backend/common/db/nqm/testing"
-	owlDb "github.com/Cepave/open-falcon-backend/common/db/owl"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	dbTest "github.com/Cepave/open-falcon-backend/common/testing/db"
+	nqmTestingDb "github.com/fwtpe/owl/common/db/nqm/testing"
+	owlDb "github.com/fwtpe/owl/common/db/owl"
+	commonModel "github.com/fwtpe/owl/common/model"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
+	dbTest "github.com/fwtpe/owl/common/testing/db"
 
 	. "gopkg.in/check.v1"
 )

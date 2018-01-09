@@ -1,8 +1,8 @@
 package home
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
 	"github.com/astaxie/beego"
+	"github.com/fwtpe/owl/modules/fe/g"
 )
 
 type HomeController struct {

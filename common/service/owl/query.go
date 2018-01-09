@@ -9,12 +9,12 @@ import (
 	"github.com/satori/go.uuid"
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	oHttp "github.com/Cepave/open-falcon-backend/common/http"
-	"github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/json"
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
+	"github.com/fwtpe/owl/common/db"
+	oHttp "github.com/fwtpe/owl/common/http"
+	"github.com/fwtpe/owl/common/http/client"
+	"github.com/fwtpe/owl/common/json"
+	ojson "github.com/fwtpe/owl/common/json"
+	model "github.com/fwtpe/owl/common/model/owl"
 )
 
 type QueryServiceConfig struct {

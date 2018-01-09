@@ -1,7 +1,7 @@
 package sender
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/transfer/proc"
+	"github.com/fwtpe/owl/modules/transfer/proc"
 	"github.com/toolkits/container/list"
 	"strings"
 	"time"

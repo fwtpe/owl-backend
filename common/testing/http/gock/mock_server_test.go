@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	cl "github.com/Cepave/open-falcon-backend/common/http/client"
-	tHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	cl "github.com/fwtpe/owl/common/http/client"
+	tHttp "github.com/fwtpe/owl/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

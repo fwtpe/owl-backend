@@ -1,7 +1,7 @@
 package sender
 
 import (
-	ll "github.com/Cepave/open-falcon-backend/common/logruslog"
+	ll "github.com/fwtpe/owl/common/logruslog"
 )
 
 var log = ll.NewDefaultLogger("WARN")

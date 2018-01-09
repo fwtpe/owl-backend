@@ -1,8 +1,8 @@
 package nqm
 
 import (
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	model "github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
+	model "github.com/fwtpe/owl/modules/query/model/nqm"
 )
 
 /**

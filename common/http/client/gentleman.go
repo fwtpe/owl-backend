@@ -9,7 +9,7 @@ import (
 	"github.com/juju/errors"
 	gt "gopkg.in/h2non/gentleman.v2"
 
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/utils"
 )
 
 // Converts "*gentleman.Response" to wrapper object of utility.

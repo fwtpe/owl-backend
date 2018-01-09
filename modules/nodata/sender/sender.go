@@ -8,14 +8,14 @@ import (
 	"net/http"
 	"time"
 
-	cmodel "github.com/open-falcon/common/model"
+	cmodel "github.com/fwtpe/owl/common/model"
 	tsema "github.com/toolkits/concurrent/semaphore"
 	"github.com/toolkits/container/nmap"
 	thttpclient "github.com/toolkits/http/httpclient"
 	ttime "github.com/toolkits/time"
 
-	"github.com/Cepave/open-falcon-backend/modules/nodata/config"
-	"github.com/Cepave/open-falcon-backend/modules/nodata/g"
+	"github.com/fwtpe/owl/modules/nodata/config"
+	"github.com/fwtpe/owl/modules/nodata/g"
 )
 
 var (

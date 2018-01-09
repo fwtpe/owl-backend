@@ -3,8 +3,8 @@ package reflect
 import (
 	"reflect"
 
-	. "github.com/Cepave/open-falcon-backend/common/reflect/types"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	. "github.com/fwtpe/owl/common/reflect/types"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
 	. "gopkg.in/check.v1"
 )
 

@@ -3,9 +3,9 @@ package gorm
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/db"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/db"
+	commonModel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/common/utils"
 	"github.com/jinzhu/gorm"
 )
 

@@ -10,7 +10,7 @@ import (
 
 	"github.com/tidwall/gjson"
 
-	. "github.com/Cepave/open-falcon-backend/modules/f2e-api/test_utils"
+	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

@@ -1,7 +1,7 @@
 package metric_parser
 
 import (
-//"github.com/Cepave/open-falcon-backend/common/utils"
+//"github.com/fwtpe/owl/common/utils"
 //"log"
 )
 

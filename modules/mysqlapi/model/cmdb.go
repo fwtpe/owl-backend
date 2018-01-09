@@ -3,7 +3,7 @@ package model
 import (
 	"github.com/gin-gonic/gin"
 
-	oGin "github.com/Cepave/open-falcon-backend/common/gin"
+	oGin "github.com/fwtpe/owl/common/gin"
 )
 
 type SyncHost struct {

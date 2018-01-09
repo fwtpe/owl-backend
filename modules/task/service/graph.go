@@ -1,10 +1,10 @@
 package service
 
 import (
-	graphSrv "github.com/Cepave/open-falcon-backend/common/service/graph"
+	graphSrv "github.com/fwtpe/owl/common/service/graph"
 
-	"github.com/Cepave/open-falcon-backend/modules/task/database"
-	"github.com/Cepave/open-falcon-backend/modules/task/proc"
+	"github.com/fwtpe/owl/modules/task/database"
+	"github.com/fwtpe/owl/modules/task/proc"
 )
 
 func VacuumGraphIndex(beforeDays int) *graphSrv.ResultOfVacuumIndex {

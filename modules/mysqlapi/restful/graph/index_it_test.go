@@ -3,10 +3,10 @@ package graph
 import (
 	"net/http"
 
-	oClient "github.com/Cepave/open-falcon-backend/common/http/client"
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	tg "github.com/Cepave/open-falcon-backend/common/testing/ginkgo"
-	tc "github.com/Cepave/open-falcon-backend/common/testing/http"
+	oClient "github.com/fwtpe/owl/common/http/client"
+	json "github.com/fwtpe/owl/common/json"
+	tg "github.com/fwtpe/owl/common/testing/ginkgo"
+	tc "github.com/fwtpe/owl/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

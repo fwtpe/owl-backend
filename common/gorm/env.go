@@ -1,8 +1,8 @@
 package gorm
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/db"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/db"
+	"github.com/fwtpe/owl/common/utils"
 	"github.com/jinzhu/gorm"
 )
 

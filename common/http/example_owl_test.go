@@ -1,8 +1,8 @@
 package http_test
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/http"
-	"github.com/Cepave/open-falcon-backend/common/http/client"
+	"github.com/fwtpe/owl/common/http"
+	"github.com/fwtpe/owl/common/http/client"
 )
 
 // Constructs a client object by set-up configuration.

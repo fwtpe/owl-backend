@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/model"
+	"github.com/fwtpe/owl/modules/alarm/g"
+	"github.com/fwtpe/owl/modules/alarm/model"
 )
 
 func initTest() {

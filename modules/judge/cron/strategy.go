@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/judge/g"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/judge/g"
 	log "github.com/sirupsen/logrus"
 )
 

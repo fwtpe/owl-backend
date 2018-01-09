@@ -3,15 +3,15 @@ package http
 import (
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/boss"
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/dashboard"
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/home"
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/portal"
-	"github.com/Cepave/open-falcon-backend/modules/fe/http/uic"
-	uic_model "github.com/Cepave/open-falcon-backend/modules/fe/model/uic"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
+	"github.com/fwtpe/owl/modules/fe/g"
+	"github.com/fwtpe/owl/modules/fe/http/boss"
+	"github.com/fwtpe/owl/modules/fe/http/dashboard"
+	"github.com/fwtpe/owl/modules/fe/http/home"
+	"github.com/fwtpe/owl/modules/fe/http/portal"
+	"github.com/fwtpe/owl/modules/fe/http/uic"
+	uic_model "github.com/fwtpe/owl/modules/fe/model/uic"
 	log "github.com/sirupsen/logrus"
 )
 

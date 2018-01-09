@@ -1,7 +1,7 @@
 package nqm
 
 import (
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
+	commonDb "github.com/fwtpe/owl/common/db"
 )
 
 // The query conditions of agent

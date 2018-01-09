@@ -7,19 +7,19 @@ import (
 
 	"github.com/spf13/viper"
 
-	oHttp "github.com/Cepave/open-falcon-backend/common/http"
-	client "github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	oos "github.com/Cepave/open-falcon-backend/common/os"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	oHttp "github.com/fwtpe/owl/common/http"
+	client "github.com/fwtpe/owl/common/http/client"
+	"github.com/fwtpe/owl/common/logruslog"
+	oos "github.com/fwtpe/owl/common/os"
+	"github.com/fwtpe/owl/common/vipercfg"
 
-	"github.com/Cepave/open-falcon-backend/modules/task/collector"
-	"github.com/Cepave/open-falcon-backend/modules/task/cron"
-	"github.com/Cepave/open-falcon-backend/modules/task/database"
-	"github.com/Cepave/open-falcon-backend/modules/task/g"
-	"github.com/Cepave/open-falcon-backend/modules/task/http"
-	"github.com/Cepave/open-falcon-backend/modules/task/index"
-	"github.com/Cepave/open-falcon-backend/modules/task/proc"
+	"github.com/fwtpe/owl/modules/task/collector"
+	"github.com/fwtpe/owl/modules/task/cron"
+	"github.com/fwtpe/owl/modules/task/database"
+	"github.com/fwtpe/owl/modules/task/g"
+	"github.com/fwtpe/owl/modules/task/http"
+	"github.com/fwtpe/owl/modules/task/index"
+	"github.com/fwtpe/owl/modules/task/proc"
 )
 
 func main() {

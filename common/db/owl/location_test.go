@@ -1,9 +1,9 @@
 package owl
 
 import (
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	dbTest "github.com/Cepave/open-falcon-backend/common/testing/db"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
+	dbTest "github.com/fwtpe/owl/common/testing/db"
 	. "gopkg.in/check.v1"
 )
 

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	oJson "github.com/Cepave/open-falcon-backend/common/json"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
+	oJson "github.com/fwtpe/owl/common/json"
+	model "github.com/fwtpe/owl/common/model/owl"
 
 	"github.com/satori/go.uuid"
 

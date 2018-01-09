@@ -12,8 +12,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	or "github.com/Cepave/open-falcon-backend/common/reflect"
 	"github.com/etgryphon/stringUp"
+	or "github.com/fwtpe/owl/common/reflect"
 	e "github.com/juju/errors"
 )
 

@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/satori/go.uuid"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	"github.com/Cepave/open-falcon-backend/common/json"
-	"github.com/Cepave/open-falcon-backend/common/model/owl"
+	"github.com/fwtpe/owl/common/db"
+	ogin "github.com/fwtpe/owl/common/gin"
+	"github.com/fwtpe/owl/common/gin/mvc"
+	"github.com/fwtpe/owl/common/json"
+	"github.com/fwtpe/owl/common/model/owl"
 
-	owlDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/owl"
-	owlSrv "github.com/Cepave/open-falcon-backend/modules/mysqlapi/service/owl"
+	owlDb "github.com/fwtpe/owl/modules/mysqlapi/rdb/owl"
+	owlSrv "github.com/fwtpe/owl/modules/mysqlapi/service/owl"
 )
 
 func SaveQueryObject(jsonQuery *QueryObject) mvc.OutputBody {

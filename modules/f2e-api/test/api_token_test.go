@@ -9,8 +9,8 @@ import (
 
 	"bytes"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/controller"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	"github.com/fwtpe/owl/modules/f2e-api/app/controller"
+	"github.com/fwtpe/owl/modules/f2e-api/config"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"

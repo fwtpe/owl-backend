@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/task/database"
-	srv "github.com/Cepave/open-falcon-backend/modules/task/service"
+	"github.com/fwtpe/owl/modules/task/database"
+	srv "github.com/fwtpe/owl/modules/task/service"
 )
 
 func buildProcOfVacuumQueryObjects(forDays int) func() {

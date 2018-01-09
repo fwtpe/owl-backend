@@ -49,7 +49,7 @@
   },
   "lambda_extends": {
     "enable": true,
-    "root_dir": "${GOPATH}/github.com/Cepave/open-falcon-backend/modules/f2e-api",
+    "root_dir": "${GOPATH}/github.com/fwtpe/owl/modules/f2e-api",
     "qlimit": 1000
   }
 }

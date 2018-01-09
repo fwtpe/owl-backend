@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
-	cpool "github.com/Cepave/open-falcon-backend/modules/transfer/sender/conn_pool"
+	"github.com/fwtpe/owl/modules/transfer/g"
+	cpool "github.com/fwtpe/owl/modules/transfer/sender/conn_pool"
 	nset "github.com/toolkits/container/set"
 )
 

@@ -3,7 +3,7 @@ package json
 import (
 	"encoding/json"
 
-	"github.com/Cepave/open-falcon-backend/common/types"
+	"github.com/fwtpe/owl/common/types"
 	"github.com/juju/errors"
 )
 

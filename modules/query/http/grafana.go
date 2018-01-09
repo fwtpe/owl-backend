@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/fwtpe/owl/modules/query/g"
 	log "github.com/sirupsen/logrus"
 )
 

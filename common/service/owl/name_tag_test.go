@@ -1,10 +1,10 @@
 package owl
 
 import (
-	cache "github.com/Cepave/open-falcon-backend/common/ccache"
-	owlDb "github.com/Cepave/open-falcon-backend/common/db/owl"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	dbTest "github.com/Cepave/open-falcon-backend/common/testing/db"
+	cache "github.com/fwtpe/owl/common/ccache"
+	owlDb "github.com/fwtpe/owl/common/db/owl"
+	ocheck "github.com/fwtpe/owl/common/testing/check"
+	dbTest "github.com/fwtpe/owl/common/testing/db"
 	. "gopkg.in/check.v1"
 	"time"
 )

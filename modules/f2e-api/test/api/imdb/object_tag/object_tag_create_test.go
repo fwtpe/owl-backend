@@ -7,9 +7,9 @@ import (
 
 	"testing"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/imdb"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
-	. "github.com/Cepave/open-falcon-backend/modules/f2e-api/test_utils"
+	"github.com/fwtpe/owl/modules/f2e-api/app/model/imdb"
+	"github.com/fwtpe/owl/modules/f2e-api/config"
+	. "github.com/fwtpe/owl/modules/f2e-api/test_utils"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 )

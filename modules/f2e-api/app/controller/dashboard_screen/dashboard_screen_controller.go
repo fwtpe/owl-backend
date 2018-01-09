@@ -5,9 +5,9 @@ import (
 	"math"
 	"strconv"
 
-	dgraph "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/controller/dashboard_graph"
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	m "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/dashboard"
+	dgraph "github.com/fwtpe/owl/modules/f2e-api/app/controller/dashboard_graph"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	m "github.com/fwtpe/owl/modules/f2e-api/app/model/dashboard"
 	"github.com/gin-gonic/gin"
 )
 

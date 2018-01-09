@@ -3,7 +3,7 @@ package filter
 import (
 	"fmt"
 
-	con "github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	con "github.com/fwtpe/owl/modules/f2e-api/config"
 )
 
 type GrpHosts struct {

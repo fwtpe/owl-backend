@@ -10,12 +10,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/Cepave/consistent"
+	"github.com/fwtpe/consistent"
 	pfc "github.com/niean/goperfcounter"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/graph/g"
-	"github.com/Cepave/open-falcon-backend/modules/graph/store"
+	cmodel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/graph/g"
+	"github.com/fwtpe/owl/modules/graph/store"
 )
 
 const (

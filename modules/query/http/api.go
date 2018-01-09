@@ -12,12 +12,12 @@ import (
 	"strings"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
-	"github.com/Cepave/open-falcon-backend/modules/query/proc"
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
+	cmodel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/query/g"
+	"github.com/fwtpe/owl/modules/query/graph"
+	"github.com/fwtpe/owl/modules/query/proc"
 	log "github.com/sirupsen/logrus"
 )
 

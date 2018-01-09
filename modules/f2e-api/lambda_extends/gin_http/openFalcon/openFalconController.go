@@ -9,9 +9,9 @@ import (
 
 	"fmt"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/graph"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/model"
+	cmodel "github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/f2e-api/graph"
+	"github.com/fwtpe/owl/modules/f2e-api/lambda_extends/model"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

@@ -3,7 +3,7 @@ package graph
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
+	"github.com/fwtpe/owl/common/gin/mvc"
 )
 
 func InitHttpServices(engine *gin.Engine, mvcBuilder *mvc.MvcBuilder) {

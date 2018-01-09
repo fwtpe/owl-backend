@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl/common/utils"
 )
 
 // Defines the type of database error

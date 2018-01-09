@@ -6,9 +6,9 @@ import (
 	"net/rpc"
 	"sync"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl/common/model"
 
-	testJsonRpc "github.com/Cepave/open-falcon-backend/common/testing/jsonrpc"
+	testJsonRpc "github.com/fwtpe/owl/common/testing/jsonrpc"
 
 	. "gopkg.in/check.v1"
 )

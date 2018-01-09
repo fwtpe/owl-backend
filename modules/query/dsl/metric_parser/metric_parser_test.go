@@ -2,7 +2,7 @@ package metric_parser
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
+	"github.com/fwtpe/owl/modules/query/model/nqm"
 	. "gopkg.in/check.v1"
 )
 

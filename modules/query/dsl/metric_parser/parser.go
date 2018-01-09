@@ -1,7 +1,7 @@
 package metric_parser
 
 import (
-	model "github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
+	model "github.com/fwtpe/owl/modules/query/model/nqm"
 )
 
 func ParseToMetricFilter(dsl string) (model.MetricFilter, error) {

@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	"github.com/fwtpe/owl/modules/query/g"
 )
 
 type EndpointCounters struct {

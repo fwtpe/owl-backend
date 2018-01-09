@@ -1,7 +1,7 @@
 package mvc
 
 import (
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
+	ogin "github.com/fwtpe/owl/common/gin"
 	"github.com/gin-gonic/gin"
 )
 

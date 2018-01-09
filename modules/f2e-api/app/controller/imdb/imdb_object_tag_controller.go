@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/imdb"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	"github.com/fwtpe/owl/modules/f2e-api/app/model/imdb"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
 	"github.com/jinzhu/gorm"

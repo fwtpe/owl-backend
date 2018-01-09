@@ -3,9 +3,9 @@ package restful
 import (
 	"net/http"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	ogko "github.com/Cepave/open-falcon-backend/common/testing/ginkgo"
-	tHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	json "github.com/fwtpe/owl/common/json"
+	ogko "github.com/fwtpe/owl/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl/common/testing/http"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"

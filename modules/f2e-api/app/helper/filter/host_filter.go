@@ -3,8 +3,8 @@ package filter
 import (
 	"fmt"
 
-	gp "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/graph"
-	con "github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	gp "github.com/fwtpe/owl/modules/f2e-api/app/model/graph"
+	con "github.com/fwtpe/owl/modules/f2e-api/config"
 )
 
 func HostFilter(filterTxt string, limit int) []gp.Endpoint {

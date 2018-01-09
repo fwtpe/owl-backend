@@ -1,8 +1,8 @@
 package boss
 
 import (
-	model "github.com/Cepave/open-falcon-backend/modules/mysqlapi/model"
 	underscore "github.com/ahl5esoft/golang-underscore"
+	model "github.com/fwtpe/owl/modules/mysqlapi/model"
 )
 
 const (

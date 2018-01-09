@@ -1,7 +1,7 @@
 package sqlx
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/db"
+	"github.com/fwtpe/owl/common/db"
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/mattn/go-sqlite3"

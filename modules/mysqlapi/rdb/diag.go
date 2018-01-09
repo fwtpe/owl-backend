@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	apiModel "github.com/Cepave/open-falcon-backend/common/model/mysqlapi"
+	apiModel "github.com/fwtpe/owl/common/model/mysqlapi"
 	"github.com/go-sql-driver/mysql"
 )
 

@@ -1,8 +1,8 @@
 package funcs
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/agent/g"
+	"github.com/fwtpe/owl/common/model"
+	"github.com/fwtpe/owl/modules/agent/g"
 )
 
 type FuncsAndInterval struct {

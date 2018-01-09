@@ -5,7 +5,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	"github.com/Cepave/open-falcon-backend/modules/judge/g"
+	"github.com/fwtpe/owl/modules/judge/g"
 	log "github.com/sirupsen/logrus"
 )
 

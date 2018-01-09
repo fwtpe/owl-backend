@@ -10,13 +10,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	commonNqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	commonGin "github.com/Cepave/open-falcon-backend/common/gin"
-	mvc "github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	commonNqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	"github.com/Cepave/open-falcon-backend/common/utils"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/service/hbscache"
+	commonNqmDb "github.com/fwtpe/owl/common/db/nqm"
+	commonGin "github.com/fwtpe/owl/common/gin"
+	mvc "github.com/fwtpe/owl/common/gin/mvc"
+	commonModel "github.com/fwtpe/owl/common/model"
+	commonNqmModel "github.com/fwtpe/owl/common/model/nqm"
+	"github.com/fwtpe/owl/common/utils"
+	"github.com/fwtpe/owl/modules/mysqlapi/service/hbscache"
 )
 
 func addNewAgent(c *gin.Context) {

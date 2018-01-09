@@ -2,7 +2,7 @@ package owl
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl/common/model"
 )
 
 // Use the pre-defined column name to generate syntax of "ORDER BY XX"

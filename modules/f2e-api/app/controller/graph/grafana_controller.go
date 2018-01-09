@@ -5,11 +5,11 @@ import (
 	"regexp"
 	"strings"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	m "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/graph"
-	u "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/utils"
 	"github.com/emirpasic/gods/maps/hashmap"
+	cmodel "github.com/fwtpe/owl/common/model"
+	h "github.com/fwtpe/owl/modules/f2e-api/app/helper"
+	m "github.com/fwtpe/owl/modules/f2e-api/app/model/graph"
+	u "github.com/fwtpe/owl/modules/f2e-api/app/utils"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )

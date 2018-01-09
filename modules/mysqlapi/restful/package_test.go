@@ -5,10 +5,10 @@ import (
 	ch "gopkg.in/check.v1"
 	"testing"
 
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
-	tDb "github.com/Cepave/open-falcon-backend/common/testing/db"
-	tFlag "github.com/Cepave/open-falcon-backend/common/testing/flag"
-	tHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	f "github.com/fwtpe/owl/common/db/facade"
+	tDb "github.com/fwtpe/owl/common/testing/db"
+	tFlag "github.com/fwtpe/owl/common/testing/flag"
+	tHttp "github.com/fwtpe/owl/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

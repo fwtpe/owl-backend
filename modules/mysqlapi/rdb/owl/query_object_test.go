@@ -5,9 +5,9 @@ import (
 	"encoding/hex"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	t "github.com/Cepave/open-falcon-backend/common/testing"
+	"github.com/fwtpe/owl/common/db"
+	owlModel "github.com/fwtpe/owl/common/model/owl"
+	t "github.com/fwtpe/owl/common/testing"
 	"github.com/satori/go.uuid"
 
 	. "github.com/onsi/ginkgo"

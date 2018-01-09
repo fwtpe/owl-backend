@@ -3,11 +3,11 @@ package service
 import (
 	"time"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	commonQueue "github.com/Cepave/open-falcon-backend/common/queue"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/test"
+	ojson "github.com/fwtpe/owl/common/json"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	commonQueue "github.com/fwtpe/owl/common/queue"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl/modules/mysqlapi/rdb/test"
 	"github.com/icrowley/fake"
 
 	. "github.com/onsi/ginkgo"

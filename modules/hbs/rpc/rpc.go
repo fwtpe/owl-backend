@@ -8,7 +8,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Cepave/open-falcon-backend/modules/hbs/g"
+	"github.com/fwtpe/owl/modules/hbs/g"
 )
 
 type Hbs int

@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/json"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	"github.com/Cepave/open-falcon-backend/common/rpc"
-	nqmService "github.com/Cepave/open-falcon-backend/common/service/nqm"
-	"github.com/Cepave/open-falcon-backend/modules/hbs/service"
 	"github.com/asaskevich/govalidator"
 	"github.com/dghubble/sling"
+	"github.com/fwtpe/owl/common/json"
+	commonModel "github.com/fwtpe/owl/common/model"
+	nqmModel "github.com/fwtpe/owl/common/model/nqm"
+	"github.com/fwtpe/owl/common/rpc"
+	nqmService "github.com/fwtpe/owl/common/service/nqm"
+	"github.com/fwtpe/owl/modules/hbs/service"
 )
 
 var nqmAgentHbsService *nqmService.AgentHbsService = nil

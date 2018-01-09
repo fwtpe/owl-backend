@@ -6,9 +6,9 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
-	"github.com/Cepave/open-falcon-backend/common/types"
+	"github.com/fwtpe/owl/common/db"
+	model "github.com/fwtpe/owl/common/model/owl"
+	"github.com/fwtpe/owl/common/types"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

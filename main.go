@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Cepave/open-falcon-backend/cmd"
+	"github.com/fwtpe/owl/cmd"
 	"github.com/spf13/cobra"
 )
 

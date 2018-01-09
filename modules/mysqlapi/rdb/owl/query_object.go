@@ -3,9 +3,9 @@ package owl
 import (
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	sqlxExt "github.com/Cepave/open-falcon-backend/common/db/sqlx"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
+	"github.com/fwtpe/owl/common/db"
+	sqlxExt "github.com/fwtpe/owl/common/db/sqlx"
+	model "github.com/fwtpe/owl/common/model/owl"
 	"github.com/jmoiron/sqlx"
 	"github.com/satori/go.uuid"
 )

@@ -14,15 +14,15 @@ import (
 	"github.com/satori/go.uuid"
 	"gopkg.in/go-playground/validator.v9"
 
-	nqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
-	ginmvc "github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
+	nqmDb "github.com/fwtpe/owl/common/db/nqm"
+	ogin "github.com/fwtpe/owl/common/gin"
+	ginmvc "github.com/fwtpe/owl/common/gin/mvc"
+	commonModel "github.com/fwtpe/owl/common/model"
 
-	metricDsl "github.com/Cepave/open-falcon-backend/modules/query/dsl/metric_parser"
-	dsl "github.com/Cepave/open-falcon-backend/modules/query/dsl/nqm_parser"
-	model "github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
-	"github.com/Cepave/open-falcon-backend/modules/query/nqm"
+	metricDsl "github.com/fwtpe/owl/modules/query/dsl/metric_parser"
+	dsl "github.com/fwtpe/owl/modules/query/dsl/nqm_parser"
+	model "github.com/fwtpe/owl/modules/query/model/nqm"
+	"github.com/fwtpe/owl/modules/query/nqm"
 )
 
 var nqmService *nqm.ServiceController

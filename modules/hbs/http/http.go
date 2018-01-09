@@ -5,8 +5,8 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	commonGin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/modules/hbs/g"
+	commonGin "github.com/fwtpe/owl/common/gin"
+	"github.com/fwtpe/owl/modules/hbs/g"
 	"github.com/gin-gonic/gin"
 )
 

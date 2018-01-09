@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Cepave/open-falcon-backend/scripts/mysql/dbpatch/go/changelog"
+	"github.com/fwtpe/owl/scripts/mysql/dbpatch/go/changelog"
 	_ "github.com/go-sql-driver/mysql"
 )
 

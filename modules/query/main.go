@@ -7,19 +7,19 @@ import (
 
 	"github.com/spf13/viper"
 
-	oHttp "github.com/Cepave/open-falcon-backend/common/http"
-	"github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	oHttp "github.com/fwtpe/owl/common/http"
+	"github.com/fwtpe/owl/common/http/client"
+	"github.com/fwtpe/owl/common/logruslog"
+	"github.com/fwtpe/owl/common/vipercfg"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/conf"
-	"github.com/Cepave/open-falcon-backend/modules/query/database"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	ginHttp "github.com/Cepave/open-falcon-backend/modules/query/gin_http"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
-	"github.com/Cepave/open-falcon-backend/modules/query/grpc"
-	"github.com/Cepave/open-falcon-backend/modules/query/http"
-	"github.com/Cepave/open-falcon-backend/modules/query/proc"
+	"github.com/fwtpe/owl/modules/query/conf"
+	"github.com/fwtpe/owl/modules/query/database"
+	"github.com/fwtpe/owl/modules/query/g"
+	ginHttp "github.com/fwtpe/owl/modules/query/gin_http"
+	"github.com/fwtpe/owl/modules/query/graph"
+	"github.com/fwtpe/owl/modules/query/grpc"
+	"github.com/fwtpe/owl/modules/query/http"
+	"github.com/fwtpe/owl/modules/query/proc"
 )
 
 func main() {
