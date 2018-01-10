@@ -6,12 +6,11 @@ import (
 	_ "net/http/pprof"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/astaxie/beego/orm"
-	"github.com/fwtpe/owl-backend/modules/query/g"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/juju/errors"
+
+	"github.com/fwtpe/owl-backend/modules/query/g"
 )
 
 type Dto struct {

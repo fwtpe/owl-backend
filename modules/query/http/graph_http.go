@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
-
 	"regexp"
 
 	cmodel "github.com/fwtpe/owl-backend/common/model"

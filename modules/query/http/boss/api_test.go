@@ -1,8 +1,9 @@
 package boss
 
 import (
-	ojson "github.com/fwtpe/owl-backend/common/json"
 	"strconv"
+
+	ojson "github.com/fwtpe/owl-backend/common/json"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

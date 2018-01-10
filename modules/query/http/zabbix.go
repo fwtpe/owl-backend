@@ -13,7 +13,6 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"

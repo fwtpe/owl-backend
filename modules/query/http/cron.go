@@ -15,7 +15,6 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"github.com/jasonlvhit/gocron"
-	log "github.com/sirupsen/logrus"
 
 	cmodel "github.com/fwtpe/owl-backend/common/model"
 

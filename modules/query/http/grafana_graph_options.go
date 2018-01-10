@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"

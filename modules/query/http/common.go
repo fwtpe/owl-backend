@@ -6,7 +6,6 @@ import (
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/juju/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/file"
 )
 

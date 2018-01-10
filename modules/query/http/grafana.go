@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
-	log "github.com/sirupsen/logrus"
 )
 
 func doHTTPQuery(url string) map[string]interface{} {
