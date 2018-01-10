@@ -53,11 +53,21 @@ type ApiConfig struct {
 	Event     string `json:"event"`
 	Geo       string `json:"geo"`
 	Map       string `json:"map"`
+	BossBase  string `json:"boss_base"`
 	Max       int    `json:"max"`
 	Platform  string `json:"platform"`
 	Query     string `json:"query"`
 	Uplink    string `json:"uplink"`
 }
+
+const (
+	BOSS_URI_BASE_CONTACT  = "/Base/platform/get_platform_linkman"
+	BOSS_URI_BASE_EVENT    = "/Monitor/add_zabbix_event"
+	BOSS_URI_BASE_MAP      = "/Base/platform/get_ip"
+	BOSS_URI_BASE_GEO      = "/pop/get_area"
+	BOSS_URI_BASE_PLATFORM = "/base/platform/get_all_platform_pbc"
+	BOSS_URI_BASE_UPLINK   = "/base/get_uplink_list"
+)
 
 type DbConfig struct {
 	Addr string `json:"addr"`

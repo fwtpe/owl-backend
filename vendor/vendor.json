@@ -3,12 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "2ECAzL3kjB89h9nO/kToOIhoJRU=",
-			"path": "github.com/fwtpe/consistent",
-			"revision": "e793e5e459c4af7c32a8541a10389950048e4069",
-			"revisionTime": "2016-05-17T02:40:03Z"
-		},
-		{
 			"checksumSHA1": "8G3MdcWpgaVSwl1Yh/n6yJo3w5o=",
 			"path": "github.com/Jeffail/gabs",
 			"revision": "9cef256b595a9e616eb6aec1da446529b7705613",
@@ -195,6 +189,12 @@
 			"path": "github.com/fsnotify/fsnotify",
 			"revision": "4da3e2cfbabc9f751898f250b49f2439785783a1",
 			"revisionTime": "2017-03-29T04:21:07Z"
+		},
+		{
+			"checksumSHA1": "HnRZ6tG34mezNNoaTQ0eobLoZmo=",
+			"path": "github.com/fwtpe/consistent",
+			"revision": "e793e5e459c4af7c32a8541a10389950048e4069",
+			"revisionTime": "2016-05-17T02:40:03Z"
 		},
 		{
 			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
@@ -1493,6 +1493,12 @@
 			"path": "gopkg.in/go-playground/validator.v9",
 			"revision": "fb68f39656d7ebf8aa339ad4917aa0c260ecc237",
 			"revisionTime": "2017-06-12T05:26:53Z"
+		},
+		{
+			"checksumSHA1": "nDKJkO7AWbDKDkTygXSZN9NKHVE=",
+			"path": "gopkg.in/h2non/gentleman-mock.v2",
+			"revision": "06120af1087103332b3e498a53b128fd32169735",
+			"revisionTime": "2017-09-10T19:49:03Z"
 		},
 		{
 			"checksumSHA1": "LzPZXrp24++tM/ScLydFABxZQeA=",

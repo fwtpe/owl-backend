@@ -14,11 +14,14 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	cmodel "github.com/fwtpe/owl-backend/common/model"
-	"github.com/fwtpe/owl-backend/modules/query/g"
-	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/jasonlvhit/gocron"
 	log "github.com/sirupsen/logrus"
+
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 )
 
 type IDCMapItem struct {
@@ -127,8 +130,7 @@ func SyncHostsAndContactsTable() {
 
 func getIDCMap() map[string]interface{} {
 	idcMap := map[string]interface{}{}
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var idcs []IDCMapItem
 	sqlcommand := "SELECT `popid`, `idc`, `province`, `city` FROM `idcs` ORDER BY popid ASC"
 	_, err := o.Raw(sqlcommand).QueryRows(&idcs)
@@ -143,8 +145,7 @@ func getIDCMap() map[string]interface{} {
 
 func queryIDCsHostsCount(IDCName string) int64 {
 	count := int64(0)
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT COUNT(*) FROM `boss`.`hosts` WHERE idc = ?"
 	num, err := o.Raw(sql, IDCName).Values(&rows)
@@ -161,14 +162,20 @@ func queryIDCsHostsCount(IDCName string) int64 {
 }
 
 func syncIDCsTable() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[syncIDCsTable()] Got panic: %v", r)
+		}
+	}()
+
 	log.Debugf("func syncIDCsTable()")
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
+
 	var rows []orm.Params
-	sql := "SELECT updated FROM `boss`.`idcs` ORDER BY updated DESC LIMIT 1"
+	sql := "SELECT updated FROM `idcs` ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
 	if err != nil {
-		log.Errorf(err.Error())
+		log.Errorf("Get last time of update on idcs has error: %v", err)
 		return
 	} else if num > 0 {
 		format := "2006-01-02 15:04:05"
@@ -183,29 +190,30 @@ func syncIDCsTable() {
 	var result = make(map[string]interface{})
 	result["error"] = errors
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
 	url += "/pop/yes/pop_id/yes.json"
 	log.Debugf("url = %v", url)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Errorf("Error = %v", err.Error())
+		log.Errorf("Initialize Request has error: %v", err)
 		return
 	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Errorf("Error = %v", err.Error())
+		log.Errorf("Send request to BOSS API has error: %v", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
 	var nodes = make(map[string]interface{})
 	if err := json.Unmarshal(body, &nodes); err != nil {
-		log.Errorf("Error = %v", err.Error())
+		log.Errorf("Unmarshal JSON has error: %v", err)
 		return
 	}
 	if nodes["status"] == nil {
@@ -249,6 +257,7 @@ func syncIDCsTable() {
 		idc["count"] = strconv.Itoa(count)
 		IDCsMap[IDCName] = idc
 	}
+
 	updateIDCsTable(IDCNames, IDCsMap)
 }
 
@@ -282,8 +291,7 @@ func getHostsBondingAndSpeed(hostname string) map[string]int {
 
 func addBondingAndSpeedToHostsTable() {
 	log.Debugf("func addBondingAndSpeedToHostsTable()")
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT id, hostname FROM `boss`.`hosts` WHERE exist = 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -294,7 +302,6 @@ func addBondingAndSpeedToHostsTable() {
 		for _, row := range rows {
 			hostname := row["hostname"].(string)
 			item := getHostsBondingAndSpeed(hostname)
-			o.Using("boss")
 			err = o.QueryTable("hosts").Filter("hostname", hostname).One(&host)
 			if err != nil {
 				log.Errorf(err.Error())
@@ -317,7 +324,7 @@ func addBondingAndSpeedToHostsTable() {
 
 func getPlatformsType(nodes map[string]interface{}, result map[string]interface{}, platformsMap map[string]map[string]string) map[string]map[string]string {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Platform
 	params := map[string]string{
 		"fcname":  fcname,
@@ -427,8 +434,7 @@ func getPlatformsDailyTrafficData(platformName string, offset int) (map[string]m
 	}
 	hostnames := []string{}
 	var rows []orm.Params
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	sql := "SELECT DISTINCT hostname FROM `boss`.`ips`"
 	sql += " WHERE platform = ? AND exist = 1 ORDER BY hostname ASC"
 	num, err := o.Raw(sql, platformName).Values(&rows)
@@ -633,8 +639,7 @@ func syncDeviationsTable() {
 	platformsMap := map[string]map[string]string{}
 	o := orm.NewOrm()
 	o.Using("apollo")
-	bo := orm.NewOrm()
-	bo.Using("boss")
+	bo := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT updated FROM `apollo`.`deviations` ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -782,8 +787,7 @@ func writeToNetTable(platformName string, offset int) {
 func syncNetTable() {
 	o := orm.NewOrm()
 	o.Using("apollo")
-	bo := orm.NewOrm()
-	bo.Using("boss")
+	bo := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT updated FROM `apollo`.`net` ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -852,8 +856,7 @@ func syncNetTable() {
 }
 
 func syncHostsTable() {
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -976,8 +979,7 @@ func syncHostsTable() {
 
 func syncContactsTable() {
 	log.Debugf("func syncContactsTable()")
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var rows []orm.Params
 	sql := "SELECT updated FROM `boss`.`contacts` ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -1032,8 +1034,7 @@ func syncContactsTable() {
 func addContactsToPlatformsTable(contacts map[string]interface{}) {
 	log.Debugf("func addContactsToPlatformsTable()")
 	now := getNow()
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var platforms []Platforms
 	_, err := o.QueryTable("platforms").All(&platforms)
 	if err != nil {
@@ -1074,8 +1075,7 @@ func addContactsToPlatformsTable(contacts map[string]interface{}) {
 
 func updateContactsTable(contactNames []string, contactsMap map[string]map[string]string) {
 	log.Debugf("func updateContactsTable()")
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var contact Contacts
 	for _, contactName := range contactNames {
 		user := contactsMap[contactName]
@@ -1103,20 +1103,19 @@ func updateContactsTable(contactNames []string, contactsMap map[string]map[strin
 func updateIDCsTable(IDCNames []string, IDCsMap map[string]map[string]string) {
 	log.Debugf("func updateIDCsTable()")
 	now := getNow()
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var idc Idcs
 	for _, IDCName := range IDCNames {
 		item := IDCsMap[IDCName]
 		err := o.QueryTable("idcs").Filter("idc", IDCName).One(&idc)
 		if err == orm.ErrNoRows {
-			sql := "INSERT INTO `boss`.`idcs`(popid, idc, bandwidth, count, area, province, city, updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
+			sql := "INSERT INTO `idcs`(popid, idc, bandwidth, count, area, province, city, updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
 			_, err := o.Raw(sql, item["popid"], item["idc"], item["bandwidth"], item["count"], item["area"], item["province"], item["city"], now).Exec()
 			if err != nil {
-				log.Errorf(err.Error())
+				log.Errorf("INSERT INTO idcs has error: %v", err)
 			}
 		} else if err != nil {
-			log.Errorf(err.Error())
+			log.Errorf("Load existing idcs has error: %v", err)
 		} else {
 			popID, _ := strconv.Atoi(item["popid"])
 			bandwidth, _ := strconv.Atoi(item["bandwidth"])
@@ -1131,7 +1130,7 @@ func updateIDCsTable(IDCNames []string, IDCsMap map[string]map[string]string) {
 			idc.Updated = now
 			_, err := o.Update(&idc)
 			if err != nil {
-				log.Errorf(err.Error())
+				log.Errorf("Update existing idcs has error: %v", err)
 			}
 		}
 	}
@@ -1141,7 +1140,6 @@ func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
 	log.Debugf("func updateIPsTable()")
 	now := getNow()
 	o := orm.NewOrm()
-	o.Using("boss")
 	var rows []orm.Params
 	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
@@ -1235,8 +1233,7 @@ func updateHostsTable(hostnames []string, hostsMap map[string]map[string]string)
 		hosts = append(hosts, host)
 	}
 
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var rows []orm.Params
 	num, err := o.Raw("SELECT * FROM hosts limit 1;").Values(&rows)
 	if num > 0 { // not empty
@@ -1387,8 +1384,7 @@ func muteFalconHostTable(hostnames []string, hostsMap map[string]map[string]stri
 func updatePlatformsTable(platformNames []string, platformsMap map[string]map[string]string) {
 	log.Debugf("func updatePlatformsTable()")
 	now := getNow()
-	o := orm.NewOrm()
-	o.Using("boss")
+	o := NewBossOrm()
 	var platform Platforms
 	var rows []orm.Params
 	sql := "SELECT DISTINCT hostname FROM `boss`.`ips`"

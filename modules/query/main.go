@@ -19,6 +19,7 @@ import (
 	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/fwtpe/owl-backend/modules/query/grpc"
 	"github.com/fwtpe/owl-backend/modules/query/http"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	"github.com/fwtpe/owl-backend/modules/query/proc"
 )
 
@@ -36,6 +37,7 @@ func main() {
 	g.ParseConfig(vipercfg.Config().GetString("config"))
 
 	database.InitMySqlApi(loadMySqlApiConfig(vipercfg.Config()))
+	boss.SetupServerUrl(g.Config().Api)
 
 	logruslog.Init()
 	gconf := g.Config()

@@ -2,11 +2,8 @@ package http
 
 import (
 	"bytes"
-	"crypto/md5"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -16,8 +13,10 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
-	"github.com/fwtpe/owl-backend/modules/query/g"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 )
 
 type Host struct {
@@ -1298,35 +1297,6 @@ func templateUpdate(nodes map[string]interface{}) {
 }
 
 /**
- * @function name:   func getFctoken() fctoken string
- * @description:     This function returns fctoken for API request.
- * @related issues:  OWL-159
- * @param:           void
- * @return:          fctoken string
- * @author:          Don Hsieh
- * @since:           11/24/2015
- * @last modified:   11/24/2015
- * @called by:       func apiAlert(rw http.ResponseWriter, req *http.Request)
- *                    in query/http/zabbix.go
- *                   func getMapValues(chartType string) map[string]interface{}
- *                    in query/http/grafana.go
- */
-func getFctoken() string {
-	hasher := md5.New()
-	io.WriteString(hasher, g.Config().Api.Token)
-	s := hex.EncodeToString(hasher.Sum(nil))
-
-	t := time.Now()
-	now := t.Format("20060102")
-	s = now + s
-
-	hasher = md5.New()
-	io.WriteString(hasher, s)
-	fctoken := hex.EncodeToString(hasher.Sum(nil))
-	return fctoken
-}
-
-/**
  * @function name:   func apiAlert(rw http.ResponseWriter, req *http.Request)
  * @description:     This function handles alarm API request.
  * @related issues:  OWL-159, OWL-093
@@ -1340,7 +1310,7 @@ func getFctoken() string {
  */
 func apiAlert(rw http.ResponseWriter, req *http.Request) {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	param := req.URL.Query()
 	log.Debugf("param = %v", param)
 	arr := param["endpoint"]

@@ -14,11 +14,14 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
+	log "github.com/sirupsen/logrus"
+
 	cmodel "github.com/fwtpe/owl-backend/common/model"
+
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/graph"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	"github.com/fwtpe/owl-backend/modules/query/proc"
-	log "github.com/sirupsen/logrus"
 )
 
 type Tag struct {
@@ -473,7 +476,7 @@ func getTemplateStrategies(rw http.ResponseWriter, req *http.Request) {
 
 func getPlatformJSON(nodes map[string]interface{}, result map[string]interface{}) {
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
 	url += "/show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
 	req, err := http.NewRequest("GET", url, nil)
@@ -1736,7 +1739,7 @@ func getPlatformContact(platformName string, nodes map[string]interface{}) {
 	result["error"] = errors
 	var platformMap = make(map[string]interface{})
 	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
+	fctoken := boss.SecureFctokenByConfig()
 	url := g.Config().Api.Contact
 	params := map[string]string{
 		"fcname":       fcname,
@@ -2509,64 +2512,27 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-func queryIDCsBandwidths(IDCName string, result map[string]interface{}) {
-	var nodes = make(map[string]interface{})
-	upperLimitSum := float64(0)
-	fcname := g.Config().Api.Name
-	fctoken := getFctoken()
-	url := g.Config().Api.Uplink
-	params := map[string]string{
-		"fcname":   fcname,
-		"fctoken":  fctoken,
-		"pop_name": IDCName,
-	}
-	s, err := json.Marshal(params)
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(s)))
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost.Header.Set("Content-Type", "application/json")
+func queryIDCsBandwidths(IdcName string, result map[string]interface{}) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", IdcName, r)
+		}
+	}()
 
-	client := &http.Client{}
-	resp, err := client.Do(reqPost)
-	if err != nil {
-		setError(err, result)
-	} else {
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		err = json.Unmarshal(body, &nodes)
-		if err != nil {
-			setError(err, result)
-		}
-		if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
-			if len(nodes["result"].([]interface{})) == 0 {
-				errorMessage := "IDC name not found: " + IDCName
-				setErrorMessage(errorMessage, result)
-			} else {
-				for _, uplink := range nodes["result"].([]interface{}) {
-					if upperLimit, ok := uplink.(map[string]interface{})["all_uplink_top"].(float64); ok {
-						upperLimitSum += upperLimit
-					}
-				}
-			}
-		} else {
-			setErrorMessage("Error occurs", result)
-		}
+	bandwithRows := boss.LoadIdcBandwidth(IdcName)
+	if len(bandwithRows) == 0 {
+		panic("The data of bandwidth is empty")
 	}
-	items := map[string]interface{}{
-		"IDCName":      IDCName,
-		"upperLimitMB": upperLimitSum,
+
+	var totalBandwidth float64 = 0
+	for _, row := range bandwithRows {
+		totalBandwidth += row.UplinkTop
 	}
-	if _, ok := nodes["info"]; ok {
-		delete(nodes, "info")
+
+	result["items"] = map[string]interface{}{
+		"IDCName":      IdcName,
+		"upperLimitMB": totalBandwidth,
 	}
-	if _, ok := nodes["status"]; ok {
-		delete(nodes, "status")
-	}
-	result["items"] = items
 }
 
 func getIDCsBandwidthsUpperLimit(rw http.ResponseWriter, req *http.Request) {
