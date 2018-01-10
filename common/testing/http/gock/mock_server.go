@@ -64,7 +64,7 @@ import (
 	"github.com/fwtpe/owl-backend/common/http/client"
 	ojson "github.com/fwtpe/owl-backend/common/json"
 	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
-	gp "github.com/fwtpe/owl-backend/common/testing/http/gock_plugin"
+	"gopkg.in/h2non/gentleman-mock.v2"
 )
 
 // Functions in namespace for building of *GockConfig
@@ -139,9 +139,7 @@ func (c *GockConfig) NewHttpConfig() *client.HttpClientConfig {
 func (c *GockConfig) NewRestfulClientConfig() *oHttp.RestfulClientConfig {
 	return &oHttp.RestfulClientConfig{
 		HttpClientConfig: c.NewHttpConfig(),
-		Plugins: []plugin.Plugin{
-			gp.GockPlugin,
-		},
+		Plugins:          []plugin.Plugin{mock.Plugin},
 	}
 }
 
@@ -189,7 +187,7 @@ func (t *implGentlemanT) SetupClient(client *gentleman.Client) *gentleman.Client
 	return client
 }
 func (t *implGentlemanT) Plugin() plugin.Plugin {
-	return gp.GockPlugin
+	return mock.Plugin
 }
 
 type implHttptest struct {

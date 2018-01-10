@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	"gopkg.in/h2non/gentleman-mock.v2"
-	"gopkg.in/h2non/gock.v1"
+
+	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
@@ -15,7 +16,7 @@ import (
 )
 
 var _ = Describe("[queryIDCsBandwidths]", func() {
-	var fakeUrl = "http://fake-idcbd.net"
+	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
 
 	BeforeEach(func() {
 		/**
@@ -24,7 +25,7 @@ var _ = Describe("[queryIDCsBandwidths]", func() {
 		apiConfig := &g.ApiConfig{
 			Name:     "mock-2",
 			Token:    "mock-token-2",
-			BossBase: fakeUrl,
+			BossBase: gockConfig.NewHttpConfig().Url,
 		}
 		g.SetConfig(&g.GlobalConfig{
 			Api: apiConfig,
@@ -34,7 +35,7 @@ var _ = Describe("[queryIDCsBandwidths]", func() {
 		boss.SetPlugins(mock.Plugin)
 		boss.SetupServerUrl(apiConfig)
 
-		gock.New(fakeUrl).Post(g.BOSS_URI_BASE_UPLINK).
+		gockConfig.New().Post(g.BOSS_URI_BASE_UPLINK).
 			JSON(map[string]interface{}{
 				"fcname":   apiConfig.Name,
 				"fctoken":  boss.SecureFctoken(apiConfig.Token),
@@ -52,7 +53,7 @@ var _ = Describe("[queryIDCsBandwidths]", func() {
 			})
 	})
 	AfterEach(func() {
-		gock.Off()
+		gockConfig.Off()
 	})
 
 	It("The sum of bandwidth should be 900", func() {

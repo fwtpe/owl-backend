@@ -6,20 +6,20 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"gopkg.in/h2non/gentleman-mock.v2"
-	"gopkg.in/h2non/gock.v1"
+
+	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	bmodel "github.com/fwtpe/owl-backend/modules/query/model/boss"
 
 	. "github.com/onsi/ginkgo"
-	//. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("[syncIDCsTable]", func() {
-	var fakeUrl = "http://fake-sidct.com"
 	var bossOrm orm.Ormer
+	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
 
 	BeforeEach(func() {
 		RegisterBossOrmOrSkip()
@@ -27,12 +27,11 @@ var _ = Describe("[syncIDCsTable]", func() {
 		/**
 		 * Set-up environment
 		 */
-		mapUrl := fakeUrl + g.BOSS_URI_BASE_MAP
 		apiConfig := &g.ApiConfig{
-			Name:     "mock-1",
-			Token:    "mock-token-1",
-			BossBase: fakeUrl,
-			Map:      mapUrl,
+			Name:     "mock-77",
+			Token:    "mock-token-77",
+			BossBase: gockConfig.NewHttpConfig().Url,
+			Map:      gockConfig.NewHttpConfig().Url + g.BOSS_URI_BASE_MAP,
 		}
 		g.SetConfig(&g.GlobalConfig{
 			Api: apiConfig,
@@ -47,12 +46,12 @@ var _ = Describe("[syncIDCsTable]", func() {
 
 		bossOrm = NewBossOrm()
 
-		uri := fmt.Sprintf(
-			"%s/fcname/mock-1/fctoken/%s/pop/yes/pop_id/yes.json",
-			g.BOSS_URI_BASE_MAP, boss.SecureFctoken(apiConfig.Token),
-		)
-
-		gock.New(fakeUrl).Get(uri).
+		gockConfig.New().Get(
+			fmt.Sprintf(
+				"%s/fcname/mock-77/fctoken/%s/pop/yes/pop_id/yes.json",
+				g.BOSS_URI_BASE_MAP, boss.SecureFctoken(apiConfig.Token),
+			),
+		).
 			Reply(http.StatusOK).
 			JSON(&bmodel.IdcResult{
 				Status: 1,
@@ -77,7 +76,7 @@ var _ = Describe("[syncIDCsTable]", func() {
 				},
 			})
 
-		gock.New(fakeUrl).Times(6).Post(g.BOSS_URI_BASE_UPLINK).
+		gockConfig.New().Times(6).Post(g.BOSS_URI_BASE_UPLINK).
 			Reply(http.StatusOK).
 			JSON(&bmodel.IdcBandwidthResult{
 				Status: 1,
@@ -89,7 +88,7 @@ var _ = Describe("[syncIDCsTable]", func() {
 				},
 			})
 
-		gock.New(fakeUrl).Times(6).Post(g.BOSS_URI_BASE_GEO).
+		gockConfig.New().Times(6).Post(g.BOSS_URI_BASE_GEO).
 			Reply(http.StatusOK).
 			JSON(&bmodel.LocationResult{
 				Status: 1,
@@ -103,7 +102,7 @@ var _ = Describe("[syncIDCsTable]", func() {
 			})
 	})
 	AfterEach(func() {
-		gock.Off()
+		gockConfig.Off()
 
 		bossOrm.Raw(
 			`DELETE FROM idcs WHERE area = 'area-v1'`,

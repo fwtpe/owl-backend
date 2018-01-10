@@ -7,12 +7,12 @@ import (
 
 	"github.com/h2non/gentleman/plugins/timeout"
 	je "github.com/juju/errors"
+	gmock "gopkg.in/h2non/gentleman-mock.v2"
 	gt "gopkg.in/h2non/gentleman.v2"
 	"gopkg.in/h2non/gock.v1"
 
 	tl "github.com/fwtpe/owl-backend/common/http/client"
 	mock "github.com/fwtpe/owl-backend/common/testing/http/gock"
-	gp "github.com/fwtpe/owl-backend/common/testing/http/gock_plugin"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -165,5 +165,5 @@ var _ = Describe("Send request and check status", func() {
 })
 
 func newClientByGock() *gt.Client {
-	return gt.New().Use(gp.GockPlugin)
+	return gt.New().Use(gmock.Plugin)
 }
