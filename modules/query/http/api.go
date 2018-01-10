@@ -2512,64 +2512,27 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-func queryIDCsBandwidths(IDCName string, result map[string]interface{}) {
-	var nodes = make(map[string]interface{})
-	upperLimitSum := float64(0)
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Uplink
-	params := map[string]string{
-		"fcname":   fcname,
-		"fctoken":  fctoken,
-		"pop_name": IDCName,
-	}
-	s, err := json.Marshal(params)
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(s)))
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost.Header.Set("Content-Type", "application/json")
+func queryIDCsBandwidths(IdcName string, result map[string]interface{}) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", IdcName, r)
+		}
+	}()
 
-	client := &http.Client{}
-	resp, err := client.Do(reqPost)
-	if err != nil {
-		setError(err, result)
-	} else {
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		err = json.Unmarshal(body, &nodes)
-		if err != nil {
-			setError(err, result)
-		}
-		if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
-			if len(nodes["result"].([]interface{})) == 0 {
-				errorMessage := "IDC name not found: " + IDCName
-				setErrorMessage(errorMessage, result)
-			} else {
-				for _, uplink := range nodes["result"].([]interface{}) {
-					if upperLimit, ok := uplink.(map[string]interface{})["all_uplink_top"].(float64); ok {
-						upperLimitSum += upperLimit
-					}
-				}
-			}
-		} else {
-			setErrorMessage("Error occurs", result)
-		}
+	bandwithRows := boss.LoadIdcBandwidth(IdcName)
+	if len(bandwithRows) == 0 {
+		panic("The data of bandwidth is empty")
 	}
-	items := map[string]interface{}{
-		"IDCName":      IDCName,
-		"upperLimitMB": upperLimitSum,
+
+	var totalBandwidth float64 = 0
+	for _, row := range bandwithRows {
+		totalBandwidth += row.UplinkTop
 	}
-	if _, ok := nodes["info"]; ok {
-		delete(nodes, "info")
+
+	result["items"] = map[string]interface{} {
+		"IDCName":      IdcName,
+		"upperLimitMB": totalBandwidth,
 	}
-	if _, ok := nodes["status"]; ok {
-		delete(nodes, "status")
-	}
-	result["items"] = items
 }
 
 func getIDCsBandwidthsUpperLimit(rw http.ResponseWriter, req *http.Request) {

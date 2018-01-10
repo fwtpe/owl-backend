@@ -1,7 +1,6 @@
 package http
 
 import (
-	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -43,55 +42,19 @@ type City struct {
 	Updated_at string
 }
 
-func getLocation(pop_id int) map[string]string {
-	location := map[string]string{
-		"area":     "",
-		"province": "",
-		"city":     "",
-	}
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Geo
-
-	args := map[string]interface{}{
-		"fcname":  fcname,
-		"fctoken": fctoken,
-		"pop_id":  pop_id,
-	}
-	bs, err := json.Marshal(args)
-	if err != nil {
-		log.Errorf("Error = %v", err.Error())
-	}
-
-	reqPost, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(bs)))
-	if err != nil {
-		log.Errorf("Error = %v", err.Error())
-	}
-	reqPost.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(reqPost)
-	if err != nil {
-		log.Errorf("Error = %v", err.Error())
-	}
-	defer resp.Body.Close()
-
-	if resp.Status == "200 OK" {
-		body, _ := ioutil.ReadAll(resp.Body)
-		nodes := map[string]interface{}{}
-		if err := json.Unmarshal(body, &nodes); err != nil {
-			log.Errorf("Response data parsing error: %v", err.Error())
-			return location
+func getLocation(idcId int) map[string]string {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[getLocation(%d)] Got panic: %v", idcId, r)
 		}
-		status := int(nodes["status"].(float64))
-		if status == 1 {
-			result := nodes["result"]
-			location["area"] = result.(map[string]interface{})["area"].(string)
-			location["province"] = result.(map[string]interface{})["province"].(string)
-			location["city"] = result.(map[string]interface{})["city"].(string)
-		}
+	}()
+
+	location := boss.LoadLocationData(idcId)
+	return map[string]string {
+		"area":     location.Area,
+		"province": location.Province,
+		"city":     location.City,
 	}
-	return location
 }
 
 func updateCities() {

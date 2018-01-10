@@ -4,8 +4,13 @@ import (
 	ch "gopkg.in/check.v1"
 	"testing"
 
+	"github.com/astaxie/beego/orm"
 	tFlag "github.com/Cepave/open-falcon-backend/common/testing/flag"
 	"github.com/Cepave/open-falcon-backend/common/testing/http/gock"
+	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/Cepave/open-falcon-backend/modules/query/g"
+	qtest "github.com/Cepave/open-falcon-backend/modules/query/test"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -27,3 +32,27 @@ var mockMySqlApi = gock.GockConfigBuilder.NewConfig(
 )
 
 var skipItOnMySqlApi = tFlag.BuildSkipFactory(tFlag.F_ItWeb, tFlag.FeatureHelpString(tFlag.F_ItWeb))
+var skipBossDb = tFlag.BuildSkipFactory(tFlag.OWL_DB_BOSS, tFlag.OwlDbHelpString(tFlag.OWL_DB_BOSS))
+
+func SetupBossEnvOrSkip() {
+	qtest.SkipIfNoBossConfig()
+	g.SetConfig(&g.GlobalConfig {
+		Api: qtest.GetApiConfigByTestFlag(),
+	})
+}
+
+var initBoss = false
+func RegisterBossOrmOrSkip() {
+	skipBossDb.Skip()
+
+	if initBoss {
+		return
+	}
+
+	orm.RegisterModel(new(Contacts), new(Hosts), new(Idcs), new(Ips), new(Platforms))
+
+	orm.RegisterDataBase("default", "mysql", testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), 30)
+	orm.RegisterDataBase("boss", "mysql", testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), 30)
+
+	initBoss = true
+}

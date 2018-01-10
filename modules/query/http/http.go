@@ -40,6 +40,7 @@ func InitDatabase() error {
 	if err := orm.RegisterDataBase("apollo", "mysql", config.ApolloDB.Addr, config.ApolloDB.Idle, config.ApolloDB.Max); err != nil {
 		return errors.Annotate(err, "init BeegoOrm for apollo database has error")
 	}
+
 	if err := orm.RegisterDataBase("boss", "mysql", config.BossDB.Addr, config.BossDB.Idle, config.BossDB.Max); err != nil {
 		return errors.Annotate(err, "init BeegoOrm for boss database has error")
 	}
@@ -56,6 +57,13 @@ func InitDatabase() error {
 	}
 
 	return nil
+}
+
+func NewBossOrm() orm.Ormer {
+	o := orm.NewOrm()
+	o.Using("boss")
+
+	return o
 }
 
 func Start() {
