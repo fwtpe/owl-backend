@@ -295,6 +295,13 @@ func (a *AbstractArray) BatchProcess(
 	}
 }
 
+func (a *AbstractArray) SimpleBatchProcess(
+	batchSize int,
+	batchProcessor func(batch interface{}),
+) {
+	a.BatchProcess(batchSize, batchProcessor, batchProcessor)
+}
+
 func getMapperTypes(mapperFunc interface{}) []reflect.Type {
 	funcType := reflect.TypeOf(mapperFunc)
 
