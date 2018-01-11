@@ -5,12 +5,16 @@ import (
 	"testing"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
 
 	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
+	"github.com/fwtpe/owl-backend/common/db/facade"
+	odb "github.com/fwtpe/owl-backend/common/db"
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
-	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
+	db "github.com/fwtpe/owl-backend/modules/query/database"
 	qtest "github.com/fwtpe/owl-backend/modules/query/test"
 
 	. "github.com/onsi/ginkgo"
@@ -33,28 +37,40 @@ var mockMySqlApi = gock.GockConfigBuilder.NewConfig(
 )
 
 var skipItOnMySqlApi = tFlag.BuildSkipFactory(tFlag.F_ItWeb, tFlag.FeatureHelpString(tFlag.F_ItWeb))
-var skipBossDb = tFlag.BuildSkipFactoryOfOwlDb(tFlag.OWL_DB_BOSS, tFlag.OwlDbHelpString(tFlag.OWL_DB_BOSS))
 
-func SetupBossEnvOrSkip() {
-	qtest.SkipIfNoBossConfig()
-	g.SetConfig(&g.GlobalConfig{
-		Api: qtest.GetApiConfigByTestFlag(),
+var skipBossDb = tFlag.BuildSkipFactoryOfOwlDb(
+	tFlag.OWL_DB_BOSS, tFlag.OwlDbHelpString(tFlag.OWL_DB_BOSS),
+)
+
+func SetupBossEnv() {
+	BeforeEach(func() {
+		boss.SetupServerUrl(qtest.GetApiConfigByTestFlag())
 	})
 }
 
-var initBoss = false
+var bossInTx func(sql ...string)
+var _ = BeforeSuite(func() {
+	log.Level = logrus.DebugLevel
 
-func RegisterBossOrmOrSkip() {
-	skipBossDb.Skip()
-
-	if initBoss {
+	if !testFlags.HasMySqlOfOwlDb(tFlag.OWL_DB_BOSS) {
 		return
 	}
+
+	bossFacade := &facade.DbFacade{}
+	bossFacade.Open(&odb.DbConfig {
+		Dsn: testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), MaxIdle: 2,
+	})
+
+	db.BossDbFacade = bossFacade
+	bossInTx = db.BossDbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	orm.RegisterModel(new(Contacts), new(Hosts), new(Idcs), new(Ips), new(Platforms))
 
 	orm.RegisterDataBase("default", "mysql", testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), 30)
 	orm.RegisterDataBase("boss", "mysql", testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), 30)
+})
+var _ = AfterSuite(func() {
+	log.Level = logrus.WarnLevel
 
-	initBoss = true
-}
+	db.BossDbFacade = nil
+})

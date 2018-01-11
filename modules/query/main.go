@@ -36,7 +36,9 @@ func main() {
 	vipercfg.Load()
 	g.ParseConfig(vipercfg.Config().GetString("config"))
 
+	database.Init()
 	database.InitMySqlApi(loadMySqlApiConfig(vipercfg.Config()))
+
 	boss.SetupServerUrl(g.Config().Api)
 
 	logruslog.Init()
@@ -54,7 +56,6 @@ func main() {
 
 	if gconf.GinHttp.Enabled {
 		//lambdaSetup
-		database.Init()
 		conf.ReadConf()
 		go ginHttp.StartWeb()
 	}

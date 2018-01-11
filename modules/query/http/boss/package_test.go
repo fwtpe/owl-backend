@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	qtest "github.com/fwtpe/owl-backend/modules/query/test"
+	"github.com/sirupsen/logrus"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -14,9 +15,16 @@ func TestByGinkgo(t *testing.T) {
 	RunSpecs(t, "Base Suite")
 }
 
-func SetupBossEnvOrSkip() {
+func SetupBossEnv() {
 	BeforeEach(func() {
-		qtest.SkipIfNoBossConfig()
 		SetupServerUrl(qtest.GetApiConfigByTestFlag())
 	})
 }
+
+var _ = BeforeSuite(func() {
+	logger.Level = logrus.DebugLevel
+})
+
+var _ = AfterSuite(func() {
+	logger.Level = logrus.WarnLevel
+})

@@ -5,13 +5,17 @@ import (
 
 	ojson "github.com/fwtpe/owl-backend/common/json"
 
+	"github.com/fwtpe/owl-backend/modules/query/test"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
 )
 
-var _ = Describe("Load IDC data", func() {
-	SetupBossEnvOrSkip()
+var bossSkipper = test.BossSkipper
+
+var _ = Describe("Load IDC data", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
 	It("The result should have at least 1 platform data", func() {
@@ -20,10 +24,10 @@ var _ = Describe("Load IDC data", func() {
 		GinkgoT().Logf("[IDC data] First row(JSON): %s", ojson.MarshalJSON(testedData[0]))
 		Expect(len(testedData)).To(BeNumerically(">=", 1))
 	})
-})
+}))
 
-var _ = Describe("Load IDC bandwidth", func() {
-	SetupBossEnvOrSkip()
+var _ = Describe("Load IDC bandwidth", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
 	It("The result should have at leat 1 bandwidth data", func() {
@@ -37,10 +41,10 @@ var _ = Describe("Load IDC bandwidth", func() {
 		)
 		Expect(len(testedData)).To(BeNumerically(">=", 1))
 	})
-})
+}))
 
-var _ = Describe("Load location data", func() {
-	SetupBossEnvOrSkip()
+var _ = Describe("Load location data", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
 
 	It("The result should have corresponding data of location", func() {
 		sampleIdcId, _ := strconv.Atoi(LoadIdcData()[0].IpList[0].PopId)
@@ -59,12 +63,14 @@ var _ = Describe("Load location data", func() {
 			})),
 		)
 	})
-})
+}))
 
-var _ = XDescribe("encrypt the \"fctoken\" of BOSS service", func() {
+var _ = XDescribe("encrypt the \"fctoken\" of BOSS service", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
+
 	// Any of "Load xxx" testing would test the encryption of token
 	It("The encrypted value of \"SecureFctoken()\" should be as expected", func() {
 		testedResult := SecureFctoken("hello")
 		Expect(testedResult).To(Equal("ecc65534b21a39c5df1c554dec7662c2"))
 	})
-})
+}))

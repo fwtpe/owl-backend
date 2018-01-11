@@ -2,7 +2,6 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
-	log "github.com/sirupsen/logrus"
 
 	cdb "github.com/fwtpe/owl-backend/common/db"
 	"github.com/fwtpe/owl-backend/common/db/facade"
@@ -10,6 +9,7 @@ import (
 	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
 	oHttp "github.com/fwtpe/owl-backend/common/http"
 	owlSrv "github.com/fwtpe/owl-backend/common/service/owl"
+	"github.com/fwtpe/owl-backend/common/logruslog"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 
@@ -17,6 +17,9 @@ import (
 )
 
 var PortalDbFacade *facade.DbFacade
+var BossDbFacade *facade.DbFacade
+
+var logger = logruslog.NewDefaultLogger("INFO")
 
 var (
 	db  *gorm.DB
@@ -33,20 +36,23 @@ func Init() {
 	/**
 	 * Use Db Facade to initialize related service
 	 */
-	PortalDbFacade = &facade.DbFacade{}
-	err = PortalDbFacade.Open(
+	PortalDbFacade = openDbFacade(
 		&cdb.DbConfig{
 			Dsn:     conf.Db.Addr,
 			MaxIdle: conf.Db.Idle,
 		},
+		"portal",
 	)
-
-	if err != nil {
-		log.Printf("%v\n", err)
-	}
-
 	owlDb.DbFacade = PortalDbFacade
 	nqmDb.DbFacade = PortalDbFacade
+
+	BossDbFacade = openDbFacade(
+		&cdb.DbConfig{
+			Dsn:     conf.BossDB.Addr,
+			MaxIdle: conf.BossDB.Idle,
+		},
+		"boss",
+	)
 	// :~)
 
 	db = PortalDbFacade.GormDb
@@ -62,4 +68,15 @@ func InitMySqlApi(config *oHttp.RestfulClientConfig) {
 			config,
 		},
 	)
+}
+
+func openDbFacade(config *cdb.DbConfig, name string) *facade.DbFacade {
+	newDbFacade := &facade.DbFacade{}
+
+	if err := newDbFacade.Open(config); err != nil {
+		logger.Errorf("Cannot open MySql to [%s]: %v", name, err)
+		return nil
+	}
+
+	return newDbFacade
 }

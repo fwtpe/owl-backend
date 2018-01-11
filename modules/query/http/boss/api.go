@@ -3,6 +3,7 @@ package boss
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -75,17 +76,21 @@ func LoadIdcBandwidth(idcName string) []*bmodel.IdcBandwidthRow {
 	)
 
 	idcBandwidthResult := &bmodel.IdcBandwidthResult{}
-	client.ToGentlemanResp(req.SendAndStatusMustMatch(http.StatusOK)).
-		MustBindJson(idcBandwidthResult)
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcBandwidthResult);
+		err != nil {
+		return nil
+	}
 
 	if idcBandwidthResult.Status != 1 {
 		message := fmt.Sprintf(
-			"Cannot load bandwidth data of IDC[POST /base/get_uplink_list]. Error Code[%d]. Message[%s]",
+			"Cannot load bandwidth data of IDC. Error Code[%d]. Message[%s]",
 			idcBandwidthResult.Status, idcBandwidthResult.Info,
 		)
 		logger.Warn(message)
 		panic(message)
 	}
+
+	logger.Debugf("Bandwidth: %v", idcBandwidthResult.Result)
 
 	return idcBandwidthResult.Result
 }
@@ -102,9 +107,10 @@ func LoadLocationData(idcId int) *bmodel.Location {
 	)
 
 	locationResult := new(bmodel.LocationResult)
-
-	client.ToGentlemanResp(req.SendAndStatusMustMatch(http.StatusOK)).
-		MustBindJson(locationResult)
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), locationResult);
+		err != nil {
+		return &bmodel.Location{}
+	}
 
 	if locationResult.Status != 1 {
 		message := fmt.Sprintf(
@@ -114,6 +120,8 @@ func LoadLocationData(idcId int) *bmodel.Location {
 		logger.Warn(message)
 		panic(message)
 	}
+
+	logger.Debugf("Location data: %s", locationResult.Result)
 
 	return locationResult.Result
 }
@@ -128,19 +136,35 @@ func LoadIdcData() []*bmodel.IdcRow {
 	)
 
 	idcResult := new(bmodel.IdcResult)
-	client.ToGentlemanResp(req.SendAndStatusMustMatch(http.StatusOK)).
-		MustBindJson(idcResult)
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcResult);
+		err != nil {
+		return nil
+	}
 
 	if idcResult.Status != 1 {
 		message := fmt.Sprintf(
-			"Cannot load IDC data[GET /Base/platform/get_ip ... /pop/yes/pop_id/yes.json]. Error Code[%d]. Message[%s]",
+			"Cannot load IDC data. Error Code[%d]. Message[%s]",
 			idcResult.Status, idcResult.Info,
 		)
 		logger.Warn(message)
 		panic(message)
 	}
 
+	logger.Debugf("Number of IDC data: %d", len(idcResult.Result))
+
 	return idcResult.Result
+}
+
+func bindJson(resp *gt.Response, container interface{}) error {
+	jsonContent := resp.Bytes()
+
+	if err := json.Unmarshal(jsonContent, container); err != nil {
+		logger.Errorf("JSON cannot be unmarshalled to \"%T\". Error %v", container, err)
+		logger.Errorf("JSON: %s", string(jsonContent))
+		return err
+	}
+
+	return nil
 }
 
 func SecureFctokenByConfig() string {

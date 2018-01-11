@@ -1,5 +1,10 @@
 package boss
 
+import (
+	"fmt"
+	"strconv"
+)
+
 // Represents result of "/Base/platform/get_ip ... /pop/yes/pop_id/yes.json"
 /**
 {
@@ -64,7 +69,34 @@ type IdcBandwidthResult struct {
 }
 
 type IdcBandwidthRow struct {
-	UplinkTop float64 `json:"all_uplink_top"`
+	UplinkTop interface{} `json:"all_uplink_top"`
+}
+
+func (r *IdcBandwidthRow) GetUplinkTopAsFloat() float64 {
+	switch v := r.UplinkTop.(type) {
+	case string:
+		if v == "" {
+			return 0
+		}
+
+		value, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			logger.Warnf("Cannot parse %v to float64: %v", r.UplinkTop, value)
+			return 0
+		}
+
+		return value
+	case float64:
+		return v
+	default:
+		logger.Warnf("Unknown type for \"all_uplink_top\". Type[%T]. Value[%v]", r.UplinkTop, r.UplinkTop)
+	}
+
+	return 0
+}
+
+func (r *IdcBandwidthRow) String() string {
+	return fmt.Sprintf("Bandwidth [%v]", r.UplinkTop)
 }
 
 // Represents result of "/pop/get_area"
@@ -89,4 +121,8 @@ type Location struct {
 	Area     string `json:"area"`
 	City     string `json:"city"`
 	Province string `json:"province"`
+}
+
+func (l *Location) String() string {
+	return fmt.Sprintf("Area[%s] Province[%s] City[%s]", l.Area, l.Province, l.City)
 }

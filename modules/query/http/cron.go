@@ -15,12 +15,18 @@ import (
 
 	"github.com/astaxie/beego/orm"
 	"github.com/jasonlvhit/gocron"
+	"github.com/jmoiron/sqlx"
 
+	"github.com/fwtpe/owl-backend/common/db"
+	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
 	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
+	bmodel "github.com/fwtpe/owl-backend/modules/query/model/boss"
+	qdb "github.com/fwtpe/owl-backend/modules/query/database"
 )
 
 type IDCMapItem struct {
@@ -99,12 +105,12 @@ type Platforms struct {
 func SyncHostsAndContactsTable() {
 	if g.Config().Hosts.Enabled || g.Config().Contacts.Enabled {
 		if g.Config().Hosts.Enabled {
-			syncIDCsTable()
+			syncIdcData()
 			syncHostsTable()
 			intervalToSyncHostsTable := uint64(g.Config().Hosts.Interval)
 			gocron.Every(intervalToSyncHostsTable).Seconds().Do(syncHostsTable)
 			intervalToSyncContactsTable := uint64(g.Config().Contacts.Interval)
-			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncIDCsTable)
+			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncIdcData)
 		}
 		if g.Config().Contacts.Enabled {
 			syncContactsTable()
@@ -142,122 +148,62 @@ func getIDCMap() map[string]interface{} {
 	return idcMap
 }
 
-func queryIDCsHostsCount(IDCName string) int64 {
-	count := int64(0)
-	o := NewBossOrm()
-	var rows []orm.Params
-	sql := "SELECT COUNT(*) FROM `boss`.`hosts` WHERE idc = ?"
-	num, err := o.Raw(sql, IDCName).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
-	} else if num > 0 {
-		row := rows[0]
-		countInt, err := strconv.Atoi(row["COUNT(*)"].(string))
-		if err == nil {
-			count = int64(countInt)
-		}
-	}
-	return count
-}
-
-func syncIDCsTable() {
+func syncIdcData() {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Errorf("[syncIDCsTable()] Got panic: %v", r)
+			log.Errorf("[syncIdcData()] Got panic: %v", r)
 		}
 	}()
 
-	log.Debugf("func syncIDCsTable()")
-	o := NewBossOrm()
-
-	var rows []orm.Params
-	sql := "SELECT updated FROM `idcs` ORDER BY updated DESC LIMIT 1"
-	num, err := o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf("Get last time of update on idcs has error: %v", err)
-		return
-	} else if num > 0 {
-		format := "2006-01-02 15:04:05"
-		updatedTime, _ := time.Parse(format, rows[0]["updated"].(string))
-		currentTime, _ := time.Parse(format, getNow())
-		diff := currentTime.Unix() - updatedTime.Unix()
-		if int(diff) < g.Config().Contacts.Interval {
-			return
-		}
-	}
-	errors := []string{}
-	var result = make(map[string]interface{})
-	result["error"] = errors
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
-	url += "/pop/yes/pop_id/yes.json"
-	log.Debugf("url = %v", url)
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Errorf("Initialize Request has error: %v", err)
+	// Checks whether or not the latested update time of table is passed than <N> seconds
+	now := time.Now()
+	intervalSeconds := g.Config().Contacts.Interval
+	log.Debugf("[Refresh \"idcs\"] Current time: %s. Interval: %d seconds", now, intervalSeconds)
+	if !isElapsedTimePassedForIdcsTable(now, intervalSeconds) {
+		log.Debugf("Skip synchronization")
 		return
 	}
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Errorf("Send request to BOSS API has error: %v", err)
-		return
-	}
-	defer resp.Body.Close()
+	idcData := make(map[string]*sourceIdcRow)
+	for _, row := range boss.LoadIdcData() {
+		for _, host := range row.IpList {
+			if _, ok := idcData[host.Pop]; ok {
+				continue
+			}
 
-	body, _ := ioutil.ReadAll(resp.Body)
+			log.Debugf("Process IDC [%s(%s)]. IP: [%s]", host.PopId, host.Pop, host.Ip)
 
-	var nodes = make(map[string]interface{})
-	if err := json.Unmarshal(body, &nodes); err != nil {
-		log.Errorf("Unmarshal JSON has error: %v", err)
-		return
-	}
-	if nodes["status"] == nil {
-		return
-	} else if int(nodes["status"].(float64)) != 1 {
-		return
-	}
-	IDCsMap := map[string]map[string]string{}
-	IDCNames := []string{}
-	for _, platform := range nodes["result"].([]interface{}) {
-		for _, device := range platform.(map[string]interface{})["ip_list"].([]interface{}) {
-			IDCName := device.(map[string]interface{})["pop"].(string)
-			if _, ok := IDCsMap[IDCName]; !ok {
-				popID := device.(map[string]interface{})["pop_id"].(string)
-				item := map[string]string{
-					"idc":   IDCName,
-					"popid": popID,
-				}
-				IDCsMap[IDCName] = item
-				IDCNames = appendUniqueString(IDCNames, IDCName)
+			idcId, err := strconv.Atoi(host.PopId)
+			if err != nil {
+				log.Errorf("Cannot convert popId[%s] to integer", host.PopId)
+				continue
+			}
+			location := getLocation(idcId)
+
+			bandwidthData := make(map[string]interface{})
+			queryIDCsBandwidths(host.Pop, bandwidthData)
+			bandwidthData = bandwidthData["items"].(map[string]interface{})
+
+			idcData[host.Pop] = &sourceIdcRow {
+				id: int32(idcId), name: host.Pop,
+				location: &bmodel.Location {
+					Area: location["area"],
+					Province: location["province"],
+					City: location["city"],
+				},
+				bandwidth: int(bandwidthData["upperLimitMB"].(float64)),
 			}
 		}
 	}
-	for _, IDCName := range IDCNames {
-		idc := IDCsMap[IDCName]
-		idcID, err := strconv.Atoi(idc["popid"])
-		if err == nil {
-			location := getLocation(idcID)
-			log.Debugf("location = %v", location)
-			idc["area"] = location["area"]
-			idc["province"] = location["province"]
-			idc["city"] = location["city"]
-		}
-		queryIDCsBandwidths(IDCName, result)
-		idc["bandwidth"] = "0"
-		if val, ok := result["items"].(map[string]interface{})["upperLimitMB"].(float64); ok {
-			bandwidth := int(val)
-			idc["bandwidth"] = strconv.Itoa(bandwidth)
-		}
-		count := int(queryIDCsHostsCount(IDCName))
-		idc["count"] = strconv.Itoa(count)
-		IDCsMap[IDCName] = idc
-	}
 
-	updateIDCsTable(IDCNames, IDCsMap)
+	updateIdcData(idcData)
+}
+
+type sourceIdcRow struct {
+	id int32
+	name string
+	location *bmodel.Location
+	bandwidth int
 }
 
 func getHostsBondingAndSpeed(hostname string) map[string]int {
@@ -1099,40 +1045,74 @@ func updateContactsTable(contactNames []string, contactsMap map[string]map[strin
 	}
 }
 
-func updateIDCsTable(IDCNames []string, IDCsMap map[string]map[string]string) {
-	log.Debugf("func updateIDCsTable()")
-	now := getNow()
-	o := NewBossOrm()
-	var idc Idcs
-	for _, IDCName := range IDCNames {
-		item := IDCsMap[IDCName]
-		err := o.QueryTable("idcs").Filter("idc", IDCName).One(&idc)
-		if err == orm.ErrNoRows {
-			sql := "INSERT INTO `idcs`(popid, idc, bandwidth, count, area, province, city, updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
-			_, err := o.Raw(sql, item["popid"], item["idc"], item["bandwidth"], item["count"], item["area"], item["province"], item["city"], now).Exec()
-			if err != nil {
-				log.Errorf("INSERT INTO idcs has error: %v", err)
+var insertIdcSql = `
+INSERT INTO idcs(popid, idc, bandwidth, area, province, city, updated, count)
+VALUES(
+	:id, :name, :bandwidth, :area, :province, :city, :updated_time,
+	(SELECT COUNT(*) FROM hosts WHERE idc = :name)
+)
+`
+var updateIdcSql = `
+UPDATE idcs
+SET popid = :id, bandwidth = :bandwidth,
+	area = :area, province = :province, city = :city,
+	updated = :updated_time,
+	count = (SELECT COUNT(*) FROM hosts WHERE idc = :name)
+WHERE idc = :name
+`
+func updateIdcData(idcData map[string]*sourceIdcRow) {
+	const batchSize = 32
+
+	log.Debugf("[Refresh \"idcs\"] Batch size: %d", batchSize)
+	utils.MakeAbstractMap(idcData).SimpleBatchProcess(
+		batchSize, (&txRefreshIdcsTable{ time.Now() }).processBatch,
+	)
+}
+
+type txRefreshIdcsTable struct {
+	updateTime time.Time
+}
+
+func (self *txRefreshIdcsTable) processBatch(sourceData interface{}) {
+	typedSource := sourceData.(map[string]*sourceIdcRow)
+
+	txCallback := osqlx.TxCallbackFunc(
+		func(tx *sqlx.Tx) db.TxFinale {
+			txExt := osqlx.ToTxExt(tx)
+
+			updateIdcStmt := txExt.PrepareNamed(updateIdcSql)
+			insertIdcStmt := txExt.PrepareNamed(insertIdcSql)
+
+			for _, idcRow := range typedSource {
+				log.Debugf("Id [%v]. Name [%v].", idcRow.id, idcRow.name)
+				sqlParams := map[string]interface{} {
+					"id": idcRow.id,
+					"name": idcRow.name,
+					"bandwidth": idcRow.bandwidth,
+					"area": idcRow.location.Area,
+					"province": idcRow.location.Province,
+					"city": idcRow.location.City,
+					"updated_time": self.updateTime,
+				}
+
+				/**
+				 * If the count of updated rows is 0,
+				 * means there is no existing data for that IDC row.
+				 */
+				result := updateIdcStmt.MustExec(sqlParams)
+
+				if db.ToResultExt(result).RowsAffected() == 0 {
+					log.Debugf("The IDC is not existing, perform insertion")
+					insertIdcStmt.MustExec(sqlParams)
+				}
+				// :~)
 			}
-		} else if err != nil {
-			log.Errorf("Load existing idcs has error: %v", err)
-		} else {
-			popID, _ := strconv.Atoi(item["popid"])
-			bandwidth, _ := strconv.Atoi(item["bandwidth"])
-			count, _ := strconv.Atoi(item["count"])
-			idc.Popid = popID
-			idc.Idc = item["idc"]
-			idc.Bandwidth = bandwidth
-			idc.Count = count
-			idc.Area = item["area"]
-			idc.Province = item["province"]
-			idc.City = item["city"]
-			idc.Updated = now
-			_, err := o.Update(&idc)
-			if err != nil {
-				log.Errorf("Update existing idcs has error: %v", err)
-			}
-		}
-	}
+
+			return db.TxCommit
+		},
+	)
+
+	qdb.BossDbFacade.SqlxDbCtrl.InTx(txCallback)
 }
 
 func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
@@ -1430,4 +1410,23 @@ func updatePlatformsTable(platformNames []string, platformsMap map[string]map[st
 			}
 		}
 	}
+}
+
+func isElapsedTimePassedForIdcsTable(checkedTime time.Time, seconds int) bool {
+	count := 0
+
+	qdb.BossDbFacade.SqlxDbCtrl.Get(
+		&count,
+		`
+		SELECT COUNT(*)
+		FROM (
+			SELECT MAX(updated) AS max_value
+			FROM idcs
+		) AS last_update
+		WHERE TIMESTAMPDIFF(SECOND, last_update.max_value, FROM_UNIXTIME(?)) <= ?
+		`,
+		checkedTime.Unix(), seconds,
+	)
+
+	return count == 0
 }

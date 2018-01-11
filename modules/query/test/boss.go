@@ -14,7 +14,6 @@ var props = tflag.NewTestFlags().GetViper()
 var sampleFcname = props.GetString("boss.fcname")
 var sampleFctoken = props.GetString("boss.fctoken")
 var sampleBossUrl = props.GetString("boss.url")
-var skipBossMessage = `Need "boss.fcname", "boss.fctoken", and "boss.url" in test properties`
 
 func GetApiConfigByTestFlag() *g.ApiConfig {
 	if sampleBossUrl == "" || sampleFcname == "" || sampleFctoken == "" {
@@ -33,6 +32,11 @@ func GetApiConfigByTestFlag() *g.ApiConfig {
 		Uplink:   fmt.Sprintf("%s%s", sampleBossUrl, g.BOSS_URI_BASE_UPLINK),
 	}
 }
+
+var BossSkipper = tflag.BuildSkipFactoryByBool(
+	sampleBossUrl == "" || sampleFcname == "" || sampleFctoken == "",
+	`Need "boss.fcname", "boss.fctoken", and "boss.url" in test properties`,
+)
 
 func SkipIfNoBossConfig() {
 	if sampleBossUrl == "" || sampleFcname == "" || sampleFctoken == "" {

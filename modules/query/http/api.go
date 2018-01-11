@@ -2511,27 +2511,26 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-func queryIDCsBandwidths(IdcName string, result map[string]interface{}) {
+func queryIDCsBandwidths(idcName string, result map[string]interface{}) {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", IdcName, r)
+			log.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", idcName, r)
 		}
 	}()
 
-	bandwithRows := boss.LoadIdcBandwidth(IdcName)
-	if len(bandwithRows) == 0 {
-		panic("The data of bandwidth is empty")
-	}
+	bandwithRows := boss.LoadIdcBandwidth(idcName)
 
 	var totalBandwidth float64 = 0
 	for _, row := range bandwithRows {
-		totalBandwidth += row.UplinkTop
+		totalBandwidth += row.GetUplinkTopAsFloat()
 	}
 
 	result["items"] = map[string]interface{}{
-		"IDCName":      IdcName,
+		"IDCName":      idcName,
 		"upperLimitMB": totalBandwidth,
 	}
+
+	log.Debugf("Bandwidth: %#v", result)
 }
 
 func getIDCsBandwidthsUpperLimit(rw http.ResponseWriter, req *http.Request) {
