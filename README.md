@@ -1,4 +1,4 @@
-# Open-Falcon Backend
+# Owl-backend
 
 ![Open-Falcon](./logo.png)
 
