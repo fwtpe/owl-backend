@@ -33,6 +33,7 @@ build_image:
   only:
       - master
       - develop
+      - ci
   script:
     - docker image build
       --pull
