@@ -14,11 +14,22 @@ import (
 
 var bossSkipper = test.BossSkipper
 
+var _ = Describe("Load platform data", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
+
+	It("The result should have at least [1] platform data", func() {
+		testedData := LoadPlatformData()
+
+		GinkgoT().Logf("[Platform data] First row(JSON): %s", ojson.MarshalJSON(testedData[0]))
+		Expect(len(testedData)).To(BeNumerically(">=", 1))
+	})
+}))
+
 var _ = Describe("Load IDC data", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
-	It("The result should have at least 1 platform data", func() {
+	It("The result should have at least [1] IDC data", func() {
 		testedData := LoadIdcData()
 
 		GinkgoT().Logf("[IDC data] First row(JSON): %s", ojson.MarshalJSON(testedData[0]))

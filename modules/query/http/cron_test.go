@@ -22,6 +22,9 @@ import (
 	. "github.com/onsi/gomega/gstruct"
 )
 
+var _ = Describe("[syncHostData]", func() {
+})
+
 var _ = Describe("[syncIdcData]", skipBossDb.PrependBeforeEach(func() {
 	var bossOrm orm.Ormer
 	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
@@ -52,8 +55,8 @@ var _ = Describe("[syncIdcData]", skipBossDb.PrependBeforeEach(func() {
 
 			gockConfig.New().Get(
 				fmt.Sprintf(
-					"%s/fcname/mock-77/fctoken/%s/pop/yes/pop_id/yes.json",
-					g.BOSS_URI_BASE_MAP, boss.SecureFctoken(apiConfig.Token),
+					g.BOSS_URI_BASE_MAP+ g.BOSS_IDC_PATH_TMPL,
+					apiConfig.Name, boss.SecureFctoken(apiConfig.Token),
 				),
 			).
 				Reply(http.StatusOK).
@@ -148,7 +151,7 @@ var _ = Describe("[syncIdcData]", skipBossDb.PrependBeforeEach(func() {
 			})))
 		})
 	})
-	Context("Testing on real BOSS", func() {
+	XContext("Testing on real BOSS", func() {
 		SetupBossEnv()
 
 		intervalSeconds := 8

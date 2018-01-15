@@ -45,5 +45,12 @@ func setError(err error, result map[string]interface{}) {
 func putError(container map[string]interface{}, err error) {
 	log.Errorf("Error has occurred: %s", errors.ErrorStack(err))
 
-	container["error"] = append(container["error"].([]string), err.Error())
+	errStrings, ok := container["error"]
+	if !ok {
+		errStrings = make([]string, 0, 1)
+	}
+
+	errStrings = append(errStrings.([]string), err.Error())
+
+	container["error"] = errStrings
 }

@@ -126,9 +126,40 @@ func LoadLocationData(idcId int) *bmodel.Location {
 	return locationResult.Result
 }
 
+func LoadPlatformData() []*bmodel.Platform {
+	platformData := new(bmodel.PlatformResult)
+	if err := bindJson(loadPlatformResp(), platformData);
+		err != nil {
+		return nil
+	}
+
+	return platformData.Result
+}
+
+func LoadPlatformDataAsMap(container *map[string]interface{}) {
+	err := bindJson(loadPlatformResp(), container)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func loadPlatformResp() *gt.Response {
+	uri := fmt.Sprintf(
+		g.BOSS_PLATFORM_PATH_TMPL,
+		bossFcname, SecureFctokenByConfig(),
+	)
+
+	req := client.ToGentlemanReq(
+		bossMapBase.Clone().AddPath(uri),
+	)
+
+	return req.SendAndStatusMustMatch(http.StatusOK)
+}
+
 func LoadIdcData() []*bmodel.IdcRow {
 	uri := fmt.Sprintf(
-		"/fcname/%s/fctoken/%s/pop/yes/pop_id/yes.json",
+		g.BOSS_IDC_PATH_TMPL,
 		bossFcname, SecureFctokenByConfig(),
 	)
 	req := client.ToGentlemanReq(

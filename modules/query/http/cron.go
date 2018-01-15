@@ -106,9 +106,9 @@ func SyncHostsAndContactsTable() {
 	if g.Config().Hosts.Enabled || g.Config().Contacts.Enabled {
 		if g.Config().Hosts.Enabled {
 			syncIdcData()
-			syncHostsTable()
+			syncHostData()
 			intervalToSyncHostsTable := uint64(g.Config().Hosts.Interval)
-			gocron.Every(intervalToSyncHostsTable).Seconds().Do(syncHostsTable)
+			gocron.Every(intervalToSyncHostsTable).Seconds().Do(syncHostData)
 			intervalToSyncContactsTable := uint64(g.Config().Contacts.Interval)
 			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncIdcData)
 		}
@@ -800,9 +800,14 @@ func syncNetTable() {
 	}
 }
 
-func syncHostsTable() {
+func syncHostData() {
 	o := NewBossOrm()
 	var rows []orm.Params
+
+	/**
+	 * Lastest time of updated data on "ips"
+	 * Checks interval(seconds)
+	 */
 	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
 	if err != nil {
@@ -817,16 +822,25 @@ func syncHostsTable() {
 			return
 		}
 	}
+	// :~)
+
+	/**
+	 * Loads Platform data
+	 */
 	var nodes = make(map[string]interface{})
 	errors := []string{}
 	var result = make(map[string]interface{})
 	result["error"] = errors
+
 	getPlatformJSON(nodes, result)
+
 	if nodes["status"] == nil {
 		return
 	} else if int(nodes["status"].(float64)) != 1 {
 		return
 	}
+	// :~)
+
 	platformNames := []string{}
 	platformsMap := map[string]map[string]string{}
 	hostname := ""
@@ -836,9 +850,13 @@ func syncHostsTable() {
 	IPKeys := []string{}
 	IPsMap := map[string]map[string]string{}
 	idcIDs := []string{}
+
+	// Iterates every platform
 	for _, platform := range nodes["result"].([]interface{}) {
 		platformName := platform.(map[string]interface{})["platform"].(string)
 		platformNames = appendUniqueString(platformNames, platformName)
+
+		// Iterates every ip_list of every platform
 		for _, device := range platform.(map[string]interface{})["ip_list"].([]interface{}) {
 			hostname = device.(map[string]interface{})["hostname"].(string)
 			IP := device.(map[string]interface{})["ip"].(string)
@@ -857,6 +875,7 @@ func syncHostsTable() {
 			if _, ok := IPsMap[IP]; !ok {
 				IPsMap[IPKey] = item
 			}
+
 			if len(hostname) > 0 {
 				if host, ok := hostsMap[hostname]; !ok {
 					hostnames = append(hostnames, hostname)
@@ -901,6 +920,7 @@ func syncHostsTable() {
 				}
 			}
 		}
+
 		platformsMap[platformName] = map[string]string{
 			"platformName": platformName,
 			"type":         "",
@@ -910,11 +930,14 @@ func syncHostsTable() {
 			"description":  "",
 		}
 	}
+
 	sort.Strings(IPs)
 	sort.Strings(IPKeys)
 	sort.Strings(hostnames)
 	sort.Strings(platformNames)
+
 	log.Debugf("platformNames =", platformNames)
+
 	updateIPsTable(IPKeys, IPsMap)
 	updateHostsTable(hostnames, hostsMap)
 	platformsMap = getPlatformsType(nodes, result, platformsMap)
@@ -1120,6 +1143,10 @@ func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
 	now := getNow()
 	o := orm.NewOrm()
 	var rows []orm.Params
+
+	/**
+	 * Checks time of interval on updating data
+	 */
 	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
 	num, err := o.Raw(sql).Values(&rows)
 	if err != nil {
@@ -1134,6 +1161,11 @@ func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
 			return
 		}
 	}
+	// :~)
+
+	/**
+	 * Insert or update data
+	 */
 	for _, IPName := range IPNames {
 		item := IPsMap[IPName]
 		sql := "SELECT id FROM boss.ips WHERE ip = ? AND platform = ? LIMIT 1"
@@ -1163,7 +1195,12 @@ func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
 			}
 		}
 	}
+	// :~)
 
+	/**
+	 * For every row, if it's time of update is 10 minutes ago,
+	 * set its value of existing to "0".
+	 */
 	sql = "SELECT id FROM boss.ips WHERE exist = ?"
 	sql += " AND updated <= DATE_SUB(CONVERT_TZ(NOW(),@@session.time_zone,'+08:00'),"
 	sql += " INTERVAL 10 MINUTE) LIMIT 30"
@@ -1182,6 +1219,7 @@ func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
 			}
 		}
 	}
+	// :~)
 }
 
 func updateHostsTable(hostnames []string, hostsMap map[string]map[string]string) {
@@ -1413,18 +1451,26 @@ func updatePlatformsTable(platformNames []string, platformsMap map[string]map[st
 }
 
 func isElapsedTimePassedForIdcsTable(checkedTime time.Time, seconds int) bool {
+	return isElapsedTimePassed(
+		"idcs", "updated", checkedTime, seconds,
+	)
+}
+
+func isElapsedTimePassed(tableName string, timeColumnName string, checkedTime time.Time, seconds int) bool {
 	count := 0
 
 	qdb.BossDbFacade.SqlxDbCtrl.Get(
 		&count,
-		`
-		SELECT COUNT(*)
-		FROM (
-			SELECT MAX(updated) AS max_value
-			FROM idcs
-		) AS last_update
-		WHERE TIMESTAMPDIFF(SECOND, last_update.max_value, FROM_UNIXTIME(?)) <= ?
-		`,
+		fmt.Sprintf(`
+			SELECT COUNT(*)
+			FROM (
+				SELECT MAX(%s) AS max_value
+				FROM %s
+			) AS last_update
+			WHERE TIMESTAMPDIFF(SECOND, last_update.max_value, FROM_UNIXTIME(?)) <= ?
+			`,
+			timeColumnName, tableName,
+		),
 		checkedTime.Unix(), seconds,
 	)
 

@@ -1,20 +1,59 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 
 	"gopkg.in/h2non/gentleman-mock.v2"
 
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
+	ojson "github.com/fwtpe/owl-backend/common/json"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	bmodel "github.com/fwtpe/owl-backend/modules/query/model/boss"
 
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 )
 
+var _ = Describe("[queryPlatformJSON]", func() {
+	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+
+	BeforeEach(func() {
+		/**
+		 * Set-up environment
+		 */
+		apiConfig := &g.ApiConfig{
+			Name:     "mock-101",
+			Token:    "mock-token-101",
+			BossBase: gockConfig.NewHttpConfig().Url,
+			Map: gockConfig.NewHttpConfig().Url + g.BOSS_URI_BASE_MAP,
+		}
+		g.SetConfig(&g.GlobalConfig{
+			Api: apiConfig,
+		})
+		// :~)
+
+		boss.SetPlugins(mock.Plugin)
+		boss.SetupServerUrl(apiConfig)
+
+		gockConfig.New().Get(fmt.Sprintf(
+			g.BOSS_URI_BASE_MAP + g.BOSS_PLATFORM_PATH_TMPL,
+			apiConfig.Name, boss.SecureFctoken(apiConfig.Token),
+		)).
+			Reply(http.StatusOK).
+			JSON(map[string]interface{} {})
+	})
+
+	AfterEach(func() {
+		gockConfig.Off()
+	})
+
+	It("The data of platform should be as expected", func() {
+	})
+})
 var _ = Describe("[queryIDCsBandwidths]", func() {
 	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
 
@@ -96,4 +135,84 @@ var _ = Describe("[queryIDCsBandwidths]", func() {
 			Expect(testedItems["IDCName"]).To(Equal(idcName))
 		})
 	})
+})
+var _ = Describe("[getPlatformJSON]", func() {
+	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+
+	Context("Normal case", func() {
+		BeforeEach(func() {
+			/**
+			 * Set-up environment
+			 */
+			apiConfig := &g.ApiConfig{
+				Name:     "fmock-1",
+				Token:    "fmock-token-1",
+				BossBase: gockConfig.NewHttpConfig().Url,
+			}
+			g.SetConfig(&g.GlobalConfig{
+				Api: apiConfig,
+			})
+			// :~)
+
+			boss.SetPlugins(mock.Plugin)
+			boss.SetupServerUrl(apiConfig)
+
+			gockConfig.New().Get(
+				fmt.Sprintf(
+					g.BOSS_URI_BASE_MAP + g.BOSS_PLATFORM_PATH_TMPL,
+					apiConfig.Name, boss.SecureFctoken(apiConfig.Token),
+				),
+			).
+				Reply(http.StatusOK).
+				JSON(&bmodel.PlatformResult{
+					Status: 1,
+					Info:   "当前操作成功了！",
+					Result: []*bmodel.Platform {
+						{
+							Name: "plt-981",
+							IpList: []*bmodel.IpDetail {
+								{ Hostname: "ga01.z.net", Ip: "97.6.1.41", PopId: "33", Status: "1" },
+								{ Hostname: "ga02.z.net", Ip: "97.6.1.42", PopId: "34", Status: "1" },
+								{ Hostname: "ga03.z.net", Ip: "97.6.1.43", PopId: "45", Status: "1" },
+							},
+						},
+						{
+							Name: "plt-982",
+							IpList: []*bmodel.IpDetail {
+								{ Hostname: "gb01.z.net", Ip: "97.6.12.41", PopId: "43", Status: "1" },
+								{ Hostname: "gb02.z.net", Ip: "97.6.12.42", PopId: "44", Status: "1" },
+								{ Hostname: "gb03.z.net", Ip: "97.6.12.43", PopId: "47", Status: "1" },
+							},
+						},
+					},
+				})
+		})
+		AfterEach(func() {
+			gockConfig.Off()
+		})
+
+		It("JSON content should be as expected", func() {
+			testedResult := make(map[string]interface{})
+
+			getPlatformJSON(testedResult, make(map[string]interface{}))
+
+			GinkgoT().Logf("[Platform] JSON Content: %s", ojson.MarshalJSON(testedResult))
+			Expect(testedResult["status"]).To(BeEquivalentTo(1))
+			Expect(testedResult["result"]).To(HaveLen(2))
+			Expect(testedResult["result"]).To(ContainElement(HaveLen(2)))
+		})
+	})
+})
+
+var _ = Describe("[getIPFromHostname]", func() {
+	DescribeTable("Checks the converted ip string as expected",
+		func(sourceHostName string, expectedResult string) {
+			testedResult := getIPFromHostname(sourceHostName, make(map[string]interface{}))
+
+			Expect(testedResult).To(Equal(expectedResult))
+		},
+		Entry("Normal", "bj-cnc-019-061-123-201", "19.61.123.201"),
+		Entry("Cannot be parse", "nothing", ""),
+		Entry("Cannot be parse(one of ip value)", "kz-abk-019-8c-123-201", ""),
+	)
 })

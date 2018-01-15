@@ -126,3 +126,33 @@ type Location struct {
 func (l *Location) String() string {
 	return fmt.Sprintf("Area[%s] Province[%s] City[%s]", l.Area, l.Province, l.City)
 }
+
+// Represents result of "/Base/platform/get_ip ... /show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
+/*
+{
+  "status":1, "info":"当前操作成功了！",
+  "platform":"IDC-Test",
+  "ip_list":[
+    {
+	  "ip_status":"0","pop_id":"23","ip_type":"RIP",
+	  "ip":"122.228.199.122","hostname":"ctl-zj-122-228-199-122",
+    } ,...
+  ]
+}
+*/
+type PlatformResult struct {
+	Status int       `json:"status"`
+	Info   string    `json:"info"`
+	Result []*Platform `json:"result"`
+}
+type Platform struct {
+	Name string `json:"platform"`
+	IpList []*IpDetail `json:"ip_list"`
+}
+type IpDetail struct {
+	Ip string `json:"ip"`
+	Hostname string `json:"hostname"`
+	Status string `json:"ip_status"`
+	PopId string `json:"pop_id"`
+	IpType string `json:"ip_type"`
+}

@@ -3,6 +3,7 @@ package http
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math"
 	"net/http"
@@ -16,6 +17,7 @@ import (
 	"github.com/bitly/go-simplejson"
 
 	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/graph"
@@ -474,28 +476,14 @@ func getTemplateStrategies(rw http.ResponseWriter, req *http.Request) {
 }
 
 func getPlatformJSON(nodes map[string]interface{}, result map[string]interface{}) {
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Map + "/fcname/" + fcname + "/fctoken/" + fctoken
-	url += "/show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		setError(err, result)
-		return
-	}
+	defer func() {
+		r := recover()
+		if r != nil {
+			setError(fmt.Errorf("%v", r), result)
+		}
+	}()
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		setError(err, result)
-		return
-	}
-	defer resp.Body.Close()
-
-	body, _ := ioutil.ReadAll(resp.Body)
-	if err := json.Unmarshal(body, &nodes); err != nil {
-		setError(err, result)
-	}
+	boss.LoadPlatformDataAsMap(&nodes)
 }
 
 func queryHostsData(result map[string]interface{}) []map[string]string {
@@ -1160,34 +1148,13 @@ func getExistedHostnames(hostnames []string, result map[string]interface{}) []st
 }
 
 func appendUniqueString(slice []string, s string) []string {
-	if len(s) == 0 {
-		return slice
-	}
-	existed := false
-	for _, val := range slice {
-		if s == val {
-			existed = true
-		}
-	}
-	if !existed {
-		slice = append(slice, s)
-		sort.Strings(slice)
-	}
-	return slice
+	slice = append(slice, s)
+	return utils.UniqueArrayOfStrings(slice)
 }
 
 func appendUnique(slice []int, num int) []int {
-	existed := false
-	for _, element := range slice {
-		if element == num {
-			existed = true
-		}
-	}
-	if !existed {
-		slice = append(slice, num)
-		sort.Ints(slice)
-	}
-	return slice
+	slice = append(slice, int)
+	return utils.UniqueElements(slice).([]int)
 }
 
 func getExistedHosts(hosts []map[string]string, hostnamesExisted []string, result map[string]interface{}) map[string]map[string]string {
@@ -1612,25 +1579,18 @@ func addApolloRemark(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
+var hostnameRegexp = regexp.MustCompile(`\w+-\w+-(\d+-\d+-\d+-\d+)`)
 func getIPFromHostname(hostname string, result map[string]interface{}) string {
-	ip := ""
-	fragments := strings.Split(hostname, "-")
-	if len(fragments) == 6 {
-		slice := []string{}
-		fragments = fragments[2:]
-		for _, fragment := range fragments {
-			num, err := strconv.Atoi(fragment)
-			if err != nil {
-				setError(err, result)
-			} else {
-				slice = append(slice, strconv.Itoa(num))
-			}
-		}
-		if len(slice) == 4 {
-			ip = strings.Join(slice, ".")
-		}
+	matchResult := hostnameRegexp.FindStringSubmatch(hostname)
+	if matchResult == nil {
+		setError(fmt.Errorf("Hostname[%s] cannot be parsed to IP.", hostname), result)
+		return ""
 	}
-	return ip
+
+	var ip1, ip2, ip3, ip4 uint8
+
+	fmt.Sscanf(matchResult[1], `%d-%d-%d-%d`, &ip1, &ip2, &ip3, &ip4)
+	return fmt.Sprintf("%d.%d.%d.%d", ip1, ip2, ip3, ip4)
 }
 
 func getBandwidthsAverage(metricType string, duration string, hostnames []string, result map[string]interface{}) []interface{} {
