@@ -1,0 +1,72 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "uicToken": "",
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.alarm}",
+        "view_path": "${path.alarm.view}",
+        "static_path": "${path.alarm.static}"
+    },
+    "queue": {
+        "sms": "/sms",
+        "mail": "/mail",
+        "qq": "/qq",
+        "serverchan": "/serverchan"
+    },
+    "falcon_portal": {
+        "addr": "${dbuser.alarm.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "boss": {
+        "addr": "${dbuser.alarm.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.boss}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "redis": {
+        "addr": "${redis.conn}",
+        "maxIdle": 5,
+        "highQueues": [
+            "event:p0",
+            "event:p1"
+        ],
+        "lowQueues": [
+            "event:p2",
+            "event:p3",
+            "event:p4",
+            "event:p5",
+            "event:p6"
+        ],
+        "externalQueues":{
+          "enable": true,
+          "queues": [ "extnal_event:all"]
+        },
+        "errorQueues": {
+          "enable": true,
+          "queue": "error_event:all"
+        },
+        "userSmsQueue": "/queue/user/sms",
+        "userMailQueue": "/queue/user/mail",
+        "userQQQueue": "/queue/user/qq",
+        "userServerchanQueue": "/queue/user/serverchan"
+    },
+    "api": {
+        "portal": "${url.portal}",
+        "uic": "${url.fe}",
+        "links": "${url.links}"
+    },
+    "shortcut": {
+        "falconPortal": "${url.portal}",
+        "falconDashboard": "${url.dashboard}",
+        "grafanaDashboard": "${url.grafana}",
+        "falconAlarm": "${url.alarm}",
+        "falconUIC": "${url.fe}"
+    },
+    "uic": {
+        "addr": "${dbuser.alarm.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.uic}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "redirectUrl": "${url.fe}/auth/login?callback=${url.alarm}/"
+}

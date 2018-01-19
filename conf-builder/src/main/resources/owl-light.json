@@ -1,0 +1,9 @@
+{
+  "port": ${port.http.light2},
+  "apiBase": "${address.http.f2e}/api/v1",
+  "nqmMng": "${address.http.mysqlapi}/api/v1/nqm",
+  "nqmOwlCommon": "${address.http.mysqlapi}/api/v1/owl",
+  "cookieDomain": "${owl.host}",
+  "nqmQuery": "${url.query}/nqm",
+  "openVersion": false
+}

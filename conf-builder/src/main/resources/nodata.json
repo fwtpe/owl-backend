@@ -1,0 +1,34 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.nodata}"
+    },
+    "query":{
+        "connectTimeout": 5000,
+        "requestTimeout": 30000,
+        "queryAddr": "${address.http.query}"
+    },
+    "config": {
+        "enabled": true,
+        "dsn": "${dbuser.nodata.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}&wait_timeout=604800",
+        "maxIdle": 4
+    },
+    "collector":{
+        "enabled": true,
+        "batch": 200,
+        "concurrent": 10
+    },
+    "sender":{
+        "enabled": true,
+        "connectTimeout": 5000,
+        "requestTimeout": 30000,
+        "transferAddr": "${address.http.transfer}",
+        "batch": 500,
+        "block": {
+            "enabled": false,
+            "threshold": 32
+        }
+    }
+}

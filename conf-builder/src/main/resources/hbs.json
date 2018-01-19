@@ -1,0 +1,32 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "hosts": "",
+    "maxIdle": 100,
+    "listen": ":${port.rpc.hbs}",
+    "trustable": [
+        ${m.hbs.trustable.ip}
+    ],
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.hbs}"
+    },
+    "nqm" : {
+        "queue_size": {
+            "refresh_agent_ping_list": 8
+        },
+        "cache_minutes": {
+            "agent_ping_list": 20
+        }
+    },
+    "mysql_api": {
+        "host": "${url.mysqlapi}",
+        "resource": ""
+    },
+    "heartbeat" :{
+        "falcon": {
+            "batchSize": 16,
+            "duration": 1
+        }
+    }
+}

@@ -1,0 +1,60 @@
+{
+  "db": {
+    "falcon_portal": "${dbuser.readonly.account}:${dbuser.readonly.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+    "graph": "${dbuser.readonly.account}:${dbuser.readonly.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+    "uic": "${dbuser.f2e.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.uic}?${dbconn.flags}",
+    "dashboard": "${dbuser.f2e.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.dashboard}?${dbconn.flags}",
+    "boss": "${dbuser.readonly.account}:${dbuser.readonly.password}@tcp(${mysql.conn})/${dbname.boss}?${dbconn.flags}",
+    "alarms": "${dbuser.readonly.account}:${dbuser.readonly.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+    "imdb": "${dbuser.f2e.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.imdb}?${dbconn.flags}",
+    "db_bug": false
+  },
+  "signup_disable": ${signup.option},
+  "log_level": "${log.level}",
+  "graphs": {
+    "cluster": {
+      ${cluster.graph}
+    },
+    "max_conns": 100,
+    "max_idle": 100,
+    "conn_timeout": 1000,
+    "call_timeout": 5000,
+    "numberOfReplicas": 500
+  },
+  "boss_api": {
+    "boss_f_token": "${boss.token.login}",
+    "boss_host": "${url.boss.api}",
+    "user_query_key": "${boss.query.key}",
+    "boss_get_info_v2": "${url.boss.login}/Third/Single/getUserInfo"
+  },
+  "access_control": true,
+  "gen_doc": false,
+  "gen_doc_path": "doc/module.html",
+  "salt": "${login.salt}",
+  "web_port": ":${port.http.f2e}",
+  "skip_auth": false ,
+  "enable_services": true,
+  "services": {
+    ${m.f2e.service.key}
+  },
+  "frontend": {
+    "enable": false,
+    "folder": "${path.f2e.static}",
+    "static_path": ""
+  },
+  "web_doc_site":{
+    "enable": false,
+    "folder": "${path.f2e.site}"
+  },
+  "redis": {
+    "enable": true,
+    "address": "${redis.conn}",
+    "password": "",
+    "default_bucket": "extnal_event:all"
+  },
+  "lambda_extends": {
+    "enable": false,
+    "root_dir": "${path.f2e.root}",
+    "qlimit": 10000
+  }
+}

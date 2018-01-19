@@ -1,0 +1,45 @@
+{
+    "rdb" : {
+        "portal":{
+            "dsn" : "${dbuser.mysqlapi.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+            "maxIdle" : 8
+        },
+        "graph":{
+            "dsn" : "${dbuser.mysqlapi.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+            "maxIdle" : 8
+        }
+    },
+    "restful" : {
+        "listen" : {
+            "host": "0.0.0.0",
+            "port": ${port.http.mysqlapi}
+        }
+    },
+    "logLevel" : {
+        "ROOT" : "${log.level}"
+    },
+    "nqm" :{
+        "pingList": {
+             "cache": {
+                 "size": 8,
+                 "lifetime": 20
+             }
+        }
+    },
+    "heartbeat" :{
+        "nqm": {
+            "batchSize": 16,
+            "duration": 2,
+            "targetList": {
+                "size": 8,
+                "duration": 20
+            }
+        }
+    },
+    "queryObject": {
+        "cache": {
+            "size": 32,
+            "hourDuration": 16
+        }
+    }
+}

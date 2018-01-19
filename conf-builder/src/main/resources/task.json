@@ -1,0 +1,40 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "cron": {
+        "vacuum_query_objects": {
+            "enable": true,
+            "schedule": "0 0 4 * * *",
+            "for_days": 90
+        },
+        "vacuum_graph_index": {
+            "enable": true,
+            "schedule": "0 0 2 ? * 6",
+            "for_days": 7
+        }
+    },
+    "http": {
+        "enable": true,
+        "listen": "0.0.0.0:${port.http.task}"
+    },
+    "index": {
+        "enable": true,
+        "dsn": "${dbuser.task.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+        "maxIdle": 4,
+        "cluster": {
+            ${m.task.index.cluster}
+        }
+    },
+    "collector":{
+        "enable": ${m.task.collector.enable},
+        "destUrl" : "${url.transfer}/api/push",
+        "srcUrlFmt" : "http://%s/statistics/all",
+        "cluster" : [
+            ${m.task.collector.cluster}
+        ]
+    },
+    "mysql_api": {
+         "host": "${url.mysqlapi}",
+         "resource": ""
+    }
+}
