@@ -161,7 +161,7 @@ type StackError struct {
 }
 
 func (e *StackError) Error() string {
-	return fmt.Sprintf("%s:%d:%v", e.callerInfo.GetFile(), e.callerInfo.Line, e.cause)
+	return fmt.Sprintf("%s -> %v", e.callerInfo, e.cause)
 }
 
 func DeferCatchPanicWithCaller() func() {
@@ -186,6 +186,13 @@ func BuildErrorWithCaller(err error) *StackError {
 
 	return BuildErrorWithCallerDepth(err, 2)
 }
+func BuildErrorWithCurrentFunction(err error) *StackError {
+	if err == nil {
+		return nil
+	}
+
+	return BuildErrorWithCallerDepth(err, 1)
+}
 func BuildErrorWithCallerDepth(err error, depth int) *StackError {
 	if err == nil {
 		return nil
@@ -193,7 +200,7 @@ func BuildErrorWithCallerDepth(err error, depth int) *StackError {
 
 	return BuildErrorWithCallerInfo(
 		err,
-		gr.GetCallerInfoWithDepth(depth),
+		gr.GetCallerInfoWithDepth(depth + 1),
 	)
 }
 

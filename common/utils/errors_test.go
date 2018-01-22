@@ -10,10 +10,50 @@ import (
 
 type TestErrorsSuite struct{}
 
+var _ = Describe("Builds error by caller information", func() {
+	Context("Use the caller", func() {
+		It("The content of error should contain \"sampleCallee\"", func() {
+			err := sampleCallee()
+
+			GinkgoT().Logf("Error(with *CallerInfo): %v", err)
+			Expect(err.Error()).To(And(
+				ContainSubstring("common/utils"),
+				ContainSubstring("errors_test.go"),
+				ContainSubstring("Sample-CI error"),
+				ContainSubstring("sampleCallee"),
+			))
+		})
+	})
+
+	Context("Use the target function", func() {
+		It("The content of error should contain \"selfGenerator\"", func() {
+			err := selfGenerator()
+
+			GinkgoT().Logf("Error(with *CallerInfo): %v", err)
+			Expect(err.Error()).To(And(
+				ContainSubstring("common/utils"),
+				ContainSubstring("errors_test.go"),
+				ContainSubstring("SQL has error: 33"),
+				ContainSubstring("selfGenerator"),
+			))
+		})
+	})
+})
+
+func sampleCallee() error {
+	return errorGenerator()
+}
+func errorGenerator() error {
+	return BuildErrorWithCaller(fmt.Errorf("Sample-CI error"))
+}
+func selfGenerator() error {
+	return BuildErrorWithCurrentFunction(fmt.Errorf("SQL has error: 33"))
+}
+
 var _ = Describe("Capture panic with &err object", func() {
 	sampleFunc := func() (err error) {
 		defer PanicToSimpleError(&err)()
-		panic("Sample Error 1")
+		panic("Sample-CI Error 1")
 	}
 
 	It("Error object should not be nil", func() {
