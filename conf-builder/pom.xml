@@ -12,7 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 	<!--
-		 Setting
+		 OWL Setting
 	 -->
 	<log.level>debug</log.level>
 	<log.debug>true</log.debug>
@@ -21,12 +21,6 @@
 	<login.salt></login.salt>
 
 	
-	<!--
-		 OTHER SYSTEM
-	 -->
-	<alert.url>http://127.0.0.1:10090/api/alerts</alert.url>
-	<alert.api.key>alert_api_key</alert.api.key>
-
 	<!--
 		 PORT(backend)
 	 -->
@@ -72,7 +66,9 @@
 	<port.cassandra>6171</port.cassandra>
 
 	<!--
-		DOMAIN ,URL
+		 DOMAIN ,URL
+		 <owl.host> All module and system default is 127.0.0.1
+			You can change any module location.
 	 -->
 	<owl.host>127.0.0.1</owl.host>
 
@@ -117,22 +113,18 @@
 	<url.light1>http://${host.light1}:${port.http.light1}</url.light1>
 	<url.mysqlapi>http://${host.mysqlapi}:${port.http.mysqlapi}</url.mysqlapi>
 
+
+	<!--
+		 URL OTHER SYSTEM
+	 -->
+	<alert.url>http://127.0.0.1:10090/api/alerts</alert.url>
+	<alert.api.key>alert_api_key</alert.api.key>
 	<url.serverchan>http://127.0.0.1:10093</url.serverchan>
 	<url.boss.api>http://127.0.0.1:10091</url.boss.api>
 	<url.boss.login>http://127.0.0.1:10092</url.boss.login>
 
 	<!--
 		connection iformation
-
-	-Dowl.host=192.168.5.10
-	-Dowl.host=192.168.5.10 -Dcassandra.conn=http://40.168.5.13:${port.cassandra}
-	<cassandra.conn>http://${owl.host}:${port.cassandra}</cassandra.conn>
-
-	-Dhost.cassandra=40.168.5.13
-	<host.cassandra>${owl.host}</host.cassandra>
-
-	-Dowl.host=192.168.5.10 -Dcassandra.conn=http://127.0.0.1:${port.cassandra}
-	<cassandra.conn>http://127.0.0.1:${port.cassandra}</cassandra.conn>
 	 -->
 
 	<cassandra.conn>http://${host.cassandra}:${port.cassandra}</cassandra.conn>
@@ -144,7 +136,16 @@
 
 	<!--
 		 PATH
-		 Developer need change the path to localhost
+		 <path.judge.root> <path.query.root> <path.f2e.root> 
+			- Need use module's binary location.
+		 <path.judge.events> <path.graph.rrd> 
+			- You can setting data file location.
+		 <path.fe.view> <path.fe.static> <path.alarm.view> <path.alarm.static> <path.f2e.static> <path.f2e.site> <path.f2e.root>
+			- Need use resource file location.
+		 <path.dashbaord.base>
+			- Use python's module "dashboard" location
+		 <path.*.log.config>
+			- Setting python's module log location
 	 -->
 	<path.judge.root>/home/judge</path.judge.root>
 	<path.judge.events>/data/events_cache.json</path.judge.events>
@@ -162,6 +163,7 @@
 	<path.dashboard.log.config>/config/logging.conf</path.dashboard.log.config>
 	<path.links.log.config>/config/logging.conf</path.links.log.config>
 	<path.portal.log.config>/config/logging.conf</path.portal.log.config>
+
 	<!--
 		 BOSS variables
 	 -->
@@ -173,6 +175,7 @@
 
 	<!--
 		 GRAPH cluster
+		 If you have more then one graph service edit <cluster.graph>
 	 -->
 	<cluster.graph>
 		"graph-00" : "${host.graph}:${port.rpc.graph}"
@@ -200,7 +203,7 @@
 	<dbuser.dev.account>root</dbuser.dev.account>
 	<dbuser.dev.password>cepave</dbuser.dev.password>
 	<!--
-		 MYSQL read only account addr
+		 MYSQL read only account
 	 -->
 
 	<dbuser.readonly.account>${dbuser.dev.account}</dbuser.readonly.account>
@@ -250,6 +253,7 @@
 		
 	<!--
 		 HBS 
+		 Trustable ip is used on Agent white list.
 	 -->
 	<m.hbs.trustable.ip>
         ""
@@ -296,6 +300,7 @@
 
 	<!--
 		 TRANSFER
+		 <m.trasfner.staging> is used to pass data to other OWL.
 	 -->
 	<m.transfer.cluster.judge>
             "judge-00" : "${host.judge}:${port.rpc.judge}"
@@ -309,10 +314,10 @@
 
 	<!--
 		 QUERY
+		 <m.query.boss.sync.enable> is sync switch from boss.
 	 -->
 	<m.query.boss.sync.enable>false</m.query.boss.sync.enable>
   </properties>
-
   <build>
 	  <outputDirectory>target/owl-conf</outputDirectory>
 
