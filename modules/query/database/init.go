@@ -8,8 +8,8 @@ import (
 	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
 	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
 	oHttp "github.com/fwtpe/owl-backend/common/http"
-	owlSrv "github.com/fwtpe/owl-backend/common/service/owl"
 	"github.com/fwtpe/owl-backend/common/logruslog"
+	owlSrv "github.com/fwtpe/owl-backend/common/service/owl"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
 

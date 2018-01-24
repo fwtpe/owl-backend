@@ -2,7 +2,10 @@ package boss
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
+	"unicode/utf8"
 )
 
 // Represents result of "/Base/platform/get_ip ... /pop/yes/pop_id/yes.json"
@@ -27,10 +30,10 @@ import (
 type IdcResult struct {
 	Status int       `json:"status"`
 	Info   string    `json:"info"`
-	Result []*IdcRow `json:"result"`
+	Result []*IdcIps `json:"result"`
 }
 
-type IdcRow struct {
+type IdcIps struct {
 	Platform string   `json:"platform"`
 	IpList   []*IdcIp `json:"ip_list"`
 }
@@ -140,19 +143,83 @@ func (l *Location) String() string {
   ]
 }
 */
-type PlatformResult struct {
-	Status int       `json:"status"`
-	Info   string    `json:"info"`
-	Result []*Platform `json:"result"`
+type PlatformIpResult struct {
+	Status int            `json:"status"`
+	Info   string         `json:"info"`
+	Result []*PlatformIps `json:"result"`
 }
-type Platform struct {
-	Name string `json:"platform"`
-	IpList []*IpDetail `json:"ip_list"`
+type PlatformIps struct {
+	Name   string        `json:"platform"`
+	IpList []*PlatformIp `json:"ip_list"`
 }
-type IpDetail struct {
-	Ip string `json:"ip"`
+type PlatformIp struct {
+	Ip       string `json:"ip"`
 	Hostname string `json:"hostname"`
-	Status string `json:"ip_status"`
-	PopId string `json:"pop_id"`
-	IpType string `json:"ip_type"`
+	Status   string `json:"ip_status"`
+	PopId    string `json:"pop_id"`
+	Type     string `json:"ip_type"`
+}
+
+// Represents result of "/base/platform/get_all_platform_pbc"
+/*
+{
+	"status": 1
+	"info":"当前操作成功了！",
+	"count":346,
+	"result":[
+		{
+			"app_type":"vfcc",
+			"backuper":[],
+			"department":"CDN产品中心-运维部",
+			"description":"vfcc边缘，暴雪下载新平台",
+			"device_count":"28",
+			"fcd_config":"0",
+			"pbc_name":"大文件-缓存",
+			"platform":"c01.i01",
+			"platform_type":"CDN业务",
+			"platform_use":"边缘",
+			"principal":[],
+			"sys_type":"物理平台",
+			"team":"暂无",
+			"upgrader":[],
+			"visible":"1",
+			"xmon_alert_additional":[]
+		} ,...
+	]
+}
+*/
+type PlatformDetailResult struct {
+	Status int               `json:"status"`
+	Info   string            `json:"info"`
+	Count  int               `json:"count"`
+	Result []*PlatformDetail `json:"result"`
+}
+
+type PlatformDetail struct {
+	Name        string `json:"platform"`
+	Type        string `json:"platform_type"`
+	Department  string `json:"department"`
+	Team        string `json:"team"`
+	Visible     string `json:"visible"`
+	Description string `json:"description"`
+}
+
+var linefeedAndTab = regexp.MustCompile(`[\t\r\n]`)
+var twoOrMoreSpace = regexp.MustCompile(`[\s\p{Zs}]{2,}`)
+
+func (p *PlatformDetail) ShortenDescription() string {
+	shorten := strings.TrimSpace(p.Description)
+
+	if len(shorten) == 0 {
+		return ""
+	}
+
+	shorten = linefeedAndTab.ReplaceAllString(shorten, " ")
+	shorten = twoOrMoreSpace.ReplaceAllString(shorten, " ")
+
+	if utf8.RuneCountInString(shorten) > 200 {
+		shorten = string([]rune(shorten)[0:100])
+	}
+
+	return shorten
 }

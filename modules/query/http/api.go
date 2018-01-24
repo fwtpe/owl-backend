@@ -475,7 +475,7 @@ func getTemplateStrategies(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-func getPlatformJSON(nodes map[string]interface{}, result map[string]interface{}) {
+func loadIpDataOfPlatforms(nodes map[string]interface{}, result map[string]interface{}) {
 	defer func() {
 		r := recover()
 		if r != nil {
@@ -483,7 +483,7 @@ func getPlatformJSON(nodes map[string]interface{}, result map[string]interface{}
 		}
 	}()
 
-	boss.LoadPlatformDataAsMap(&nodes)
+	boss.LoadIpDataOfPlatformsToMap(&nodes)
 }
 
 func queryHostsData(result map[string]interface{}) []map[string]string {
@@ -501,7 +501,7 @@ func queryHostsData(result map[string]interface{}) []map[string]string {
 		for _, row := range rows {
 			hostname := row["hostname"].(string)
 			IP := row["ip"].(string)
-			if IP != "" && IP == getIPFromHostname(hostname, result) {
+			if IP != "" && IP == getIpFromHostname(hostname, result) {
 				host := map[string]string{
 					"hostname": row["hostname"].(string),
 					"platform": row["platform"].(string),
@@ -601,7 +601,7 @@ func mergeIPsOfHost(data []map[string]string, result map[string]interface{}) (ma
 			for key, item := range slice {
 				hostname := item["hostname"]
 				ip := item["ip"]
-				if ip == getIPFromHostname(hostname, result) {
+				if ip == getIpFromHostname(hostname, result) {
 					index = key
 				}
 			}
@@ -1153,7 +1153,7 @@ func appendUniqueString(slice []string, s string) []string {
 }
 
 func appendUnique(slice []int, num int) []int {
-	slice = append(slice, int)
+	slice = append(slice, num)
 	return utils.UniqueElements(slice).([]int)
 }
 
@@ -1579,18 +1579,39 @@ func addApolloRemark(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-var hostnameRegexp = regexp.MustCompile(`\w+-\w+-(\d+-\d+-\d+-\d+)`)
-func getIPFromHostname(hostname string, result map[string]interface{}) string {
+var hostnameRegexp = regexp.MustCompile(`^(\w+)-\w+-(\d+-\d+-\d+-\d+)$`)
+var ispOfHostnameRegexp = regexp.MustCompile(`^([[:alnum:]]+)[-_].*$`)
+
+func getIpFromHostname(hostname string, result map[string]interface{}) string {
+	finalIp := getIpFromHostnameWithDefault(hostname, "")
+
+	if finalIp == "" {
+		setError(fmt.Errorf("Hostname[%s] cannot be parsed to IP.", hostname), result)
+	}
+
+	return finalIp
+}
+func getIpFromHostnameWithDefault(hostname string, defaultIp string) string {
 	matchResult := hostnameRegexp.FindStringSubmatch(hostname)
 	if matchResult == nil {
-		setError(fmt.Errorf("Hostname[%s] cannot be parsed to IP.", hostname), result)
-		return ""
+		log.Debugf("Hostname: [%s] cannot be parsed to IP. Default IP [%s]", hostname, defaultIp)
+		return defaultIp
 	}
 
 	var ip1, ip2, ip3, ip4 uint8
 
-	fmt.Sscanf(matchResult[1], `%d-%d-%d-%d`, &ip1, &ip2, &ip3, &ip4)
+	fmt.Sscanf(matchResult[2], `%d-%d-%d-%d`, &ip1, &ip2, &ip3, &ip4)
 	return fmt.Sprintf("%d.%d.%d.%d", ip1, ip2, ip3, ip4)
+}
+
+func getIspFromHostname(hostname string) string {
+	matchResult := ispOfHostnameRegexp.FindStringSubmatch(hostname)
+	if matchResult == nil {
+		log.Debugf("Cannot extract ISP from hostname: [%s]", hostname)
+		return ""
+	}
+
+	return matchResult[1]
 }
 
 func getBandwidthsAverage(metricType string, duration string, hostnames []string, result map[string]interface{}) []interface{} {
@@ -1625,7 +1646,7 @@ func getBandwidthsAverage(metricType string, duration string, hostnames []string
 			}
 			item := map[string]interface{}{
 				"host":             series.Endpoint,
-				"ip":               getIPFromHostname(series.Endpoint, result),
+				"ip":               getIpFromHostname(series.Endpoint, result),
 				"net.in.bits.avg":  0,
 				"net.out.bits.avg": 0,
 				"time":             "",
@@ -1659,7 +1680,7 @@ func getPlatformBandwidthsFiveMinutesAverage(platformName string, metricType str
 	result["error"] = errors
 	duration := "6min"
 	var nodes = make(map[string]interface{})
-	getPlatformJSON(nodes, result)
+	loadIpDataOfPlatforms(nodes, result)
 	hostnames := []string{}
 	if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
 		hostname := ""
@@ -1669,7 +1690,7 @@ func getPlatformBandwidthsFiveMinutesAverage(platformName string, metricType str
 				for _, device := range platform.(map[string]interface{})["ip_list"].([]interface{}) {
 					hostname = device.(map[string]interface{})["hostname"].(string)
 					ip := device.(map[string]interface{})["ip"].(string)
-					if len(ip) > 0 && ip == getIPFromHostname(hostname, result) {
+					if len(ip) > 0 && ip == getIpFromHostname(hostname, result) {
 						if device.(map[string]interface{})["ip_status"].(string) == "1" {
 							hostnames = append(hostnames, hostname)
 						}
@@ -2393,7 +2414,7 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 	errors := []string{}
 	var result = make(map[string]interface{})
 	result["error"] = errors
-	getPlatformJSON(nodes, result)
+	loadIpDataOfPlatforms(nodes, result)
 	hosts := map[string]interface{}{}
 	hostnames := []string{}
 	hostnamesMap := map[string]int{}
@@ -2404,7 +2425,7 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 				hostname = device.(map[string]interface{})["hostname"].(string)
 				if _, ok := hostnamesMap[hostname]; !ok {
 					ip := device.(map[string]interface{})["ip"].(string)
-					if len(ip) > 0 && ip == getIPFromHostname(hostname, result) {
+					if len(ip) > 0 && ip == getIpFromHostname(hostname, result) {
 						hostnames = append(hostnames, hostname)
 						idcID := device.(map[string]interface{})["pop_id"].(string)
 						host := map[string]interface{}{
@@ -2474,7 +2495,10 @@ func getIDCsHosts(rw http.ResponseWriter, req *http.Request) {
 func queryIDCsBandwidths(idcName string, result map[string]interface{}) {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", idcName, r)
+			errorContent := fmt.Errorf("[queryIDCsBandwidths(\"%s\")] Got panic: %v", idcName, r)
+
+			log.Error(errorContent.Error())
+			setError(errorContent, result)
 		}
 	}()
 
@@ -2518,7 +2542,7 @@ func getHostsList(rw http.ResponseWriter, req *http.Request) {
 	var result = make(map[string]interface{})
 	result["error"] = errors
 	items := []interface{}{}
-	getPlatformJSON(nodes, result)
+	loadIpDataOfPlatforms(nodes, result)
 	hosts := map[string]interface{}{}
 	hostnames := []string{}
 	hostnamesMap := map[string]int{}
@@ -2529,10 +2553,10 @@ func getHostsList(rw http.ResponseWriter, req *http.Request) {
 			for _, device := range platform.(map[string]interface{})["ip_list"].([]interface{}) {
 				hostname = device.(map[string]interface{})["hostname"].(string)
 				ip := device.(map[string]interface{})["ip"].(string)
-				if len(ip) > 0 && ip == getIPFromHostname(hostname, result) {
+				if len(ip) > 0 && ip == getIpFromHostname(hostname, result) {
 					if _, ok := hostnamesMap[hostname]; !ok {
 						ip := device.(map[string]interface{})["ip"].(string)
-						if len(ip) > 0 && ip == getIPFromHostname(hostname, result) {
+						if len(ip) > 0 && ip == getIpFromHostname(hostname, result) {
 							hostnames = append(hostnames, hostname)
 							idcID := device.(map[string]interface{})["pop_id"].(string)
 							host := map[string]interface{}{

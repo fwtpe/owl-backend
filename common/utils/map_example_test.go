@@ -5,7 +5,7 @@ import (
 )
 
 func ExampleAbstractMap_ToTypeOfTarget() {
-	sampleMap := map[int16]string {
+	sampleMap := map[int16]string{
 		20: "v1", 30: "v2",
 	}
 
@@ -20,7 +20,7 @@ func ExampleAbstractMap_ToTypeOfTarget() {
 }
 
 func ExampleAbstractMap_BatchProcess() {
-	sampleMap := map[int16]string {
+	sampleMap := map[int16]string{
 		1: "v1", 2: "v2", 3: "v3", 4: "v4", 5: "v5", 6: "v6",
 		7: "v7", 8: "v8", 9: "v9",
 	}

@@ -18,9 +18,9 @@ var _ = Describe("Load platform data", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	It("The result should have at least [1] platform data", func() {
-		testedData := LoadPlatformData()
+		testedData := LoadIpDataOfPlatforms()
 
-		GinkgoT().Logf("[Platform data] First row(JSON): %s", ojson.MarshalJSON(testedData[0]))
+		GinkgoT().Logf("[Platform data] Size[%d]. First row(JSON): %s", len(testedData), ojson.MarshalJSON(testedData[0]))
 		Expect(len(testedData)).To(BeNumerically(">=", 1))
 	})
 }))
@@ -32,7 +32,7 @@ var _ = Describe("Load IDC data", bossSkipper.PrependBeforeEach(func() {
 	It("The result should have at least [1] IDC data", func() {
 		testedData := LoadIdcData()
 
-		GinkgoT().Logf("[IDC data] First row(JSON): %s", ojson.MarshalJSON(testedData[0]))
+		GinkgoT().Logf("[IDC data] Size[%d] First row(JSON): %s", len(testedData), ojson.MarshalJSON(testedData[0]))
 		Expect(len(testedData)).To(BeNumerically(">=", 1))
 	})
 }))
@@ -41,7 +41,7 @@ var _ = Describe("Load IDC bandwidth", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
-	It("The result should have at leat 1 bandwidth data", func() {
+	It("The result should have at least 1 bandwidth data", func() {
 		sampleIdcName := LoadIdcData()[0].IpList[0].Pop
 
 		testedData := LoadIdcBandwidth(sampleIdcName)
@@ -85,3 +85,15 @@ var _ = XDescribe("encrypt the \"fctoken\" of BOSS service", bossSkipper.Prepend
 		Expect(testedResult).To(Equal("ecc65534b21a39c5df1c554dec7662c2"))
 	})
 }))
+
+var _ = Describe("Load platforms type", func() {
+	SetupBossEnv()
+
+	It("The result should have at least 1 data", func() {
+		testedResult := LoadDetailOfPlatforms()
+
+		GinkgoT().Logf("Total size: [%d]. First row: %s", len(testedResult), ojson.MarshalJSON(testedResult[0]))
+
+		Expect(len(testedResult)).To(BeNumerically(">=", 1))
+	})
+})

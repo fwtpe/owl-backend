@@ -1,13 +1,8 @@
 package http
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math"
-	"net/http"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -22,18 +17,18 @@ import (
 	cmodel "github.com/fwtpe/owl-backend/common/model"
 	"github.com/fwtpe/owl-backend/common/utils"
 
+	qdb "github.com/fwtpe/owl-backend/modules/query/database"
 	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	bmodel "github.com/fwtpe/owl-backend/modules/query/model/boss"
-	qdb "github.com/fwtpe/owl-backend/modules/query/database"
 )
 
 type IDCMapItem struct {
-	Popid    int
-	Idc      string
-	Province string
-	City     string
+	Popid    int    `db:"popid"`
+	Idc      string `db:"idc"`
+	Province string `db:"province"`
+	City     string `db:"city"`
 }
 
 type Contacts struct {
@@ -133,21 +128,6 @@ func SyncHostsAndContactsTable() {
 	}
 }
 
-func getIDCMap() map[string]interface{} {
-	idcMap := map[string]interface{}{}
-	o := NewBossOrm()
-	var idcs []IDCMapItem
-	sqlcommand := "SELECT `popid`, `idc`, `province`, `city` FROM `idcs` ORDER BY popid ASC"
-	_, err := o.Raw(sqlcommand).QueryRows(&idcs)
-	if err != nil {
-		log.Errorf(err.Error())
-	}
-	for _, idc := range idcs {
-		idcMap[strconv.Itoa(idc.Popid)] = idc
-	}
-	return idcMap
-}
-
 func syncIdcData() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -158,7 +138,7 @@ func syncIdcData() {
 	// Checks whether or not the latested update time of table is passed than <N> seconds
 	now := time.Now()
 	intervalSeconds := g.Config().Contacts.Interval
-	log.Debugf("[Refresh \"idcs\"] Current time: %s. Interval: %d seconds", now, intervalSeconds)
+	log.Debugf("[Refresh \"idcs\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
 	if !isElapsedTimePassedForIdcsTable(now, intervalSeconds) {
 		log.Debugf("Skip synchronization")
 		return
@@ -184,12 +164,12 @@ func syncIdcData() {
 			queryIDCsBandwidths(host.Pop, bandwidthData)
 			bandwidthData = bandwidthData["items"].(map[string]interface{})
 
-			idcData[host.Pop] = &sourceIdcRow {
+			idcData[host.Pop] = &sourceIdcRow{
 				id: int32(idcId), name: host.Pop,
-				location: &bmodel.Location {
-					Area: location["area"],
+				location: &bmodel.Location{
+					Area:     location["area"],
 					Province: location["province"],
-					City: location["city"],
+					City:     location["city"],
 				},
 				bandwidth: int(bandwidthData["upperLimitMB"].(float64)),
 			}
@@ -200,9 +180,9 @@ func syncIdcData() {
 }
 
 type sourceIdcRow struct {
-	id int32
-	name string
-	location *bmodel.Location
+	id        int32
+	name      string
+	location  *bmodel.Location
 	bandwidth int
 }
 
@@ -267,93 +247,15 @@ func addBondingAndSpeedToHostsTable() {
 	}
 }
 
-func getPlatformsType(nodes map[string]interface{}, result map[string]interface{}, platformsMap map[string]map[string]string) map[string]map[string]string {
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Platform
-	params := map[string]string{
-		"fcname":  fcname,
-		"fctoken": fctoken,
+func loadDetailOfMatchedPlatforms(neededPlatforms map[string]bool) []*bmodel.PlatformDetail {
+	targetPlatforms := make([]*bmodel.PlatformDetail, 0)
+	for _, platform := range boss.LoadDetailOfPlatforms() {
+		if _, ok := neededPlatforms[platform.Name]; ok {
+			targetPlatforms = append(targetPlatforms, platform)
+		}
 	}
-	s, err := json.Marshal(params)
-	if err != nil {
-		log.Errorf(err.Error())
-		return platformsMap
-	}
-	reqPost, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(s)))
-	if err != nil {
-		log.Errorf(err.Error())
-		return platformsMap
-	}
-	reqPost.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
-	resp, err := client.Do(reqPost)
-	if err != nil {
-		log.Errorf(err.Error())
-		return platformsMap
-	} else {
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		err = json.Unmarshal(body, &nodes)
-		if err != nil {
-			log.Errorf(err.Error())
-			return platformsMap
-		}
-		if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
-			if len(nodes["result"].([]interface{})) == 0 {
-				errorMessage := "No platforms returned"
-				setErrorMessage(errorMessage, result)
-				return platformsMap
-			} else {
-				re_inside_whiteSpaces := regexp.MustCompile(`[\s\p{Zs}]{2,}`)
-				for _, platform := range nodes["result"].([]interface{}) {
-					platformName := ""
-					if platform.(map[string]interface{})["platform"] != nil {
-						platformName = platform.(map[string]interface{})["platform"].(string)
-					}
-					platformType := ""
-					if platform.(map[string]interface{})["platform_type"] != nil {
-						platformType = platform.(map[string]interface{})["platform_type"].(string)
-					}
-					department := ""
-					if platform.(map[string]interface{})["department"] != nil {
-						department = platform.(map[string]interface{})["department"].(string)
-					}
-					team := ""
-					if platform.(map[string]interface{})["team"] != nil {
-						team = platform.(map[string]interface{})["team"].(string)
-					}
-					visible := ""
-					if platform.(map[string]interface{})["visible"] != nil {
-						visible = platform.(map[string]interface{})["visible"].(string)
-					}
-					description := platform.(map[string]interface{})["description"].(string)
-					if len(description) > 0 {
-						description = strings.Replace(description, "\r", " ", -1)
-						description = strings.Replace(description, "\n", " ", -1)
-						description = strings.Replace(description, "\t", " ", -1)
-						description = strings.TrimSpace(description)
-						description = re_inside_whiteSpaces.ReplaceAllString(description, " ")
-						if len(description) > 200 {
-							description = string([]rune(description)[0:100])
-						}
-					}
-					if value, ok := platformsMap[platformName]; ok {
-						value["type"] = platformType
-						value["visible"] = visible
-						value["department"] = department
-						value["team"] = team
-						value["description"] = description
-						platformsMap[platformName] = value
-					}
-				}
-			}
-		} else {
-			setErrorMessage("Error occurs", result)
-		}
-	}
-	return platformsMap
+	return targetPlatforms
 }
 
 func getDurationForNetTableQuery(offset int) (int64, int64) {
@@ -581,7 +483,7 @@ func writeToDeviationsTable(platformName string, hour int, minute int, date stri
 
 func syncDeviationsTable() {
 	platformNames := []string{}
-	platformsMap := map[string]map[string]string{}
+	updatedPlatforms := map[string]map[string]string{}
 	o := orm.NewOrm()
 	o.Using("apollo")
 	bo := NewBossOrm()
@@ -608,7 +510,7 @@ func syncDeviationsTable() {
 	} else if num > 0 {
 		for _, row := range rows {
 			platformName := row["platform"].(string)
-			platformsMap[platformName] = map[string]string{
+			updatedPlatforms[platformName] = map[string]string{
 				"contact": row["principal"].(string),
 			}
 			platformNames = append(platformNames, platformName)
@@ -801,148 +703,133 @@ func syncNetTable() {
 }
 
 func syncHostData() {
-	o := NewBossOrm()
-	var rows []orm.Params
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[syncHostData] has error: %v", r)
+		}
+	}()
 
 	/**
 	 * Lastest time of updated data on "ips"
 	 * Checks interval(seconds)
 	 */
-	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
-	num, err := o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
+	now := time.Now()
+	intervalSeconds := g.Config().Hosts.Interval
+	log.Infof("[Refresh \"ips, hosts, platforms\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
+	if !isElapsedTimePassedForIpsTable(now, intervalSeconds) {
+		log.Debugf("Skip synchronization")
 		return
-	} else if num > 0 {
-		format := "2006-01-02 15:04:05"
-		updatedTime, _ := time.Parse(format, rows[0]["updated"].(string))
-		currentTime, _ := time.Parse(format, getNow())
-		diff := currentTime.Unix() - updatedTime.Unix()
-		if int(diff) < g.Config().Hosts.Interval {
-			return
-		}
 	}
 	// :~)
 
 	/**
-	 * Loads Platform data
+	 * Loads IP data of platforms
 	 */
-	var nodes = make(map[string]interface{})
+	var ipDataOfPlatforms = make(map[string]interface{})
 	errors := []string{}
 	var result = make(map[string]interface{})
 	result["error"] = errors
 
-	getPlatformJSON(nodes, result)
+	loadIpDataOfPlatforms(ipDataOfPlatforms, result)
 
-	if nodes["status"] == nil {
+	if ipDataOfPlatforms["status"] == nil {
 		return
-	} else if int(nodes["status"].(float64)) != 1 {
+	} else if int(ipDataOfPlatforms["status"].(float64)) != 1 {
 		return
 	}
 	// :~)
 
-	platformNames := []string{}
-	platformsMap := map[string]map[string]string{}
+	updatedPlatforms := map[string]bool{}
 	hostname := ""
-	hostnames := []string{}
-	hostsMap := map[string]map[string]string{}
-	IPs := []string{}
-	IPKeys := []string{}
-	IPsMap := map[string]map[string]string{}
-	idcIDs := []string{}
+	hostData := map[string]map[string]string{}
+	ipData := map[string]map[string]string{}
+
+	ipListOfPlatforms := ipDataOfPlatforms["result"].([]interface{})
+
+	log.Infof("Number of platforms: %d", len(ipListOfPlatforms))
 
 	// Iterates every platform
-	for _, platform := range nodes["result"].([]interface{}) {
+	for _, platform := range ipListOfPlatforms {
 		platformName := platform.(map[string]interface{})["platform"].(string)
-		platformNames = appendUniqueString(platformNames, platformName)
+
+		ipList := platform.(map[string]interface{})["ip_list"].([]interface{})
+
+		log.Debugf("Platform[%s]. Number of IPs: [%d]", platformName, len(ipList))
 
 		// Iterates every ip_list of every platform
-		for _, device := range platform.(map[string]interface{})["ip_list"].([]interface{}) {
+		for _, device := range ipList {
+			log.Debugf("Current ip(device): %#v", device)
+
 			hostname = device.(map[string]interface{})["hostname"].(string)
-			IP := device.(map[string]interface{})["ip"].(string)
+			ipAddress := device.(map[string]interface{})["ip"].(string)
 			status := device.(map[string]interface{})["ip_status"].(string)
-			IPType := device.(map[string]interface{})["ip_type"].(string)
+			ipType := device.(map[string]interface{})["ip_type"].(string)
 			item := map[string]string{
-				"IP":       IP,
+				"IP":       ipAddress,
 				"status":   status,
 				"hostname": hostname,
 				"platform": platformName,
-				"type":     strings.ToLower(IPType),
+				"type":     strings.ToLower(ipType),
 			}
-			IPs = append(IPs, IP)
-			IPKey := platformName + "_" + IP
-			IPKeys = append(IPKeys, IPKey)
-			if _, ok := IPsMap[IP]; !ok {
-				IPsMap[IPKey] = item
+			ipKeyOfPlatform := platformName + "_" + ipAddress
+			if _, ok := ipData[ipAddress]; !ok {
+				ipData[ipKeyOfPlatform] = item
 			}
 
-			if len(hostname) > 0 {
-				if host, ok := hostsMap[hostname]; !ok {
-					hostnames = append(hostnames, hostname)
-					idcID := device.(map[string]interface{})["pop_id"].(string)
-					host := map[string]string{
-						"hostname":  hostname,
-						"activate":  "0",
-						"platforms": "",
-						"idcID":     idcID,
-						"IP":        IP,
-					}
-					if len(IP) > 0 && IP == getIPFromHostname(hostname, result) {
-						host["IP"] = IP
-						host["platform"] = platformName
-						platforms := []string{}
-						if len(host["platforms"]) > 0 {
-							platforms = strings.Split(host["platforms"], ",")
-						}
-						platforms = appendUniqueString(platforms, platformName)
-						host["platforms"] = strings.Join(platforms, ",")
-					}
-					if status == "1" {
-						host["activate"] = "1"
-					}
-					hostsMap[hostname] = host
-					idcIDs = appendUniqueString(idcIDs, idcID)
-				} else {
-					if len(IP) > 0 && IP == getIPFromHostname(hostname, result) {
-						host["IP"] = IP
-						host["platform"] = platformName
-						platforms := []string{}
-						if len(host["platforms"]) > 0 {
-							platforms = strings.Split(host["platforms"], ",")
-						}
-						platforms = appendUniqueString(platforms, platformName)
-						host["platforms"] = strings.Join(platforms, ",")
-					}
-					if status == "1" {
-						host["activate"] = "1"
-					}
-					hostsMap[hostname] = host
+			if len(hostname) == 0 {
+				continue
+			}
+
+			effectiveIpAddress := getIpFromHostnameWithDefault(hostname, ipAddress)
+
+			if host, ok := hostData[hostname]; !ok {
+				idcID := device.(map[string]interface{})["pop_id"].(string)
+				host := map[string]string{
+					"hostname":  hostname,
+					"activate":  "0",
+					"platforms": "",
+					"idcID":     idcID,
+					"IP":        ipAddress,
 				}
+				if len(effectiveIpAddress) > 0 {
+					host["ipAddress"] = effectiveIpAddress
+					host["platform"] = platformName
+					platforms := []string{}
+					if len(host["platforms"]) > 0 {
+						platforms = strings.Split(host["platforms"], ",")
+					}
+					platforms = appendUniqueString(platforms, platformName)
+					host["platforms"] = strings.Join(platforms, ",")
+				}
+				if status == "1" {
+					host["activate"] = "1"
+				}
+				hostData[hostname] = host
+			} else {
+				if len(effectiveIpAddress) > 0 {
+					host["ipAddress"] = effectiveIpAddress
+					host["platform"] = platformName
+					platforms := []string{}
+					if len(host["platforms"]) > 0 {
+						platforms = strings.Split(host["platforms"], ",")
+					}
+					platforms = appendUniqueString(platforms, platformName)
+					host["platforms"] = strings.Join(platforms, ",")
+				}
+				if status == "1" {
+					host["activate"] = "1"
+				}
+				hostData[hostname] = host
 			}
 		}
 
-		platformsMap[platformName] = map[string]string{
-			"platformName": platformName,
-			"type":         "",
-			"visible":      "",
-			"department":   "",
-			"team":         "",
-			"description":  "",
-		}
+		updatedPlatforms[platformName] = true
 	}
 
-	sort.Strings(IPs)
-	sort.Strings(IPKeys)
-	sort.Strings(hostnames)
-	sort.Strings(platformNames)
-
-	log.Debugf("platformNames =", platformNames)
-
-	updateIPsTable(IPKeys, IPsMap)
-	updateHostsTable(hostnames, hostsMap)
-	platformsMap = getPlatformsType(nodes, result, platformsMap)
-	updatePlatformsTable(platformNames, platformsMap)
-	muteFalconHostTable(hostnames, hostsMap)
+	updateIpsTable(ipData)
+	updateHostsTable(hostData)
+	detailOfPlatforms := loadDetailOfMatchedPlatforms(updatedPlatforms)
+	updatePlatformsTable(detailOfPlatforms)
 }
 
 func syncContactsTable() {
@@ -1071,24 +958,23 @@ func updateContactsTable(contactNames []string, contactsMap map[string]map[strin
 var insertIdcSql = `
 INSERT INTO idcs(popid, idc, bandwidth, area, province, city, updated, count)
 VALUES(
-	:id, :name, :bandwidth, :area, :province, :city, :updated_time,
-	(SELECT COUNT(*) FROM hosts WHERE idc = :name)
+	:id, :name, :bandwidth, :area, :province, :city, :updated_time, 0
 )
 `
 var updateIdcSql = `
 UPDATE idcs
 SET popid = :id, bandwidth = :bandwidth,
 	area = :area, province = :province, city = :city,
-	updated = :updated_time,
-	count = (SELECT COUNT(*) FROM hosts WHERE idc = :name)
+	updated = :updated_time
 WHERE idc = :name
 `
+
 func updateIdcData(idcData map[string]*sourceIdcRow) {
 	const batchSize = 32
 
 	log.Debugf("[Refresh \"idcs\"] Batch size: %d", batchSize)
 	utils.MakeAbstractMap(idcData).SimpleBatchProcess(
-		batchSize, (&txRefreshIdcsTable{ time.Now() }).processBatch,
+		batchSize, (&txRefreshIdcsTable{time.Now()}).processBatch,
 	)
 }
 
@@ -1108,13 +994,13 @@ func (self *txRefreshIdcsTable) processBatch(sourceData interface{}) {
 
 			for _, idcRow := range typedSource {
 				log.Debugf("Id [%v]. Name [%v].", idcRow.id, idcRow.name)
-				sqlParams := map[string]interface{} {
-					"id": idcRow.id,
-					"name": idcRow.name,
-					"bandwidth": idcRow.bandwidth,
-					"area": idcRow.location.Area,
-					"province": idcRow.location.Province,
-					"city": idcRow.location.City,
+				sqlParams := map[string]interface{}{
+					"id":           idcRow.id,
+					"name":         idcRow.name,
+					"bandwidth":    idcRow.bandwidth,
+					"area":         idcRow.location.Area,
+					"province":     idcRow.location.Province,
+					"city":         idcRow.location.City,
 					"updated_time": self.updateTime,
 				}
 
@@ -1138,321 +1024,292 @@ func (self *txRefreshIdcsTable) processBatch(sourceData interface{}) {
 	qdb.BossDbFacade.SqlxDbCtrl.InTx(txCallback)
 }
 
-func updateIPsTable(IPNames []string, IPsMap map[string]map[string]string) {
-	log.Debugf("func updateIPsTable()")
-	now := getNow()
-	o := orm.NewOrm()
-	var rows []orm.Params
+const insertIpsSql = `
+	INSERT INTO ips(ip, status, type, hostname, platform, updated, exist)
+	VALUES(:ip, :status, :type, :hostname, :platform, :update_time, 1)
+`
+const updateIpsSql = `
+	UPDATE ips
+	SET hostname = :hostname, updated = :update_time,
+		status = :status, type = :type, exist = 1
+	WHERE ip = :ip AND platform = :platform
+`
+const turnOffExistToIpsSql = `
+	UPDATE ips
+	SET exist = 0, updated = FROM_UNIXTIME(?)
+	WHERE exist = 1
+		AND updated <= FROM_UNIXTIME(?) - INTERVAL 10 MINUTE
+`
+
+func updateIpsTable(IPsMap map[string]map[string]string) {
+	now := time.Now()
 
 	/**
 	 * Checks time of interval on updating data
 	 */
-	sql := "SELECT updated FROM `boss`.`ips` WHERE exist = 1 ORDER BY updated DESC LIMIT 1"
-	num, err := o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
+	if !isElapsedTimePassedForIpsTable(
+		now, g.Config().Hosts.Interval,
+	) {
 		return
-	} else if num > 0 {
-		format := "2006-01-02 15:04:05"
-		updatedTime, _ := time.Parse(format, rows[0]["updated"].(string))
-		currentTime, _ := time.Parse(format, getNow())
-		diff := currentTime.Unix() - updatedTime.Unix()
-		if int(diff) < g.Config().Hosts.Interval {
-			return
-		}
 	}
 	// :~)
 
 	/**
 	 * Insert or update data
 	 */
-	for _, IPName := range IPNames {
-		item := IPsMap[IPName]
-		sql := "SELECT id FROM boss.ips WHERE ip = ? AND platform = ? LIMIT 1"
-		num, err := o.Raw(sql, item["IP"], item["platform"]).Values(&rows)
-		if num == 0 {
-			status, _ := strconv.Atoi(item["status"])
-			sql := "INSERT INTO boss.ips("
-			sql += "ip, exist, status, type, hostname, platform, updated) "
-			sql += "VALUES(?, ?, ?, ?, ?, ?, ?)"
-			_, err := o.Raw(sql, item["IP"], 1, status, item["type"], item["hostname"], item["platform"], now).Exec()
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		} else if err != nil {
-			log.Errorf(err.Error())
-		} else if num > 0 {
-			row := rows[0]
-			ID := row["id"]
-			status, _ := strconv.Atoi(item["status"])
-			sql := "UPDATE boss.ips"
-			sql += " SET ip = ?, exist = ?, status = ?, type = ?,"
-			sql += " hostname = ?, platform = ?, updated = ?"
-			sql += " WHERE id = ?"
-			_, err := o.Raw(sql, item["IP"], 1, status, item["type"], item["hostname"], item["platform"], now, ID).Exec()
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		}
-	}
-	// :~)
+	utils.MakeAbstractMap(IPsMap).SimpleBatchProcess(
+		32,
+		func(row interface{}) {
+			ipData := row.(map[string]map[string]string)
+
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
+
+				insertStmt := txExt.PrepareNamed(insertIpsSql)
+				updatedStmt := txExt.PrepareNamed(updateIpsSql)
+				for _, row := range ipData {
+					params := map[string]interface{}{
+						"ip":          row["IP"],
+						"status":      row["status"],
+						"type":        row["type"],
+						"hostname":    row["hostname"],
+						"platform":    row["platform"],
+						"update_time": now,
+					}
+
+					log.Debugf("[Insert/Update] ip param: %q", params)
+
+					if db.ToResultExt(updatedStmt.MustExec(params)).RowsAffected() > 0 {
+						continue
+					}
+
+					insertStmt.MustExec(params)
+				}
+
+				return db.TxCommit
+			}))
+		},
+	)
 
 	/**
-	 * For every row, if it's time of update is 10 minutes ago,
-	 * set its value of existing to "0".
+	 * Turns off the exist for ips which are updated at least 10 minutes ago
 	 */
-	sql = "SELECT id FROM boss.ips WHERE exist = ?"
-	sql += " AND updated <= DATE_SUB(CONVERT_TZ(NOW(),@@session.time_zone,'+08:00'),"
-	sql += " INTERVAL 10 MINUTE) LIMIT 30"
-	num, err = o.Raw(sql, 1).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
-	} else if num > 0 {
-		for _, row := range rows {
-			ID := row["id"]
-			sql = "UPDATE boss.ips"
-			sql += " SET exist = ?"
-			sql += " WHERE id = ?"
-			_, err := o.Raw(sql, 0, ID).Exec()
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		}
-	}
+	qdb.BossDbFacade.SqlxDbCtrl.
+		Preparex(turnOffExistToIpsSql).
+		MustExec(now.Unix(), now.Unix())
 	// :~)
 }
 
-func updateHostsTable(hostnames []string, hostsMap map[string]map[string]string) {
-	log.Debugf("func updateHostsTable()")
-	idcMap := getIDCMap()
+const insertHostsSql = `
+	INSERT INTO hosts(
+		exist,
+		ip, hostname, platform, platforms,
+		activate, isp, updated,
+		idc, province, city
+	)
+	SELECT direct_columns.*,
+		idc_columns.*
+	FROM
+		(
+			SELECT
+				1 AS d_exist,
+				:ip AS d_ip, :hostname AS d_hostname, :platform AS d_platform, :platforms AS d_platforms,
+				:activate AS d_activate, :isp AS d_isp, :update_time AS d_update_time
+		) AS direct_columns
+		LEFT OUTER JOIN
+		(
+			SELECT idc AS idc_name, province AS idc_province, city AS idc_city
+			FROM idcs
+			WHERE popid = :idc_id
+
+		) AS idc_columns
+		ON 1 = 1
+`
+const updateHostsSql = `
+	UPDATE hosts AS hs
+		LEFT OUTER JOIN
+		(
+			SELECT idc AS idc_name, province AS idc_province, city AS idc_city
+			FROM idcs
+			WHERE popid = :idc_id
+		) AS idc
+		ON 1 = 1
+	SET hs.exist = 1,
+		hs.ip = :ip, hs.activate = :activate,
+		hs.platform = :platform, hs.platforms = :platforms,
+		hs.isp = :isp, hs.updated = :update_time,
+		hs.idc = idc.idc_name, hs.province = idc.idc_province, hs.city = idc.idc_city
+	WHERE hs.hostname = :hostname
+`
+const turnOffExistToHostsSql = `
+	UPDATE hosts
+	SET exist = 0, updated = FROM_UNIXTIME(?)
+	WHERE exist = 1
+		AND updated <= FROM_UNIXTIME(?) - INTERVAL 10 MINUTE
+`
+const updateCountOfIdc = `
+	UPDATE idcs
+		LEFT OUTER JOIN
+		(
+			SELECT idc, COUNT(*) AS count_hosts
+			FROM hosts
+			GROUP BY idc
+		) AS hs
+		ON idcs.idc = hs.idc
+	SET idcs.count = IFNULL(hs.count_hosts, 0)
+`
+
+func updateHostsTable(hostData map[string]map[string]string) {
+	now := time.Now()
+
+	/**
+	 * Checks the interval of synchronization
+	 */
+	intervalSeconds := g.Config().Hosts.Interval
+	log.Debugf("[Refresh \"hosts\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
+	if !isElapsedTimePassedForHostsTable(now, intervalSeconds) {
+		return
+	}
+	// :~)
+
 	hosts := []map[string]string{}
-	for _, hostname := range hostnames {
-		host := hostsMap[hostname]
+	for _, host := range hostData {
 		if len(host["platform"]) == 0 {
 			host["platform"] = strings.Split(host["platforms"], ",")[0]
 		}
-		ISP := ""
-		str := strings.Replace(host["hostname"], "_", "-", -1)
-		slice := strings.Split(str, "-")
-		if len(slice) >= 4 {
-			ISP = slice[0]
-		}
-		if len(ISP) > 5 {
-			ISP = ""
-		}
-		host["ISP"] = ISP
-		idcID := host["idcID"]
-		if idc, ok := idcMap[idcID]; ok {
-			host["IDC"] = idc.(IDCMapItem).Idc
-			host["province"] = idc.(IDCMapItem).Province
-			host["city"] = idc.(IDCMapItem).City
-		}
+
+		host["ISP"] = getIspFromHostname(host["hostname"])
 		hosts = append(hosts, host)
 	}
 
-	o := NewBossOrm()
-	var rows []orm.Params
-	num, err := o.Raw("SELECT * FROM hosts limit 1;").Values(&rows)
-	if num > 0 { // not empty
-		sql := fmt.Sprintf("SELECT * FROM hosts WHERE exist = 1 AND updated <= DATE_SUB(NOW(), INTERVAL %v SECOND) limit 1;", g.Config().Hosts.Interval)
-		numStale, err := o.Raw(sql).Values(&rows)
-		if err != nil {
-			log.Errorf(err.Error())
-			return
-		} else if numStale == 0 {
-			log.Debugln("boss.hosts have no rows out of date.")
-			return
-		}
-	}
-	// do real update and insert
-	// put data into temporary table
-	_, err = o.Raw("DROP TABLE IF EXISTS tempBossHosts;").Exec()
-	if err != nil {
-		log.Errorf(err.Error())
-		return
-	}
-	_, err = o.Raw("CREATE TABLE tempBossHosts LIKE hosts;").Exec()
-	if err != nil {
-		log.Errorf(err.Error())
-		return
-	}
-	now := time.Now().Unix()
-	// SQL prepare statement
-	// batchSize := 32
-	sql := `
-		INSERT INTO tempBossHosts(
-			hostname, exist, activate, platform, platforms, idc, ip, isp, province, city, updated
-		)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FROM_UNIXTIME(?))
-	`
-	o.Begin()
-	p, err := o.Raw(sql).Prepare()
-	if err != nil {
-		log.Errorf(err.Error())
-		return
-	}
-	// use transition to batch insert multiple values
-	for _, host := range hosts {
-		_, err := p.Exec(
-			host["hostname"], 1, host["activate"], host["platform"], host["platforms"], host["IDC"],
-			host["IP"], host["ISP"], host["province"], host["city"], now)
+	/**
+	 * Insert or update data
+	 */
+	utils.MakeAbstractArray(hosts).SimpleBatchProcess(
+		32,
+		func(batchData interface{}) {
+			hostData := batchData.([]map[string]string)
 
-		if err != nil {
-			log.Errorf(err.Error())
-			o.Rollback()
-			return
-		}
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
 
-	}
-	o.Commit()
-	// begin transaction to join base table with temporary table
-	err = o.Begin()
-	if err != nil {
-		log.Errorf(err.Error())
-		return
-	}
-	// SQL update statement
-	sql = `
-		UPDATE hosts
-			INNER JOIN tempBossHosts t
-			ON hosts.hostname = t.hostname
-		SET hosts.exist = 1, hosts.activate = t.activate, hosts.platform = t.platform,
-			hosts.platforms = t.platforms, hosts.idc = t.idc, hosts.ip = t.ip,
-			hosts.isp = t.isp, hosts.province = t.province, hosts.city = t.city,
-			hosts.updated = t.updated
-	`
-	if _, UpdateError := o.Raw(sql).Exec(); UpdateError != nil {
-		log.Errorf("Update hosts has error: %v", UpdateError)
-		o.Rollback()
-		return
-	}
-	// SQL insert statement
-	sql = `
-		INSERT INTO hosts(
-			hostname, exist, activate, platform, platforms, idc, ip, isp, province, city, updated
-		)
-		SELECT t.hostname, t.exist, t.activate, t.platform, t.platforms, t.idc,
-			t.ip, t.isp, t.province, t.city, t.updated
-		FROM tempBossHosts t
-			LEFT JOIN hosts
-			ON t.hostname = hosts.hostname
-		WHERE hosts.hostname IS NULL
-	`
-	if _, InsertError := o.Raw(sql).Exec(); InsertError != nil {
-		log.Errorf("Insert new data into hosts has error: %v", InsertError)
-		o.Rollback()
-		return
-	}
-	// SQL update exist property
-	sql = fmt.Sprintf("UPDATE hosts SET exist = 0, updated = FROM_UNIXTIME(%d) WHERE exist = 1 AND updated <= DATE_SUB(NOW(), INTERVAL 10 MINUTE);", now)
-	if _, StaleError := o.Raw(sql).Exec(); StaleError != nil {
-		log.Errorf("Update hosts to non-exist has error: %v", StaleError)
-		o.Rollback()
-		return
-	}
+				insertStmt := txExt.PrepareNamed(insertHostsSql)
+				updateStmt := txExt.PrepareNamed(updateHostsSql)
 
-	// Commit or Rollback
-	err = o.Commit()
-	if err != nil {
-		log.Errorf("Commit has error: %v", err)
-	}
+				for _, host := range hostData {
+					params := map[string]interface{}{
+						"ip": host["IP"], "hostname": host["hostname"],
+						"platform": host["platform"], "platforms": host["platforms"],
+						"isp": host["ISP"], "activate": host["activate"], "update_time": now,
+						"idc_id": host["idcID"],
+					}
 
-	_, err = o.Raw("DROP TABLE IF EXISTS tempBossHosts;").Exec()
-	if err != nil {
-		log.Errorf("DROP TEMP TABLE tempBossHosts has error: %v", err)
-	}
+					log.Debugf("[Insert/Update] Host params: %q", params)
+
+					if result := db.ToResultExt(updateStmt.MustExec(params)); result.RowsAffected() > 0 {
+						continue
+					}
+
+					insertStmt.MustExec(params)
+				}
+
+				return db.TxCommit
+			}))
+		},
+	)
+	// :~)
+
+	/**
+	 * Turns off the exist for hosts which are updated at least 10 minutes age
+	 */
+	qdb.BossDbFacade.SqlxDb.MustExec(
+		turnOffExistToHostsSql,
+		now.Unix(), now.Unix(),
+	)
+	// :~)
+
+	qdb.BossDbFacade.SqlxDb.MustExec(
+		updateCountOfIdc,
+	)
 }
 
-func muteFalconHostTable(hostnames []string, hostsMap map[string]map[string]string) {
-	log.Debugf("func muteFalconHostTable()")
-	o := orm.NewOrm()
-	o.Using("default")
-	var rows []orm.Params
-	now := getNow()
-	for _, hostname := range hostnames {
-		host := hostsMap[hostname]
-		sql := "SELECT id FROM `falcon_portal`.`host` WHERE hostname = ? LIMIT 1"
-		num, err := o.Raw(sql, host["hostname"]).Values(&rows)
-		if err != nil {
-			log.Errorf(err.Error())
-		} else if num > 0 {
-			activate := host["activate"]
-			if activate == "0" || activate == "1" {
-				begin := int64(0)
-				end := int64(0)
-				if activate == "0" {
-					begin = int64(946684800) // Sat, 01 Jan 2000 00:00:00 GMT
-					end = int64(4292329420)  // Thu, 07 Jan 2106 17:43:40 GMT
-				}
-				row := rows[0]
-				ID := row["id"]
-				sql = "UPDATE falcon_portal.host"
-				sql += " SET maintain_begin = ?, maintain_end = ?, update_at = ?"
-				sql += " WHERE id = ?"
-				_, err := o.Raw(sql, begin, end, now, ID).Exec()
-				if err != nil {
-					log.Errorf(err.Error())
-				}
-			}
-		}
-	}
-}
+var insertPlatformSql = `
+INSERT INTO platforms(platform, type, department, team, visible, description, updated, count)
+VALUES(
+	:name, :type, :department, :team, :visible, :description, :updated_time,
+	(
+		SELECT COUNT(DISTINCT hostname)
+		FROM ips
+		WHERE platform = :name AND exist = 1
+	)
+)
+`
+var updatePlatformSql = `
+UPDATE platforms
+SET type = :type, department = :department, team = :team,
+	visible = :visible, description = :description,
+	updated = :updated_time,
+	count = (
+		SELECT COUNT(DISTINCT hostname)
+		FROM ips
+		WHERE platform = :name AND exist = 1
+	)
+WHERE platform = :name
+`
 
-func updatePlatformsTable(platformNames []string, platformsMap map[string]map[string]string) {
-	log.Debugf("func updatePlatformsTable()")
-	now := getNow()
-	o := NewBossOrm()
-	var platform Platforms
-	var rows []orm.Params
-	sql := "SELECT DISTINCT hostname FROM `boss`.`ips`"
-	sql += " WHERE platform = ? AND exist = 1 ORDER BY hostname ASC"
-	sqlInsert := "INSERT INTO `boss`.`platforms`"
-	sqlInsert += "(platform, type, visible, count, department, team, description, updated) "
-	sqlInsert += "VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
-	for _, platformName := range platformNames {
-		count, err := o.Raw(sql, platformName).Values(&rows)
-		if err != nil {
-			count = 0
-			log.Errorf(err.Error())
-		}
-		group := platformsMap[platformName]
-		err = o.QueryTable("platforms").Filter("platform", group["platformName"]).One(&platform)
-		if err == orm.ErrNoRows {
-			_, err := o.Raw(sqlInsert, group["platformName"], group["type"], group["visible"], count, group["department"], group["team"], group["description"], now).Exec()
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		} else if err != nil {
-			log.Errorf(err.Error())
-		} else {
-			platform.Platform = group["platformName"]
-			if len(group["type"]) > 0 {
-				platform.Type = group["type"]
-			}
-			if len(group["visible"]) > 0 {
-				platform.Visible = 0
-				if group["visible"] == "1" {
-					platform.Visible = 1
+func updatePlatformsTable(platforms []*bmodel.PlatformDetail) {
+	now := time.Now()
+
+	utils.MakeAbstractArray(platforms).SimpleBatchProcess(
+		32,
+		func(batchData interface{}) {
+			platformData := batchData.([]*bmodel.PlatformDetail)
+
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
+
+				inserteStmt := txExt.PrepareNamed(insertPlatformSql)
+				updateStmt := txExt.PrepareNamed(updatePlatformSql)
+
+				for _, platformRow := range platformData {
+					params := map[string]interface{}{
+						"name":         platformRow.Name,
+						"type":         platformRow.Type,
+						"department":   platformRow.Department,
+						"team":         platformRow.Team,
+						"visible":      platformRow.Visible,
+						"description":  platformRow.ShortenDescription(),
+						"updated_time": now,
+					}
+
+					log.Debugf("[Insert/Update] platform param: %q", params)
+
+					if db.ToResultExt(updateStmt.MustExec(params)).RowsAffected() > 0 {
+						continue
+					}
+
+					inserteStmt.MustExec(params)
 				}
-			}
-			platform.Count = int(count)
-			if len(group["department"]) > 0 {
-				platform.Department = group["department"]
-			}
-			platform.Team = group["team"]
-			platform.Description = group["description"]
-			platform.Updated = now
-			_, err := o.Update(&platform)
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		}
-	}
+
+				return db.TxCommit
+			}))
+		},
+	)
 }
 
 func isElapsedTimePassedForIdcsTable(checkedTime time.Time, seconds int) bool {
 	return isElapsedTimePassed(
 		"idcs", "updated", checkedTime, seconds,
+	)
+}
+func isElapsedTimePassedForIpsTable(checkedTime time.Time, seconds int) bool {
+	return isElapsedTimePassed(
+		"ips", "updated", checkedTime, seconds,
+	)
+}
+func isElapsedTimePassedForHostsTable(checkedTime time.Time, seconds int) bool {
+	return isElapsedTimePassed(
+		"hosts", "updated", checkedTime, seconds,
 	)
 }
 

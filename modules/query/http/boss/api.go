@@ -35,7 +35,12 @@ func SetupServerUrl(apiConfig *g.ApiConfig) {
 
 	url := apiConfig.BossBase
 
-	defaultClient := client.CommonGentleman.NewDefaultClient()
+	defaultClient := client.CommonGentleman.NewClientByConfig(
+		&client.GentlemanConfig{
+			RequestTimeout: 30 * time.Second,
+		},
+	)
+
 	for _, plugin := range httpClientPlugins {
 		defaultClient.Use(plugin)
 	}
@@ -76,8 +81,7 @@ func LoadIdcBandwidth(idcName string) []*bmodel.IdcBandwidthRow {
 	)
 
 	idcBandwidthResult := &bmodel.IdcBandwidthResult{}
-	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcBandwidthResult);
-		err != nil {
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcBandwidthResult); err != nil {
 		return nil
 	}
 
@@ -90,7 +94,7 @@ func LoadIdcBandwidth(idcName string) []*bmodel.IdcBandwidthRow {
 		panic(message)
 	}
 
-	logger.Debugf("Bandwidth: %v", idcBandwidthResult.Result)
+	logger.Debugf("Bandwidth: %#v", idcBandwidthResult)
 
 	return idcBandwidthResult.Result
 }
@@ -107,8 +111,7 @@ func LoadLocationData(idcId int) *bmodel.Location {
 	)
 
 	locationResult := new(bmodel.LocationResult)
-	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), locationResult);
-		err != nil {
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), locationResult); err != nil {
 		return &bmodel.Location{}
 	}
 
@@ -126,17 +129,16 @@ func LoadLocationData(idcId int) *bmodel.Location {
 	return locationResult.Result
 }
 
-func LoadPlatformData() []*bmodel.Platform {
-	platformData := new(bmodel.PlatformResult)
-	if err := bindJson(loadPlatformResp(), platformData);
-		err != nil {
+func LoadIpDataOfPlatforms() []*bmodel.PlatformIps {
+	platformData := new(bmodel.PlatformIpResult)
+	if err := bindJson(loadPlatformResp(), platformData); err != nil {
 		return nil
 	}
 
 	return platformData.Result
 }
 
-func LoadPlatformDataAsMap(container *map[string]interface{}) {
+func LoadIpDataOfPlatformsToMap(container *map[string]interface{}) {
 	err := bindJson(loadPlatformResp(), container)
 
 	if err != nil {
@@ -157,7 +159,7 @@ func loadPlatformResp() *gt.Response {
 	return req.SendAndStatusMustMatch(http.StatusOK)
 }
 
-func LoadIdcData() []*bmodel.IdcRow {
+func LoadIdcData() []*bmodel.IdcIps {
 	uri := fmt.Sprintf(
 		g.BOSS_IDC_PATH_TMPL,
 		bossFcname, SecureFctokenByConfig(),
@@ -167,8 +169,7 @@ func LoadIdcData() []*bmodel.IdcRow {
 	)
 
 	idcResult := new(bmodel.IdcResult)
-	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcResult);
-		err != nil {
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), idcResult); err != nil {
 		return nil
 	}
 
@@ -184,6 +185,35 @@ func LoadIdcData() []*bmodel.IdcRow {
 	logger.Debugf("Number of IDC data: %d", len(idcResult.Result))
 
 	return idcResult.Result
+}
+
+func LoadDetailOfPlatforms() []*bmodel.PlatformDetail {
+	req := client.ToGentlemanReq(
+		bossPlatformBase.Clone().JSON(
+			map[string]interface{}{
+				"fcname":  bossFcname,
+				"fctoken": SecureFctokenByConfig(),
+			},
+		),
+	)
+
+	platformTypeResult := &bmodel.PlatformDetailResult{}
+	if err := bindJson(req.SendAndStatusMustMatch(http.StatusOK), platformTypeResult); err != nil {
+		return nil
+	}
+
+	if platformTypeResult.Status != 1 {
+		message := fmt.Sprintf(
+			"Cannot load type of platforms. Error Code[%d]. Message[%s]",
+			platformTypeResult.Status, platformTypeResult.Info,
+		)
+		logger.Warn(message)
+		panic(message)
+	}
+
+	logger.Debugf("Platform type. Len(%d)", len(platformTypeResult.Result))
+
+	return platformTypeResult.Result
 }
 
 func bindJson(resp *gt.Response, container interface{}) error {

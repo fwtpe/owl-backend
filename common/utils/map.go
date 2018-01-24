@@ -33,7 +33,7 @@ func KeysOfMap(m map[string]string) []string {
 // Wrapping type for any map
 type AbstractMap struct {
 	currentMap reflect.Value
-	mapType reflect.Type
+	mapType    reflect.Type
 }
 
 // Initialized a map by any instance of map.
@@ -46,7 +46,7 @@ func MakeAbstractMap(sourceMap interface{}) *AbstractMap {
 
 	return &AbstractMap{
 		currentMap: valueOfMap,
-		mapType: valueOfMap.Type(),
+		mapType:    valueOfMap.Type(),
 	}
 }
 

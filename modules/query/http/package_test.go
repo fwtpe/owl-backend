@@ -5,16 +5,16 @@ import (
 	"testing"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/sirupsen/logrus"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/sirupsen/logrus"
 
-	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
-	"github.com/fwtpe/owl-backend/common/db/facade"
 	odb "github.com/fwtpe/owl-backend/common/db"
+	"github.com/fwtpe/owl-backend/common/db/facade"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
-	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	db "github.com/fwtpe/owl-backend/modules/query/database"
+	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	qtest "github.com/fwtpe/owl-backend/modules/query/test"
 
 	. "github.com/onsi/ginkgo"
@@ -57,7 +57,7 @@ var _ = BeforeSuite(func() {
 	}
 
 	bossFacade := &facade.DbFacade{}
-	bossFacade.Open(&odb.DbConfig {
+	bossFacade.Open(&odb.DbConfig{
 		Dsn: testFlags.GetMysqlOfOwlDb(tFlag.OWL_DB_BOSS), MaxIdle: 2,
 	})
 

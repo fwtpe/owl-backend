@@ -68,7 +68,7 @@ const (
 	BOSS_URI_BASE_PLATFORM = "/base/platform/get_all_platform_pbc"
 	BOSS_URI_BASE_UPLINK   = "/base/get_uplink_list"
 
-	BOSS_IDC_PATH_TMPL = "/fcname/%s/fctoken/%s/pop/yes/pop_id/yes.json"
+	BOSS_IDC_PATH_TMPL      = "/fcname/%s/fctoken/%s/pop/yes/pop_id/yes.json"
 	BOSS_PLATFORM_PATH_TMPL = "/fcname/%s/fctoken/%s/show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
 )
 

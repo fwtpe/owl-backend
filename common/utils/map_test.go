@@ -27,7 +27,7 @@ var _ = Describe("Abstract Map", func() {
 	})
 
 	Context("Batch Processor", func() {
-		sampleData := map[string]int {
+		sampleData := map[string]int{
 			"v1": 10, "v2": 20, "v3": 30,
 			"v4": 40, "v5": 50, "v6": 60,
 			"v7": 70, "v8": 80, "v9": 90,
