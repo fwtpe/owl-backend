@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/container/set"
 )

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/config"
 )
 
 type Team struct {

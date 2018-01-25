@@ -3,10 +3,10 @@ package ginHttp
 import (
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/utils"
 
-	grahttp "github.com/Cepave/open-falcon-backend/modules/f2e-api/lambda_extends/gin_http/grafana"
+	grahttp "github.com/fwtpe/owl-backend/modules/f2e-api/lambda_extends/gin_http/grafana"
 	"github.com/gin-gonic/gin"
 )
 

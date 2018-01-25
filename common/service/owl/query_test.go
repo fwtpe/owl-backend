@@ -6,17 +6,14 @@ import (
 
 	"github.com/satori/go.uuid"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
-	mock "github.com/Cepave/open-falcon-backend/common/testing/http/gock"
-	"github.com/Cepave/open-falcon-backend/common/types"
+	"github.com/fwtpe/owl-backend/common/db"
+	model "github.com/fwtpe/owl-backend/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/types"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
 )
-
-var gockConfig = mock.GockConfigBuilder.NewConfigByRandom()
 
 var _ = Describe("[RESTful client] Query Object", func() {
 	mysqlApiConfig := gockConfig.NewRestfulClientConfig()

@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"fmt"
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
 	sjson "github.com/bitly/go-simplejson"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type TimeFilterDetail TimeFilter

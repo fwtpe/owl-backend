@@ -3,7 +3,7 @@ package changelog
 import (
 	dbsql "database/sql"
 	"fmt"
-	psql "github.com/Cepave/open-falcon-backend/scripts/mysql/dbpatch/go/sql"
+	psql "github.com/fwtpe/owl-backend/scripts/mysql/dbpatch/go/sql"
 	"log"
 )
 

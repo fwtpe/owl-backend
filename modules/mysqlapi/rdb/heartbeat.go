@@ -1,12 +1,12 @@
 package rdb
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/db"
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	sqlxExt "github.com/Cepave/open-falcon-backend/common/db/sqlx"
-	gormExt "github.com/Cepave/open-falcon-backend/common/gorm"
-	cModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
+	"github.com/fwtpe/owl-backend/common/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	sqlxExt "github.com/fwtpe/owl-backend/common/db/sqlx"
+	gormExt "github.com/fwtpe/owl-backend/common/gorm"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 	"github.com/jinzhu/gorm"
 	"github.com/jmoiron/sqlx"
 )

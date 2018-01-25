@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	csc "github.com/Cepave/open-falcon-backend/common/strconv"
+	csc "github.com/fwtpe/owl-backend/common/strconv"
 	"regexp"
 	"strconv"
 	"strings"

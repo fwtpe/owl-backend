@@ -6,8 +6,8 @@ import (
 	"math"
 	"strings"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	alm "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/alarm"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	alm "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/alarm"
 	"github.com/gin-gonic/gin"
 )
 

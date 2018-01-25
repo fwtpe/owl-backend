@@ -11,7 +11,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 	"gopkg.in/h2non/gentleman.v2"
 
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

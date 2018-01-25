@@ -1,7 +1,7 @@
 package sql
 
 import (
-	tb "github.com/Cepave/open-falcon-backend/common/textbuilder"
+	tb "github.com/fwtpe/owl-backend/common/textbuilder"
 )
 
 // Builds prefixing text getter if the where condition is viable

@@ -6,8 +6,8 @@ import (
 	"log"
 	"testing"
 
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper/filter"
-	"github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/boss"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/helper/filter"
+	"github.com/fwtpe/owl-backend/modules/f2e-api/app/model/boss"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

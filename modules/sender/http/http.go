@@ -2,7 +2,7 @@ package http
 
 import (
 	"encoding/json"
-	"github.com/Cepave/open-falcon-backend/modules/sender/g"
+	"github.com/fwtpe/owl-backend/modules/sender/g"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	_ "net/http/pprof"

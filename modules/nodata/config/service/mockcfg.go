@@ -5,8 +5,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"strings"
 
-	cmodel "github.com/open-falcon/common/model"
-	cutils "github.com/open-falcon/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 )
 
 type MockCfg struct {

@@ -2,7 +2,7 @@ package redis
 
 import (
 	"encoding/json"
-	"github.com/Cepave/open-falcon-backend/modules/sender/model"
+	"github.com/fwtpe/owl-backend/modules/sender/model"
 	"github.com/garyburd/redigo/redis"
 	log "github.com/sirupsen/logrus"
 )

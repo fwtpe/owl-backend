@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
-	event "github.com/Cepave/open-falcon-backend/modules/fe/model/falcon_portal"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
+	event "github.com/fwtpe/owl-backend/modules/fe/model/falcon_portal"
 	log "github.com/sirupsen/logrus"
 )
 

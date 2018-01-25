@@ -3,9 +3,9 @@ package owl
 import (
 	"time"
 
-	owlc "github.com/Cepave/open-falcon-backend/common/ccache"
-	model "github.com/Cepave/open-falcon-backend/common/model/owl"
-	owlDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/owl"
+	owlc "github.com/fwtpe/owl-backend/common/ccache"
+	model "github.com/fwtpe/owl-backend/common/model/owl"
+	owlDb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/owl"
 	c "github.com/karlseguin/ccache"
 	"github.com/satori/go.uuid"
 )

@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	nqmTestinglDb "github.com/Cepave/open-falcon-backend/common/db/nqm/testing"
-	"github.com/Cepave/open-falcon-backend/common/json"
-	testingHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
-	rdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
-	testingDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/testing"
+	nqmTestinglDb "github.com/fwtpe/owl-backend/common/db/nqm/testing"
+	"github.com/fwtpe/owl-backend/common/json"
+	testingHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	rdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	testingDb "github.com/fwtpe/owl-backend/modules/mysqlapi/testing"
 
 	. "gopkg.in/check.v1"
 )
@@ -26,33 +26,33 @@ func (s *TestPingtaskItSuite) TearDownSuite(c *C) {
 }
 
 func (s *TestPingtaskItSuite) SetUpTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case
 		"TestPingtaskItSuite.TestGetPingtaskById",
 		"TestPingtaskItSuite.TestListPingtasks",
 		"TestPingtaskItSuite.TestModifyPingtask":
-		inTx(nqmTestinglDb.InsertPingtaskSQL)
+		inPortalTx(nqmTestinglDb.InsertPingtaskSQL)
 	case
 		"TestPingtaskItSuite.TestAddPingtaskToAgentForAgent",
 		"TestPingtaskItSuite.TestRemovePingtaskToAgentForAgent",
 		"TestPingtaskItSuite.TestAddPingtaskToAgentForPingtask",
 		"TestPingtaskItSuite.TestRemovePingtaskToAgentForPingtask":
-		inTx(nqmTestinglDb.InitNqmAgentAndPingtaskSQL...)
+		inPortalTx(nqmTestinglDb.InitNqmAgentAndPingtaskSQL...)
 	}
 }
 func (s *TestPingtaskItSuite) TearDownTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case
 		"TestPingtaskItSuite.TestGetPingtaskById",
 		"TestPingtaskItSuite.TestListPingtasks",
 		"TestPingtaskItSuite.TestModifyPingtask":
-		inTx(nqmTestinglDb.DeletePingtaskSQL)
+		inPortalTx(nqmTestinglDb.DeletePingtaskSQL)
 	case "TestPingtaskItSuite.TestAddNewPingtask":
-		inTx(
+		inPortalTx(
 			`DELETE FROM nqm_ping_task WHERE pt_name = 'tadd-pt-1'`,
 		)
 	case
@@ -60,7 +60,7 @@ func (s *TestPingtaskItSuite) TearDownTest(c *C) {
 		"TestPingtaskItSuite.TestRemovePingtaskToAgentForAgent",
 		"TestPingtaskItSuite.TestAddPingtaskToAgentForPingtask",
 		"TestPingtaskItSuite.TestRemovePingtaskToAgentForPingtask":
-		inTx(nqmTestinglDb.CleanNqmAgentAndPingtaskSQL...)
+		inPortalTx(nqmTestinglDb.CleanNqmAgentAndPingtaskSQL...)
 	}
 }
 

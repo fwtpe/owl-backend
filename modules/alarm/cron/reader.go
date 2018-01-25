@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
-	eventmodel "github.com/Cepave/open-falcon-backend/modules/alarm/model/event"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	eventmodel "github.com/fwtpe/owl-backend/modules/alarm/model/event"
 	"github.com/garyburd/redigo/redis"
 )
 
@@ -68,6 +68,8 @@ func popEvent(queues []string) (*model.Event, error) {
 		log.Errorf("Unmarshal JSON of event has error: %v", err)
 		return nil, err
 	}
+
+	go logTooLateMetric(&event)
 
 	log.Debug(event.String())
 	//insert event into database
@@ -151,4 +153,16 @@ func popExternalEvent(queues []string) error {
 	}
 
 	return nil
+}
+
+const tooLateMinute = 5
+const tooLateTime = tooLateMinute * time.Minute
+
+func logTooLateMetric(eventData *model.Event) {
+	now := time.Now()
+
+	eventSourceTime := time.Unix(eventData.SourceTimestamp, 0)
+	if now.Sub(eventSourceTime) > tooLateTime {
+		log.Warnf("[Late Metric(%d minutes)] Now[%s]. Item[%s]", tooLateMinute, now, eventData)
+	}
 }

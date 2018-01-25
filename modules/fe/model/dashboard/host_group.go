@@ -3,8 +3,8 @@ package dashboard
 import (
 	"errors"
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
 	"github.com/astaxie/beego/orm"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 	"regexp"
 	"strings"
 )

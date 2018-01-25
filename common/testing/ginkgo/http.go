@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	ohttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	ohttp "github.com/fwtpe/owl-backend/common/testing/http"
 	gt "gopkg.in/h2non/gentleman.v2"
 
 	. "github.com/onsi/gomega/types"

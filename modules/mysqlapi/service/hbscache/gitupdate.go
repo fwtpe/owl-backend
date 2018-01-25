@@ -3,7 +3,7 @@ package hbscache
 import (
 	"sync"
 
-	db "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/hbsdb"
+	db "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
 	log "github.com/sirupsen/logrus"
 )
 

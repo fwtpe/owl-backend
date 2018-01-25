@@ -3,8 +3,8 @@ package graph
 import (
 	"testing"
 
-	tDb "github.com/Cepave/open-falcon-backend/common/testing/db"
-	tFlag "github.com/Cepave/open-falcon-backend/common/testing/flag"
+	tDb "github.com/fwtpe/owl-backend/common/testing/db"
+	tFlag "github.com/fwtpe/owl-backend/common/testing/flag"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

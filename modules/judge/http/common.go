@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/judge/g"
+	"github.com/fwtpe/owl-backend/modules/judge/g"
 	"github.com/toolkits/file"
 	"net/http"
 	"strings"

@@ -8,8 +8,8 @@ import (
 	_ "net/http/pprof"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/graph/g"
-	"github.com/Cepave/open-falcon-backend/modules/graph/rrdtool"
+	"github.com/fwtpe/owl-backend/modules/graph/g"
+	"github.com/fwtpe/owl-backend/modules/graph/rrdtool"
 )
 
 type Dto struct {

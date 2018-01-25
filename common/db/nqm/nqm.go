@@ -2,11 +2,11 @@ package nqm
 
 import (
 	"database/sql"
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	osqlx "github.com/Cepave/open-falcon-backend/common/db/sqlx"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	utils "github.com/Cepave/open-falcon-backend/common/utils"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	utils "github.com/fwtpe/owl-backend/common/utils"
 	"github.com/jmoiron/sqlx"
 	"time"
 )

@@ -5,8 +5,8 @@
         "enabled": true,
         "listen": "%%FE_HTTP%%",
         "cookie": ".owl.fastweb.com.cn",
-        "view_path": "/home/vagrant/workspace/src/github.com/Cepave/open-falcon-backend/out/fe/bin/views",
-        "static_path": "/home/vagrant/workspace/src/github.com/Cepave/open-falcon-backend/out/fe/bin/static"
+        "view_path": "/home/vagrant/workspace/src/github.com/fwtpe/owl-backend/out/fe/bin/views",
+        "static_path": "/home/vagrant/workspace/src/github.com/fwtpe/owl-backend/out/fe/bin/static"
     },
     "cache": {
         "enabled": true,

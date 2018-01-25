@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 	"github.com/streadway/amqp"
 )
 

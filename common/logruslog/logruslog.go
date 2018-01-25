@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 	log "github.com/sirupsen/logrus"
 )
 

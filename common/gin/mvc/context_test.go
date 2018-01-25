@@ -11,13 +11,13 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
-	ot "github.com/Cepave/open-falcon-backend/common/types"
 	sjson "github.com/bitly/go-simplejson"
+	"github.com/fwtpe/owl-backend/common/model"
+	ot "github.com/fwtpe/owl-backend/common/types"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
 
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 	. "gopkg.in/check.v1"
 )
 

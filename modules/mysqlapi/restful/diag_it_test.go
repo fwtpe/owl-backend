@@ -3,15 +3,15 @@ package restful
 import (
 	"net/http"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	ogko "github.com/Cepave/open-falcon-backend/common/testing/ginkgo"
-	testingHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	testingHttp "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Test /health", itSkip.PrependBeforeEach(func() {
+var _ = Describe("Test /health", itSkipOnPortal.PrependBeforeEach(func() {
 	It("returns the JSON data", func() {
 		resp := testingHttp.NewResponseResultBySling(
 			httpClientConfig.NewClient().

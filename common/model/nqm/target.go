@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
-	"github.com/Cepave/open-falcon-backend/common/utils"
 	json "github.com/bitly/go-simplejson"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 type TargetForAdding struct {

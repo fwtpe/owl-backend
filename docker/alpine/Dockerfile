@@ -1,10 +1,10 @@
 ####################
 # Build base image
 ####################
-FROM golang:1.7.6-alpine3.4 as build-base
+FROM golang:1.8.5-alpine3.6 as build-base
 LABEL maintainer cheminlin@cepave.com
 ENV FALCON_DIR=/home CONFIG_DIR=/config
-ENV PROJ_PATH=${GOPATH}/src/github.com/Cepave/open-falcon-backend
+ENV PROJ_PATH=${GOPATH}/src/github.com/fwtpe/owl-backend
 
 RUN apk add --no-cache ca-certificates bash git g++ perl make
 COPY . ${PROJ_PATH}
@@ -18,7 +18,7 @@ RUN \
 ####################
 # Build final image
 ####################
-FROM alpine:3.4
+FROM alpine:3.6
 LABEL maintainer cheminlin@cepave.com
 ARG ENTRYFILE=run.sh
 ENV FALCON_DIR=/home DOCKER_DIR=docker CONFIG_DIR=/config CONFIG_LINK=config/cfg.json

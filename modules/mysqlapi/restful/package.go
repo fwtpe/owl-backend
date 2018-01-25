@@ -3,13 +3,13 @@ package restful
 import (
 	"github.com/gin-gonic/gin"
 
-	commonGin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
-	ov "github.com/Cepave/open-falcon-backend/common/validate"
+	commonGin "github.com/fwtpe/owl-backend/common/gin"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	ov "github.com/fwtpe/owl-backend/common/validate"
 
-	graphRest "github.com/Cepave/open-falcon-backend/modules/mysqlapi/restful/graph"
-	owlRest "github.com/Cepave/open-falcon-backend/modules/mysqlapi/restful/owl"
+	graphRest "github.com/fwtpe/owl-backend/modules/mysqlapi/restful/graph"
+	owlRest "github.com/fwtpe/owl-backend/modules/mysqlapi/restful/owl"
 )
 
 var logger = log.NewDefaultLogger("INFO")
@@ -105,6 +105,10 @@ func initApi() {
 	v1.GET("/owl/query-object/:uuid", h(owlRest.GetQueryObjectByUuid))
 	v1.POST("/owl/query-object", h(owlRest.SaveQueryObject))
 	v1.POST("/owl/query-object/vacuum", h(owlRest.VacuumOldQueryObjects))
+	v1.POST("/owl/task/log/clear", h(owlRest.ClearLogsOfTasks))
+
+	v1.POST("/cmdb/sync", h(addNewCmdbSync))
+	v1.GET("/cmdb/sync/:uuid", h(getSyncTask))
 
 	router.GET("/health", h(health))
 }

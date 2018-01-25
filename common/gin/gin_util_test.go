@@ -1,7 +1,7 @@
 package gin
 
 import (
-	model "github.com/Cepave/open-falcon-backend/common/model"
+	model "github.com/fwtpe/owl-backend/common/model"
 	"github.com/gin-gonic/gin"
 	. "gopkg.in/check.v1"
 	"net/http"

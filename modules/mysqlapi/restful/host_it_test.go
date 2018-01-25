@@ -5,20 +5,20 @@ import (
 	"net/http"
 	"strconv"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	ogko "github.com/Cepave/open-falcon-backend/common/testing/ginkgo"
-	tHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("[Intg] Test listhosts", itSkip.PrependBeforeEach(func() {
+var _ = Describe("[Intg] Test listhosts", itSkipOnPortal.PrependBeforeEach(func() {
 	const NumOfTestHost = 4
 
 	BeforeEach(func() {
-		inTx(
+		inPortalTx(
 			`INSERT INTO host(id, hostname)
 				VALUES
 					(1, 'listhosts-hostname-a1'),
@@ -38,7 +38,7 @@ var _ = Describe("[Intg] Test listhosts", itSkip.PrependBeforeEach(func() {
 		)
 	})
 	AfterEach(func() {
-		inTx(
+		inPortalTx(
 			`DELETE FROM host WHERE hostname LIKE 'listhosts-hostname-%'`,
 			`DELETE FROM grp WHERE grp_name LIKE 'listhosts-grpname-%'`,
 			`DELETE FROM grp_host WHERE grp_id <= 10`,
@@ -62,11 +62,11 @@ var _ = Describe("[Intg] Test listhosts", itSkip.PrependBeforeEach(func() {
 	)
 }))
 
-var _ = Describe("[Intg] Test listHostgroups", itSkip.PrependBeforeEach(func() {
+var _ = Describe("[Intg] Test listHostgroups", itSkipOnPortal.PrependBeforeEach(func() {
 	const NumOfTestHostgroup = 3
 
 	BeforeEach(func() {
-		inTx(
+		inPortalTx(
 			`INSERT INTO grp(id, grp_name)
 				VALUES
 					(1, 'listhostgroups-grpname-c1'),
@@ -81,7 +81,7 @@ var _ = Describe("[Intg] Test listHostgroups", itSkip.PrependBeforeEach(func() {
 		)
 	})
 	AfterEach(func() {
-		inTx(
+		inPortalTx(
 			`DELETE FROM grp WHERE grp_name LIKE 'listhostgroups-grpname-%'`,
 			`DELETE FROM plugin_dir WHERE dir LIKE 'listhostgroups/plugin-%'`,
 		)

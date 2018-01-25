@@ -3,24 +3,24 @@ package restful
 import (
 	"net/http"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	ogko "github.com/Cepave/open-falcon-backend/common/testing/ginkgo"
-	tHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ogko "github.com/fwtpe/owl-backend/common/testing/ginkgo"
+	tHttp "github.com/fwtpe/owl-backend/common/testing/http"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("[Intg] Test getAgentConfig", itSkip.PrependBeforeEach(func() {
+var _ = Describe("[Intg] Test getAgentConfig", itSkipOnPortal.PrependBeforeEach(func() {
 	BeforeEach(func() {
-		inTx(
+		inPortalTx(
 			"INSERT INTO common_config(`key`, `value`)" +
 				"VALUES('getAgentConfig', 'https://example.com/Cepave/getAgentConfig.git')",
 		)
 	})
 
 	AfterEach(func() {
-		inTx(
+		inPortalTx(
 			"DELETE FROM common_config WHERE `key` = 'getAgentConfig'",
 		)
 	})

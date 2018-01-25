@@ -11,13 +11,13 @@ import (
 	"strings"
 	"time"
 
-	cmodel "github.com/open-falcon/common/model"
 	cron "github.com/toolkits/cron"
 	nhttpclient "github.com/toolkits/http/httpclient"
 	ntime "github.com/toolkits/time"
 
-	"github.com/Cepave/open-falcon-backend/modules/task/g"
-	"github.com/Cepave/open-falcon-backend/modules/task/proc"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/proc"
 )
 
 var (

@@ -8,7 +8,7 @@ import (
 
 	"testing"
 
-	. "github.com/Cepave/open-falcon-backend/modules/f2e-api/test_utils"
+	. "github.com/fwtpe/owl-backend/modules/f2e-api/test_utils"
 	log "github.com/sirupsen/logrus"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/tidwall/gjson"

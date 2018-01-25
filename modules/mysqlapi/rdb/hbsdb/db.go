@@ -3,7 +3,7 @@ package hbsdb
 import (
 	"database/sql"
 
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
+	f "github.com/fwtpe/owl-backend/common/db/facade"
 	_ "github.com/go-sql-driver/mysql"
 )
 

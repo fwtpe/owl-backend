@@ -4,7 +4,7 @@ import (
 	"flag"
 	"testing"
 
-	tJsonRpc "github.com/Cepave/open-falcon-backend/common/testing/jsonrpc"
+	tJsonRpc "github.com/fwtpe/owl-backend/common/testing/jsonrpc"
 	ch "gopkg.in/check.v1"
 
 	. "github.com/onsi/ginkgo"

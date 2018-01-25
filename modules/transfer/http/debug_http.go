@@ -2,7 +2,7 @@ package http
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/sender"
+	"github.com/fwtpe/owl-backend/modules/transfer/sender"
 	"net/http"
 	"strings"
 )

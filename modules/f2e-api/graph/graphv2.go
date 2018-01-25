@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"errors"
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	cutils "github.com/Cepave/open-falcon-backend/common/utils"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	cutils "github.com/fwtpe/owl-backend/common/utils"
 	log "github.com/sirupsen/logrus"
 	spool "github.com/toolkits/pool/simple_conn_pool"
 	"math"

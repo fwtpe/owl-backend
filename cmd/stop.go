@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/Cepave/open-falcon-backend/g"
+	"github.com/fwtpe/owl-backend/g"
 	"github.com/spf13/cobra"
 )
 

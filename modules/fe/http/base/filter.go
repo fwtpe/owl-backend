@@ -1,8 +1,8 @@
 package base
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/fe/model/uic"
 	"github.com/astaxie/beego/context"
+	"github.com/fwtpe/owl-backend/modules/fe/model/uic"
 	"strconv"
 	"time"
 )

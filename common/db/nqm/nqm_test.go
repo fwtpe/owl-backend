@@ -5,12 +5,12 @@ import (
 	"net"
 	"time"
 
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	otest "github.com/Cepave/open-falcon-backend/common/testing"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	dbTest "github.com/Cepave/open-falcon-backend/common/testing/db"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	otest "github.com/fwtpe/owl-backend/common/testing"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
 
 	. "gopkg.in/check.v1"
 )

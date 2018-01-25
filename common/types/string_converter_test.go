@@ -3,9 +3,9 @@ package types
 import (
 	"reflect"
 
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 
-	. "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	. "github.com/fwtpe/owl-backend/common/reflect/types"
 	. "gopkg.in/check.v1"
 )
 

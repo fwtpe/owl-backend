@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/db"
-	"github.com/Cepave/open-falcon-backend/common/json"
+	"github.com/fwtpe/owl-backend/common/db"
+	"github.com/fwtpe/owl-backend/common/json"
 	"github.com/satori/go.uuid"
 )
 

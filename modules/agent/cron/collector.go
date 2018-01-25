@@ -1,9 +1,9 @@
 package cron
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/agent/funcs"
-	"github.com/Cepave/open-falcon-backend/modules/agent/g"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/agent/funcs"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
 	"time"
 )
 

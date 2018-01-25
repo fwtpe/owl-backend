@@ -2,8 +2,8 @@ package gin
 
 import (
 	"fmt"
-	or "github.com/Cepave/open-falcon-backend/common/runtime"
 	json "github.com/bitly/go-simplejson"
+	or "github.com/fwtpe/owl-backend/common/runtime"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

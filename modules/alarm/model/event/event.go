@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"time"
 
 	log "github.com/sirupsen/logrus"

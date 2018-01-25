@@ -2,7 +2,7 @@ package store
 
 import (
 	"container/list"
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"sync"
 )
 

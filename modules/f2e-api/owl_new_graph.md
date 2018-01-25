@@ -9,7 +9,7 @@
 | limit | 設定返回上限 | 100 | - |
 
 ### Dashboard `Screen` & `Graph`
-文件请参考 doc/dashboard.json or [links](https://htmlpreview.github.io/?https://github.com/Cepave/open-falcon-backend/modules/f2e-api/blob/owl_new_graph/doc/dahsboard.html)
+文件请参考 doc/dashboard.json or [links](https://htmlpreview.github.io/?https://github.com/fwtpe/owl-backend/modules/f2e-api/blob/owl_new_graph/doc/dahsboard.html)
 
 
 ### 透過hostname列表取得counters list

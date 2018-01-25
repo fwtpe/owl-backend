@@ -3,11 +3,11 @@ package restful
 import (
 	"net/http"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	testingHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
-	testingDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/testing"
+	json "github.com/fwtpe/owl-backend/common/json"
+	testingHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	testingDb "github.com/fwtpe/owl-backend/modules/mysqlapi/testing"
 
-	rdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
+	rdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 
 	. "gopkg.in/check.v1"
 )
@@ -50,11 +50,11 @@ func (s *TestPintTaskItSuite) TearDownSuite(c *C) {
 }
 
 func (s *TestPintTaskItSuite) SetUpTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case "TestPintTaskItSuite.TestListAgents":
-		inTx(
+		inPortalTx(
 			`
 			INSERT INTO nqm_ping_task(pt_id, pt_name, pt_period)
 			VALUES(9801, 'ag-in-city', 40)
@@ -77,11 +77,11 @@ func (s *TestPintTaskItSuite) SetUpTest(c *C) {
 	}
 }
 func (s *TestPintTaskItSuite) TearDownTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case "TestPintTaskItSuite.TestListAgents":
-		inTx(
+		inPortalTx(
 			"DELETE FROM nqm_agent_ping_task WHERE apt_pt_id = 9801",
 			"DELETE FROM nqm_agent WHERE ag_id >= 5621 AND ag_id <= 5623",
 			"DELETE FROM nqm_ping_task WHERE pt_id = 9801",

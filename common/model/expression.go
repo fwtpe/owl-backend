@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 type Config struct {

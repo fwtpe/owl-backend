@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	d "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/dashboard"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	d "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/dashboard"
 	"github.com/gin-gonic/gin"
 )
 

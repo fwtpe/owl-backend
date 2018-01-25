@@ -23,7 +23,7 @@ import (
 	"github.com/juju/errors"
 	check "gopkg.in/check.v1"
 
-	ogin "github.com/Cepave/open-falcon-backend/common/gin"
+	ogin "github.com/fwtpe/owl-backend/common/gin"
 )
 
 var testGinMode = flag.String("test.gin_mode", gin.DebugMode, "Mode of gin freamework(debug/release/test)")

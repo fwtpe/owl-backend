@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	h "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/helper"
-	f "github.com/Cepave/open-falcon-backend/modules/f2e-api/app/model/falcon_portal"
+	h "github.com/fwtpe/owl-backend/modules/f2e-api/app/helper"
+	f "github.com/fwtpe/owl-backend/modules/f2e-api/app/model/falcon_portal"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )

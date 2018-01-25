@@ -1,9 +1,9 @@
 package rpc
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/common/rpc"
-	"github.com/Cepave/open-falcon-backend/modules/hbs/service"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/rpc"
+	"github.com/fwtpe/owl-backend/modules/hbs/service"
 )
 
 func (t *Hbs) GetExpressions(req model.NullRpcRequest, reply *model.ExpressionResponse) (err error) {

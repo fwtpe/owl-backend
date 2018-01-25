@@ -1,8 +1,8 @@
 package rpc
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	"github.com/fwtpe/owl-backend/common/model"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 
 	. "gopkg.in/check.v1"
 )

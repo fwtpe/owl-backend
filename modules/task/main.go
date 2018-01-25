@@ -7,19 +7,19 @@ import (
 
 	"github.com/spf13/viper"
 
-	oHttp "github.com/Cepave/open-falcon-backend/common/http"
-	client "github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	oos "github.com/Cepave/open-falcon-backend/common/os"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
+	oHttp "github.com/fwtpe/owl-backend/common/http"
+	client "github.com/fwtpe/owl-backend/common/http/client"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	oos "github.com/fwtpe/owl-backend/common/os"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 
-	"github.com/Cepave/open-falcon-backend/modules/task/collector"
-	"github.com/Cepave/open-falcon-backend/modules/task/cron"
-	"github.com/Cepave/open-falcon-backend/modules/task/database"
-	"github.com/Cepave/open-falcon-backend/modules/task/g"
-	"github.com/Cepave/open-falcon-backend/modules/task/http"
-	"github.com/Cepave/open-falcon-backend/modules/task/index"
-	"github.com/Cepave/open-falcon-backend/modules/task/proc"
+	"github.com/fwtpe/owl-backend/modules/task/collector"
+	"github.com/fwtpe/owl-backend/modules/task/cron"
+	"github.com/fwtpe/owl-backend/modules/task/database"
+	"github.com/fwtpe/owl-backend/modules/task/g"
+	"github.com/fwtpe/owl-backend/modules/task/http"
+	"github.com/fwtpe/owl-backend/modules/task/index"
+	"github.com/fwtpe/owl-backend/modules/task/proc"
 )
 
 func main() {
@@ -42,12 +42,6 @@ func main() {
 
 	viperObj := vipercfg.Config()
 
-	/**
-	 * Variables of services
-	 */
-	var cronService *cron.TaskCronService
-	// :~)
-
 	// proc
 	proc.Start()
 
@@ -66,9 +60,16 @@ func main() {
 	// :~)
 
 	/**
+	 * Variables of services
+	 */
+	var cronService *cron.TaskCronService
+	// :~)
+
+	/**
 	 * Initializes cron services from Viper configuration and starts it
 	 */
 	cronService = cron.NewCronServices(buildTaskCronConfig(viperObj))
+
 	cronService.Start()
 	// :~)
 
@@ -107,6 +108,17 @@ func buildTaskCronConfig(viperObj *viper.Viper) *cron.TaskCronConfig {
 			Cron:    viperObj.GetString("cron.vacuum_graph_index.schedule"),
 			ForDays: viperObj.GetInt("cron.vacuum_graph_index.for_days"),
 			Enable:  viperObj.GetBool("cron.vacuum_graph_index.enable"),
+		},
+		ClearTaskLogEntries: &cron.ClearTaskLogEntriesConf{
+			Cron:    viperObj.GetString("cron.clear_task_log_entries.schedule"),
+			ForDays: viperObj.GetInt("cron.clear_task_log_entries.for_days"),
+			Enable:  viperObj.GetBool("cron.clear_task_log_entries.enable"),
+		},
+		SyncCmdbFromBoss: &cron.SyncCmdbFromBossConf{
+			Enable:                viperObj.GetBool("cron.sync_cmdb_from_boss.enable"),
+			InitialDelayInSeconds: viperObj.GetInt("cron.sync_cmdb_from_boss.init_delay_seconds"),
+			FixedDelayInSeconds:   viperObj.GetInt("cron.sync_cmdb_from_boss.fixed_delay_seconds"),
+			ErrorDelayInSeconds:   viperObj.GetInt("cron.sync_cmdb_from_boss.error_delay_seconds"),
 		},
 	}
 }

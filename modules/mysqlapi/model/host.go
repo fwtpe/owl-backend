@@ -1,8 +1,8 @@
 package model
 
 import (
-	owlModel "github.com/Cepave/open-falcon-backend/common/model/owl"
 	json "github.com/bitly/go-simplejson"
+	owlModel "github.com/fwtpe/owl-backend/common/model/owl"
 )
 
 type HostsResult struct {

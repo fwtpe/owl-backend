@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	MUtils "github.com/Cepave/open-falcon-backend/common/utils"
+	MUtils "github.com/fwtpe/owl-backend/common/utils"
 )
 
 type MetricValue struct {
@@ -46,13 +46,14 @@ func (t *JsonMetaData) String() string {
 }
 
 type MetaData struct {
-	Metric      string            `json:"metric"`
-	Endpoint    string            `json:"endpoint"`
-	Timestamp   int64             `json:"timestamp"`
-	Step        int64             `json:"step"`
-	Value       float64           `json:"value"`
-	CounterType string            `json:"counterType"`
-	Tags        map[string]string `json:"tags"`
+	Metric       string            `json:"metric"`
+	Endpoint     string            `json:"endpoint"`
+	Timestamp    int64             `json:"timestamp"`
+	Step         int64             `json:"step"`
+	Value        float64           `json:"value"`
+	CounterType  string            `json:"counterType"`
+	Tags         map[string]string `json:"tags"`
+	SourceMetric *MetricValue      `json:"-"`
 }
 
 func (t *MetaData) String() string {

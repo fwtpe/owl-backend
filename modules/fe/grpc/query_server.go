@@ -7,10 +7,10 @@ import (
 	"net"
 	"regexp"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
-	"github.com/Cepave/open-falcon-backend/modules/fe/graph"
-	pb "github.com/Cepave/open-falcon-backend/modules/fe/grpc/proto/owlquery"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
+	"github.com/fwtpe/owl-backend/modules/fe/graph"
+	pb "github.com/fwtpe/owl-backend/modules/fe/grpc/proto/owlquery"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )

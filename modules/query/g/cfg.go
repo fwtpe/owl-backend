@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/Cepave/open-falcon-backend/modules/query/logger"
+	"github.com/fwtpe/owl-backend/modules/query/logger"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/file"
 )

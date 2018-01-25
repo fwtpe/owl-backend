@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	or "github.com/Cepave/open-falcon-backend/common/reflect"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	or "github.com/fwtpe/owl-backend/common/reflect"
+	"github.com/fwtpe/owl-backend/common/utils"
 )
 
 type Config struct {

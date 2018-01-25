@@ -2,8 +2,8 @@ package g
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/utils"
 	"sort"
 	"sync"
 )

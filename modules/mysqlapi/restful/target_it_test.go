@@ -3,12 +3,12 @@ package restful
 import (
 	"net/http"
 
-	json "github.com/Cepave/open-falcon-backend/common/json"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	testingHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
-	testingDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/testing"
+	json "github.com/fwtpe/owl-backend/common/json"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	testingHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	testingDb "github.com/fwtpe/owl-backend/modules/mysqlapi/testing"
 
-	rdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
+	rdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
 
 	. "gopkg.in/check.v1"
 )
@@ -201,11 +201,11 @@ func (s *TestTargetItSuite) TearDownSuite(c *C) {
 }
 
 func (s *TestTargetItSuite) SetUpTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case "TestTargetItSuite.TestGetTargetById":
-		inTx(
+		inPortalTx(
 			`
 			INSERT INTO owl_name_tag(nt_id, nt_value)
 			VALUES(3224, 'tg-nt-1')
@@ -229,7 +229,7 @@ func (s *TestTargetItSuite) SetUpTest(c *C) {
 			`,
 		)
 	case "TestTargetItSuite.TestListTargets":
-		inTx(
+		inPortalTx(
 			`
 			INSERT INTO nqm_target(
 				tg_id, tg_name, tg_host, tg_status, tg_available
@@ -240,7 +240,7 @@ func (s *TestTargetItSuite) SetUpTest(c *C) {
 			`,
 		)
 	case "TestTargetItSuite.TestModifyTarget":
-		inTx(
+		inPortalTx(
 			`
 			INSERT INTO owl_name_tag(nt_id, nt_value)
 			VALUES(10101, 'tg-nt-1')
@@ -267,11 +267,11 @@ func (s *TestTargetItSuite) SetUpTest(c *C) {
 	}
 }
 func (s *TestTargetItSuite) TearDownTest(c *C) {
-	inTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
+	inPortalTx := rdb.DbFacade.SqlDbCtrl.ExecQueriesInTx
 
 	switch c.TestName() {
 	case "TestTargetItSuite.TestGetTargetById":
-		inTx(
+		inPortalTx(
 			`
 			DELETE FROM nqm_target
 			WHERE tg_id = 40021
@@ -287,17 +287,17 @@ func (s *TestTargetItSuite) TearDownTest(c *C) {
 			`,
 		)
 	case "TestTargetItSuite.TestListTargets":
-		inTx(
+		inPortalTx(
 			"DELETE FROM nqm_target WHERE tg_id >= 40901 AND tg_id <= 40903",
 		)
 	case "TestTargetItSuite.TestAddNewTarget":
-		inTx(
+		inPortalTx(
 			"DELETE FROM nqm_target WHERE tg_name LIKE 'new-tg-%'",
 			"DELETE FROM owl_name_tag where nt_value = 'tg-nt-1'",
 			"DELETE FROM owl_group_tag where gt_name LIKE 'tg-rest-tag-%'",
 		)
 	case "TestTargetItSuite.TestModifyTarget":
-		inTx(
+		inPortalTx(
 			"DELETE FROM nqm_target WHERE tg_id = 39347",
 			"DELETE FROM owl_name_tag WHERE nt_value LIKE 'tg-nt-%'",
 			"DELETE FROM owl_group_tag WHERE gt_name LIKE 'blue-utg-%'",

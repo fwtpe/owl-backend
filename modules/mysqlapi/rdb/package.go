@@ -1,21 +1,24 @@
 package rdb
 
 import (
-	commonDb "github.com/Cepave/open-falcon-backend/common/db"
-	f "github.com/Cepave/open-falcon-backend/common/db/facade"
-	commonNqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	commonOwlDb "github.com/Cepave/open-falcon-backend/common/db/owl"
-	log "github.com/Cepave/open-falcon-backend/common/logruslog"
-	apiModel "github.com/Cepave/open-falcon-backend/common/model/mysqlapi"
+	commonDb "github.com/fwtpe/owl-backend/common/db"
+	f "github.com/fwtpe/owl-backend/common/db/facade"
+	commonNqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	commonOwlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	log "github.com/fwtpe/owl-backend/common/logruslog"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
 
-	graphdb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/graph"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/hbsdb"
-	apiOwlDb "github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/owl"
+	bossdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/boss"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/cmdb"
+	graphdb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/graph"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/hbsdb"
+	apiOwlDb "github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/owl"
 )
 
 const (
 	DB_PORTAL = "portal"
 	DB_GRAPH  = "graph"
+	DB_BOSS   = "boss"
 )
 
 type DbHolder struct {
@@ -47,56 +50,76 @@ var GlobalDbHolder *DbHolder = &DbHolder{
 
 var logger = log.NewDefaultLogger("INFO")
 
-var DbFacade = &f.DbFacade{}
+var DbFacade *f.DbFacade
 
 func InitPortalRdb(dbConfig *commonDb.DbConfig) {
-	GlobalDbHolder.setDb(DB_PORTAL, DbFacade)
+	openRdb(
+		DB_PORTAL, dbConfig,
+		func(facade *f.DbFacade) {
+			facade.SetReleaseCallback(func() {
+				commonNqmDb.DbFacade = nil
+				commonOwlDb.DbFacade = nil
+				apiOwlDb.DbFacade = nil
 
-	logger.Infof("Open RDB: %s ...", dbConfig)
+				hbsdb.DbFacade = nil
+				hbsdb.DB = nil
+			})
 
-	err := DbFacade.Open(dbConfig)
-	if err != nil {
-		logger.Warnf("Open database error: %v", err)
-	}
+			DbFacade = facade
 
-	DbFacade.SetReleaseCallback(func() {
-		commonNqmDb.DbFacade = nil
-		commonOwlDb.DbFacade = nil
-		apiOwlDb.DbFacade = nil
+			/**
+			 * Protal database
+			 */
+			commonNqmDb.DbFacade = DbFacade
+			commonOwlDb.DbFacade = DbFacade
+			apiOwlDb.DbFacade = DbFacade
+			cmdb.DbFacade = DbFacade
 
-		hbsdb.DbFacade = nil
-		hbsdb.DB = nil
-	})
-
-	/**
-	 * Protal database
-	 */
-	commonNqmDb.DbFacade = DbFacade
-	commonOwlDb.DbFacade = DbFacade
-	apiOwlDb.DbFacade = DbFacade
-
-	hbsdb.DbFacade = DbFacade
-	hbsdb.DB = DbFacade.SqlDb
-	// :~)
-
-	logger.Info("[FINISH] Open RDB.")
+			hbsdb.DbFacade = DbFacade
+			hbsdb.DB = DbFacade.SqlDb
+			// :~)
+		},
+	)
 }
 func InitGraphRdb(dbConfig *commonDb.DbConfig) {
-	graphDbFacade := &f.DbFacade{}
-	GlobalDbHolder.setDb(DB_GRAPH, graphDbFacade)
+	openRdb(
+		DB_GRAPH, dbConfig,
+		func(facade *f.DbFacade) {
+			facade.SetReleaseCallback(func() {
+				graphdb.DbFacade = nil
+			})
+
+			graphdb.DbFacade = facade
+		},
+	)
+}
+func InitBossRdb(dbConfig *commonDb.DbConfig) {
+	openRdb(
+		DB_BOSS, dbConfig,
+		func(facade *f.DbFacade) {
+			facade.SetReleaseCallback(func() {
+				bossdb.DbFacade = nil
+			})
+
+			bossdb.DbFacade = facade
+		},
+	)
+}
+
+func openRdb(dbName string, dbConfig *commonDb.DbConfig, facadeCallback func(*f.DbFacade)) {
+	newFacade := &f.DbFacade{}
+	GlobalDbHolder.setDb(dbName, newFacade)
 
 	logger.Infof("Open RDB: %s ...", dbConfig)
 
-	err := graphDbFacade.Open(dbConfig)
+	err := newFacade.Open(dbConfig)
 	if err != nil {
 		logger.Warnf("Open database error: %v", err)
 	}
 
-	DbFacade.SetReleaseCallback(func() {
-		graphdb.DbFacade = nil
-	})
+	facadeCallback(newFacade)
 
-	graphdb.DbFacade = graphDbFacade
+	logger.Info("[FINISH] Open RDB.")
 }
 
 func ReleaseAllRdb() {
@@ -104,6 +127,7 @@ func ReleaseAllRdb() {
 
 	GlobalDbHolder.releaseDb(DB_PORTAL)
 	GlobalDbHolder.releaseDb(DB_GRAPH)
+	GlobalDbHolder.releaseDb(DB_BOSS)
 
 	logger.Info("[FINISH] Release RDB resources.")
 }

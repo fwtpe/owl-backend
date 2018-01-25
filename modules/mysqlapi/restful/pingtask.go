@@ -5,11 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	commonNqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	commonGin "github.com/Cepave/open-falcon-backend/common/gin"
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	commonModel "github.com/Cepave/open-falcon-backend/common/model"
-	commonNqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
+	commonNqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	commonGin "github.com/fwtpe/owl-backend/common/gin"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	commonModel "github.com/fwtpe/owl-backend/common/model"
+	commonNqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 	"github.com/spf13/cast"
 )
 

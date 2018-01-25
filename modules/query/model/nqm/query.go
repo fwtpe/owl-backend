@@ -9,13 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/compress"
-	"github.com/Cepave/open-falcon-backend/common/digest"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl-backend/common/compress"
+	"github.com/fwtpe/owl-backend/common/digest"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
 	sjson "github.com/bitly/go-simplejson"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 )
 
 var flateCompressor = compress.NewDefaultFlateCompressor()

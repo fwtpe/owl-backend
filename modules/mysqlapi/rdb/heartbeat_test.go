@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"time"
 
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	cModel "github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
-	"github.com/Cepave/open-falcon-backend/common/testing"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	dbTest "github.com/Cepave/open-falcon-backend/common/testing/db"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb/test"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	cModel "github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
+	"github.com/fwtpe/owl-backend/common/testing"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	dbTest "github.com/fwtpe/owl-backend/common/testing/db"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb/test"
 	ch "gopkg.in/check.v1"
 
 	. "github.com/onsi/ginkgo"
@@ -115,40 +115,41 @@ var _ = Describe("Test UpdateNqmAgentHeartbeat()", itSkip.PrependBeforeEach(func
 
 	now := ojson.JsonTime(time.Now())
 	yesterday := ojson.JsonTime(time.Now().Add(-24 * time.Hour))
-	DescribeTable("for newly inserted agents", func(input ojson.JsonTime) {
-		reqs := []*nqmModel.HeartbeatRequest{
-			{
-				ConnectionId: "ct-255-1@201.3.116.1",
-				Hostname:     "ct-255-1",
-				IpAddress:    ojson.NewIP("201.3.116.1"),
-				Timestamp:    ojson.JsonTime(input),
-			},
-			{
-				ConnectionId: "ct-255-2@201.3.116.2",
-				Hostname:     "ct-255-2",
-				IpAddress:    ojson.NewIP("201.3.116.2"),
-				Timestamp:    ojson.JsonTime(input),
-			},
-			{
-				ConnectionId: "ct-255-3@201.4.23.3",
-				Hostname:     "ct-255-3",
-				IpAddress:    ojson.NewIP("201.4.23.3"),
-				Timestamp:    ojson.JsonTime(input),
-			},
-			{
-				ConnectionId: "ct-63-1@201.77.23.3",
-				Hostname:     "ct-63-1",
-				IpAddress:    ojson.NewIP("201.77.23.3"),
-				Timestamp:    ojson.JsonTime(input),
-			},
-		}
+	DescribeTable("for newly inserted agents",
+		func(input ojson.JsonTime) {
+			reqs := []*nqmModel.HeartbeatRequest{
+				{
+					ConnectionId: "ct-255-1@201.3.116.1",
+					Hostname:     "ct-255-1",
+					IpAddress:    ojson.NewIP("201.3.116.1"),
+					Timestamp:    ojson.JsonTime(input),
+				},
+				{
+					ConnectionId: "ct-255-2@201.3.116.2",
+					Hostname:     "ct-255-2",
+					IpAddress:    ojson.NewIP("201.3.116.2"),
+					Timestamp:    ojson.JsonTime(input),
+				},
+				{
+					ConnectionId: "ct-255-3@201.4.23.3",
+					Hostname:     "ct-255-3",
+					IpAddress:    ojson.NewIP("201.4.23.3"),
+					Timestamp:    ojson.JsonTime(input),
+				},
+				{
+					ConnectionId: "ct-63-1@201.77.23.3",
+					Hostname:     "ct-63-1",
+					IpAddress:    ojson.NewIP("201.77.23.3"),
+					Timestamp:    ojson.JsonTime(input),
+				},
+			}
 
-		UpdateNqmAgentHeartbeat(reqs)
-		for _, req := range reqs {
-			agent := SelectNqmAgentByConnId(req.ConnectionId)
-			Expect(agent.LastHeartBeat.String()).To(Equal(input.String()))
-		}
-	},
+			UpdateNqmAgentHeartbeat(reqs)
+			for _, req := range reqs {
+				agent := SelectNqmAgentByConnId(req.ConnectionId)
+				Expect(agent.LastHeartBeat.String()).To(Equal(input.String()))
+			}
+		},
 		Entry("case: Now", now),
 		Entry("case yesterday", yesterday),
 	)

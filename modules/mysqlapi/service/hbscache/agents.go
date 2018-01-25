@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 )
 
 type SafeAgents struct {

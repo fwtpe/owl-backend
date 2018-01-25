@@ -2,7 +2,7 @@ package gorm
 
 import (
 	"database/sql"
-	"github.com/Cepave/open-falcon-backend/common/db"
+	"github.com/fwtpe/owl-backend/common/db"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 	. "gopkg.in/check.v1"

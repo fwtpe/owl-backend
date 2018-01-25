@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
 	"github.com/fsnotify/fsnotify"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
 )
 
 func main() {

@@ -1,15 +1,16 @@
 package restful
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	apiModel "github.com/Cepave/open-falcon-backend/common/model/mysqlapi"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/rdb"
-	"github.com/Cepave/open-falcon-backend/modules/mysqlapi/service"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	apiModel "github.com/fwtpe/owl-backend/common/model/mysqlapi"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/rdb"
+	"github.com/fwtpe/owl-backend/modules/mysqlapi/service"
 )
 
 func health() mvc.OutputBody {
 	portalRdbDiag := rdb.GlobalDbHolder.Diagnose(rdb.DB_PORTAL)
 	graphRdbDiag := rdb.GlobalDbHolder.Diagnose(rdb.DB_GRAPH)
+	bossRdbDiag := rdb.GlobalDbHolder.Diagnose(rdb.DB_BOSS)
 
 	health := &apiModel.HealthView{
 		Rdb: &apiModel.AllRdbHealth{
@@ -19,6 +20,7 @@ func health() mvc.OutputBody {
 			PingMessage:     portalRdbDiag.PingMessage,
 			Portal:          portalRdbDiag,
 			Graph:           graphRdbDiag,
+			Boss:            bossRdbDiag,
 		},
 		Http: &apiModel.Http{
 			Listening: GinConfig.GetAddress(),

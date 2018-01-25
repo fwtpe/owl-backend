@@ -1,9 +1,9 @@
 package nqm
 
 import (
-	ojson "github.com/Cepave/open-falcon-backend/common/json"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	ojson "github.com/fwtpe/owl-backend/common/json"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
+	"github.com/fwtpe/owl-backend/common/utils"
 	. "gopkg.in/check.v1"
 )
 

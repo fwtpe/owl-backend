@@ -1,8 +1,8 @@
 package cron
 
 import (
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/db"
-	"github.com/Cepave/open-falcon-backend/modules/aggregator/g"
+	"github.com/fwtpe/owl-backend/modules/aggregator/db"
+	"github.com/fwtpe/owl-backend/modules/aggregator/g"
 	"time"
 )
 

@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/common/logruslog"
-	"github.com/Cepave/open-falcon-backend/common/vipercfg"
-	"github.com/Cepave/open-falcon-backend/modules/agent/cron"
-	"github.com/Cepave/open-falcon-backend/modules/agent/funcs"
-	"github.com/Cepave/open-falcon-backend/modules/agent/g"
-	"github.com/Cepave/open-falcon-backend/modules/agent/http"
+	"github.com/fwtpe/owl-backend/common/logruslog"
+	"github.com/fwtpe/owl-backend/common/vipercfg"
+	"github.com/fwtpe/owl-backend/modules/agent/cron"
+	"github.com/fwtpe/owl-backend/modules/agent/funcs"
+	"github.com/fwtpe/owl-backend/modules/agent/g"
+	"github.com/fwtpe/owl-backend/modules/agent/http"
 	"os"
 )
 

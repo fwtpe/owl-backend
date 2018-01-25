@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
-	cmodel "github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
-	"github.com/Cepave/open-falcon-backend/modules/query/graph"
 	"github.com/astaxie/beego/orm"
+	cmodel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/query/g"
+	"github.com/fwtpe/owl-backend/modules/query/graph"
 	"github.com/jasonlvhit/gocron"
 	log "github.com/sirupsen/logrus"
 )

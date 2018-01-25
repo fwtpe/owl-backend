@@ -2,7 +2,7 @@ package nqm_parser
 
 import (
 	"fmt"
-	model "github.com/Cepave/open-falcon-backend/modules/query/model/nqm"
+	model "github.com/fwtpe/owl-backend/modules/query/model/nqm"
 	"strconv"
 	"time"
 )

@@ -31,12 +31,12 @@ package types
 
 import (
 	"fmt"
-	oreflect "github.com/Cepave/open-falcon-backend/common/reflect"
+	oreflect "github.com/fwtpe/owl-backend/common/reflect"
 	"reflect"
 
-	"github.com/Cepave/open-falcon-backend/common/utils"
+	"github.com/fwtpe/owl-backend/common/utils"
 
-	. "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	. "github.com/fwtpe/owl-backend/common/reflect/types"
 )
 
 // Main interface provided by convsersion service

@@ -1,15 +1,30 @@
 package sender
 
 import (
-	"github.com/Cepave/consistent"
-	"github.com/Cepave/open-falcon-backend/modules/transfer/g"
+	"github.com/fwtpe/consistent"
+	"github.com/fwtpe/owl-backend/modules/transfer/g"
 )
 
 func initNodeRings() {
 	cfg := g.Config()
+	SetNodeRings(cfg.Judge, cfg.Graph)
+}
 
-	JudgeNodeRing = newConsistentHashNodesRing(cfg.Judge.Replicas, KeysOfMap(cfg.Judge.Cluster))
-	GraphNodeRing = newConsistentHashNodesRing(cfg.Graph.Replicas, KeysOfMap(cfg.Graph.Cluster))
+func SetNodeRings(
+	judgeConfig *g.JudgeConfig,
+	graphConfig *g.GraphConfig,
+) {
+	if judgeConfig != nil {
+		JudgeNodeRing = newConsistentHashNodesRing(judgeConfig.Replicas, KeysOfMap(judgeConfig.Cluster))
+	} else {
+		JudgeNodeRing = nil
+	}
+
+	if graphConfig != nil {
+		GraphNodeRing = newConsistentHashNodesRing(graphConfig.Replicas, KeysOfMap(graphConfig.Cluster))
+	} else {
+		GraphNodeRing = nil
+	}
 }
 
 // TODO 考虑放到公共组件库,或utils库

@@ -2,9 +2,9 @@ package nqm
 
 import (
 	"encoding/json"
-	testHttp "github.com/Cepave/open-falcon-backend/common/testing/http"
-	"github.com/Cepave/open-falcon-backend/modules/query/g"
 	sjson "github.com/bitly/go-simplejson"
+	testHttp "github.com/fwtpe/owl-backend/common/testing/http"
+	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/gin-gonic/gin"
 	. "gopkg.in/check.v1"
 	"net/http"

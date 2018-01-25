@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"reflect"
 
-	oreflect "github.com/Cepave/open-falcon-backend/common/reflect"
-	ocheck "github.com/Cepave/open-falcon-backend/common/testing/check"
+	oreflect "github.com/fwtpe/owl-backend/common/reflect"
+	ocheck "github.com/fwtpe/owl-backend/common/testing/check"
 
-	. "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	. "github.com/fwtpe/owl-backend/common/reflect/types"
 	. "gopkg.in/check.v1"
 )
 
@@ -358,7 +358,7 @@ func ExampleDefaultConversionService() {
 func ExampleConversionService_customiedConverter() {
 	convSrv := NewDefaultConversionService()
 
-	// import ot "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	// import ot "github.com/fwtpe/owl-backend/common/reflect/types"
 	convSrv.AddConverter(
 		TypeOfInt8, TypeOfString,
 		func(source interface{}) interface{} {
@@ -375,7 +375,7 @@ func ExampleConversionService_customiedConverter() {
 func ExampleConversionService_slice() {
 	convSrv := NewDefaultConversionService()
 
-	// import ot "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	// import ot "github.com/fwtpe/owl-backend/common/reflect/types"
 	sourceSlice := []string{"76", "38", "99"}
 	targetSlice := convSrv.ConvertTo(sourceSlice, STypeOfInt).([]int)
 
@@ -393,7 +393,7 @@ func ExampleConversionService_map() {
 		"Key2": 92,
 		"Key3": 63,
 	}
-	// import ot "github.com/Cepave/open-falcon-backend/common/reflect/types"
+	// import ot "github.com/fwtpe/owl-backend/common/reflect/types"
 	targetMap := convSrv.ConvertTo(
 		sourceMap,
 		reflect.MapOf(

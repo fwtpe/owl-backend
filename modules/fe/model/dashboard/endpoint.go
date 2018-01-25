@@ -1,9 +1,9 @@
 package dashboard
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/model"
-	"github.com/Cepave/open-falcon-backend/modules/fe/g"
 	"github.com/astaxie/beego/orm"
+	"github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/modules/fe/g"
 )
 
 func QueryEndpintByNameRegx(queryStr string, limit int) (enp []Endpoint, err error) {

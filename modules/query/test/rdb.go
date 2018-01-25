@@ -3,9 +3,9 @@ package test
 import (
 	"database/sql"
 	"fmt"
-	nqmDb "github.com/Cepave/open-falcon-backend/common/db/nqm"
-	owlDb "github.com/Cepave/open-falcon-backend/common/db/owl"
-	testDb "github.com/Cepave/open-falcon-backend/common/testing/db"
+	nqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
+	owlDb "github.com/fwtpe/owl-backend/common/db/owl"
+	testDb "github.com/fwtpe/owl-backend/common/testing/db"
 	log "github.com/sirupsen/logrus"
 	tknet "github.com/toolkits/net"
 	"gopkg.in/check.v1"

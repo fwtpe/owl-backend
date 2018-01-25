@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/bitly/go-simplejson"
 
-	dsl "github.com/Cepave/open-falcon-backend/modules/query/dsl/nqm_parser"
+	dsl "github.com/fwtpe/owl-backend/modules/query/dsl/nqm_parser"
 
 	. "gopkg.in/check.v1"
 )

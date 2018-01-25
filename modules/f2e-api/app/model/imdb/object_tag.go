@@ -1,7 +1,7 @@
 package imdb
 
 import (
-	con "github.com/Cepave/open-falcon-backend/modules/f2e-api/config"
+	con "github.com/fwtpe/owl-backend/modules/f2e-api/config"
 )
 
 type ObjectTag struct {

@@ -6,9 +6,9 @@ import (
 
 	"github.com/juju/errors"
 
-	commonSling "github.com/Cepave/open-falcon-backend/common/http/client"
-	"github.com/Cepave/open-falcon-backend/common/model"
-	nqmModel "github.com/Cepave/open-falcon-backend/common/model/nqm"
+	commonSling "github.com/fwtpe/owl-backend/common/http/client"
+	"github.com/fwtpe/owl-backend/common/model"
+	nqmModel "github.com/fwtpe/owl-backend/common/model/nqm"
 )
 
 var annotateErr = errors.Annotate

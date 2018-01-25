@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/rpc"
 
-	tflag "github.com/Cepave/open-falcon-backend/common/testing/flag"
+	tflag "github.com/fwtpe/owl-backend/common/testing/flag"
 )
 
 // Callback used to use an opened client and safety-close

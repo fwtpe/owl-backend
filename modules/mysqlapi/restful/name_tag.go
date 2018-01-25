@@ -1,10 +1,10 @@
 package restful
 
 import (
-	"github.com/Cepave/open-falcon-backend/common/gin/mvc"
-	"github.com/Cepave/open-falcon-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/gin/mvc"
+	"github.com/fwtpe/owl-backend/common/model"
 
-	dbOwl "github.com/Cepave/open-falcon-backend/common/db/owl"
+	dbOwl "github.com/fwtpe/owl-backend/common/db/owl"
 )
 
 func listNameTags(

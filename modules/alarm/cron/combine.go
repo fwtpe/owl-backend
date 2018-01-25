@@ -3,9 +3,9 @@ package cron
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/api"
-	"github.com/Cepave/open-falcon-backend/modules/alarm/g"
-	redi "github.com/Cepave/open-falcon-backend/modules/alarm/redis"
+	"github.com/fwtpe/owl-backend/modules/alarm/api"
+	"github.com/fwtpe/owl-backend/modules/alarm/g"
+	redi "github.com/fwtpe/owl-backend/modules/alarm/redis"
 	"github.com/garyburd/redigo/redis"
 	"strings"
 	"time"
