@@ -1,20 +1,20 @@
 #-*-coding:utf8-*-
 import os
- 
+
 #-- dashboard db config --
 DASHBOARD_DB_HOST = "${mysql.host}"
 DASHBOARD_DB_PORT = ${mysql.port}
 DASHBOARD_DB_USER = "${dbuser.dashboard.account}"
 DASHBOARD_DB_PASSWD = "${dbuser.password}"
 DASHBOARD_DB_NAME = "${dbname.dashboard}"
- 
+
 #-- graph db config --
 GRAPH_DB_HOST = "${mysql.host}"
 GRAPH_DB_PORT = ${mysql.port}
 GRAPH_DB_USER = "${dbuser.dashboard.account}"
 GRAPH_DB_PASSWD = "${dbuser.password}"
 GRAPH_DB_NAME = "${dbname.graph}"
- 
+
 #-- portal db config --
 PORTAL_DB_HOST = "${mysql.host}"
 PORTAL_DB_PORT = ${mysql.port}
@@ -28,13 +28,13 @@ SECRET_KEY = "2mf09vjRDC"
 SESSION_COOKIE_NAME = "open-falcon"
 PERMANENT_SESSION_LIFETIME = 3600 * 24 * 30
 SITE_COOKIE = "open-falcon-ck"
- 
+
 #-- query config --
 QUERY_ADDR = "${url.query}"
- 
+
 BASE_DIR = "${path.dashboard.base}"
 LOG_PATH = os.path.join(BASE_DIR,"log/")
- 
+
 JSONCFG = {}
 JSONCFG['database'] = {}
 JSONCFG['database']['host']     = '${mysql.host}'
