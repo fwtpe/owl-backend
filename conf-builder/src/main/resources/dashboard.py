@@ -24,10 +24,10 @@ PORTAL_DB_NAME = "${dbname.portal}"
 
 #-- app config --
 DEBUG = ${log.debug.python}
-SECRET_KEY = "2mf09vjRDC"
-SESSION_COOKIE_NAME = "open-falcon"
+SECRET_KEY = "${m.dashboard.secret.key}"
+SESSION_COOKIE_NAME = "${m.dashboard.session.cookie}"
 PERMANENT_SESSION_LIFETIME = 3600 * 24 * 30
-SITE_COOKIE = "open-falcon-ck"
+SITE_COOKIE = "${m.dashboard.site.cookie}"
 
 #-- query config --
 QUERY_ADDR = "${url.query}"

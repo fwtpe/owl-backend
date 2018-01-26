@@ -11,8 +11,8 @@ DB_PASS = "${dbuser.password}"
 DB_NAME = "${dbname.links}"
 
 # -- cookie config --
-SECRET_KEY = "mfiovn2FfA1yhb"
-SESSION_COOKIE_NAME = "falcon-links"
+SECRET_KEY = "${m.links.secret.key}"
+SESSION_COOKIE_NAME = "${m.links.session.cookie}"
 PERMANENT_SESSION_LIFETIME = 3600 * 24 * 30
 
 try:

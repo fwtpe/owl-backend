@@ -320,6 +320,26 @@
 			 <m.query.boss.sync.enable> is sync switch from boss.
 		 -->
 		<m.query.boss.sync.enable>false</m.query.boss.sync.enable>
+
+		<!--
+			 DASHBOARD
+		 -->
+		<m.dashboard.secret.key>secret_key</m.dashboard.secret.key>
+		<m.dashboard.session.cookie>open-falcon</m.dashboard.session.cookie>
+		<m.dashboard.site.cookie>open-falcon-ck</m.dashboard.site.cookie>
+
+		<!--
+			 PORTAL
+		 -->
+		<m.portal.secret.key>secret_key</m.portal.secret.key>
+		<m.portal.session.cookie>falcon-portal</m.portal.session.cookie>
+
+		<!--
+			 LINKS
+		 -->
+		<m.links.secret.key>92j#Ffaas%W</m.links.secret.key>
+		<m.links.session.cookie>falcon-links</m.links.session.cookie>
+
 	</properties>
 	<build>
 		<outputDirectory>target/owl-conf</outputDirectory>

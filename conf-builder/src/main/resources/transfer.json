@@ -56,7 +56,7 @@
         "callTimeout": 5000,
         "maxConns": 32,
         "maxIdle": 32,
-        "addr": "owl_transfer:rpvLuwRhHAGhA8Rd@http(influxdata.owl.fastweb.com.cn:80)/owl"
+        "addr": "influx_user:influx_password@http(127.0.0.1:80)/owl"
     },
     "nqmRest": {
         "enabled":${m.transfer.nqm.enable},

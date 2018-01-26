@@ -11,8 +11,8 @@ DB_PASS = "${dbuser.password}"
 DB_NAME = "${dbname.portal}"
 
 # -- cookie config --
-SECRET_KEY = "92j#Ffaas%W"
-SESSION_COOKIE_NAME = "falcon-portal"
+SECRET_KEY = "${m.portal.secret.key}"
+SESSION_COOKIE_NAME = "${m.portal.session.cookie}"
 PERMANENT_SESSION_LIFETIME = 3600 * 24 * 30
 
 UIC_ADDRESS = {
@@ -24,7 +24,7 @@ UIC_ADDRESS = {
 UIC_TOKEN = ''
 
 MAINTAINERS = ['root']
-CONTACT = 'minimum@cepave.com'
+CONTACT = 'user@127.0.0.1'
 
 COMMUNITY = True
 
