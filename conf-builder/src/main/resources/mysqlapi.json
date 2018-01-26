@@ -7,6 +7,10 @@
         "graph":{
             "dsn" : "${dbuser.mysqlapi.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
             "maxIdle" : 8
+        },
+        "boss":{
+            "dsn" : "${dbuser.mysqlapi.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.boss}?${dbconn.flags}",
+            "maxIdle" : 8
         }
     },
     "restful" : {

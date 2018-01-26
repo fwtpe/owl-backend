@@ -39,8 +39,8 @@
   },
   "frontend": {
     "enable": false,
-    "folder": "${path.f2e.static}",
-    "static_path": ""
+    "folder": "${path.f2e.owlight.path}",
+    "static_path": "${path.f2e.static}"
   },
   "web_doc_site":{
     "enable": false,

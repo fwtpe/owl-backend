@@ -11,6 +11,17 @@
             "enable": true,
             "schedule": "0 0 2 ? * 6",
             "for_days": 7
+        },
+        "clear_task_log_entries": {
+            "enable": ${m.task.clear.log.enable},
+            "schedule": "@daily",
+            "for_days": 90
+        },
+        "sync_cmdb_from_boss" : {
+            "enable": ${m.task.sync.cmdb.enable},
+            "init_delay_seconds": 30,
+            "fixed_delay_seconds": ${m.task.sync.cmdb.delay.time},
+            "error_delay_seconds": 300
         }
     },
     "http": {

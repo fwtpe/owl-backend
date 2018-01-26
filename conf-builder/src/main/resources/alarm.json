@@ -68,5 +68,5 @@
         "idle": 10,
         "max": 100
     },
-    "redirectUrl": "${url.fe}/auth/login?callback=${url.alarm}/"
+    "redirectUrl": "${url.fe}/auth/login?callback=${url.alarm.escaped}/"
 }

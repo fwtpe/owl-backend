@@ -51,7 +51,7 @@ JSONCFG['shortcut']['grafanaDashboard'] = "${url.grafana}"
 JSONCFG['shortcut']['falconAlarm']      = "${url.alarm}"
 JSONCFG['shortcut']['falconUIC']        = "${url.fe}"
 
-JSONCFG['redirectUrl'] = '${url.fe}/auth/login?callback=${url.dashboard}/'
+JSONCFG['redirectUrl'] = '${url.fe}/auth/login?callback=${url.dashboard.escaped}/'
 
 try:
     from rrd.local_config import *
