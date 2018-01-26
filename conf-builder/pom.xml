@@ -20,7 +20,7 @@
 		<signup.option>true</signup.option>
 		<login.salt></login.salt>
 
-		
+
 		<!--
 			 PORT(backend)
 		 -->
@@ -213,27 +213,27 @@
 			 MYSQL module account
 		 -->
 
-		<dbuser.aggregator.account>${dbuser.dev.account}</dbuser.aggregator.account>	
-		<dbuser.alarm.account>${dbuser.dev.account}</dbuser.alarm.account>	
-		<dbuser.dashboard.account>${dbuser.dev.account}</dbuser.dashboard.account>	
-		<dbuser.f2e.account>${dbuser.dev.account}</dbuser.f2e.account>	
-		<dbuser.fe.account>${dbuser.dev.account}</dbuser.fe.account>	
-		<dbuser.grafana.account>${dbuser.dev.account}</dbuser.grafana.account>	
-		<dbuser.graph.account>${dbuser.dev.account}</dbuser.graph.account>	
-		<dbuser.light1.account>${dbuser.dev.account}</dbuser.light1.account>	
-		<dbuser.links.account>${dbuser.dev.account}</dbuser.links.account>	
-		<dbuser.mysqlapi.account>${dbuser.dev.account}</dbuser.mysqlapi.account>	
-		<dbuser.nodata.account>${dbuser.dev.account}</dbuser.nodata.account>	
-		<dbuser.portal.account>${dbuser.dev.account}</dbuser.portal.account>	
-		<dbuser.query.account>${dbuser.dev.account}</dbuser.query.account>	
-		<dbuser.task.account>${dbuser.dev.account}</dbuser.task.account>	
+		<dbuser.aggregator.account>${dbuser.dev.account}</dbuser.aggregator.account>
+		<dbuser.alarm.account>${dbuser.dev.account}</dbuser.alarm.account>
+		<dbuser.dashboard.account>${dbuser.dev.account}</dbuser.dashboard.account>
+		<dbuser.f2e.account>${dbuser.dev.account}</dbuser.f2e.account>
+		<dbuser.fe.account>${dbuser.dev.account}</dbuser.fe.account>
+		<dbuser.grafana.account>${dbuser.dev.account}</dbuser.grafana.account>
+		<dbuser.graph.account>${dbuser.dev.account}</dbuser.graph.account>
+		<dbuser.light1.account>${dbuser.dev.account}</dbuser.light1.account>
+		<dbuser.links.account>${dbuser.dev.account}</dbuser.links.account>
+		<dbuser.mysqlapi.account>${dbuser.dev.account}</dbuser.mysqlapi.account>
+		<dbuser.nodata.account>${dbuser.dev.account}</dbuser.nodata.account>
+		<dbuser.portal.account>${dbuser.dev.account}</dbuser.portal.account>
+		<dbuser.query.account>${dbuser.dev.account}</dbuser.query.account>
+		<dbuser.task.account>${dbuser.dev.account}</dbuser.task.account>
 
 		<dbuser.password>${dbuser.dev.password}</dbuser.password>
 
-		<dbuser.apollo.account>${dbuser.dev.account}</dbuser.apollo.account>	
-		<dbuser.apollo.password>${dbuser.dev.password}</dbuser.apollo.password>	
-		<dbuser.phpnqm.account>${dbuser.dev.account}</dbuser.phpnqm.account>	
-		<dbuser.phpnqm.password>${dbuser.dev.password}</dbuser.phpnqm.password>	
+		<dbuser.apollo.account>${dbuser.dev.account}</dbuser.apollo.account>
+		<dbuser.apollo.password>${dbuser.dev.password}</dbuser.apollo.password>
+		<dbuser.phpnqm.account>${dbuser.dev.account}</dbuser.phpnqm.account>
+		<dbuser.phpnqm.password>${dbuser.dev.password}</dbuser.phpnqm.password>
 
 		<!--
 			 MYSQL databases
@@ -250,7 +250,7 @@
 		<dbname.uic>uic</dbname.uic>
 		<dbname.apollo>apollo</dbname.apollo>
 		<dbname.phpnqm>gz_nqm</dbname.phpnqm>
-			
+
 		<!--
 			 HBS 
 			 Trustable ip is used on Agent white list.
