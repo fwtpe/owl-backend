@@ -111,6 +111,7 @@
 		<url.alarm.escaped>http%3A//${host.alarm}:${port.http.alarm}</url.alarm.escaped>
 		<url.light1>http://${host.light1}:${port.http.light1}</url.light1>
 		<url.mysqlapi>http://${host.mysqlapi}:${port.http.mysqlapi}</url.mysqlapi>
+		<url.f2e>http://${host.f2e}:${port.http.f2e}</url.f2e>
 
 
 		<!--
