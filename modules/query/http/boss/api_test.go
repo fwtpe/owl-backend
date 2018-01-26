@@ -14,10 +14,10 @@ import (
 
 var bossSkipper = test.BossSkipper
 
-var _ = Describe("Load platform data", bossSkipper.PrependBeforeEach(func() {
+var _ = Describe("Load ip data of platforms", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
-	It("The result should have at least [1] platform data", func() {
+	It("The data \"[]*PlatformIps\" [1] platform data", func() {
 		testedData := LoadIpDataOfPlatforms()
 
 		GinkgoT().Logf("[Platform data] Size[%d]. First row(JSON): %s", len(testedData), ojson.MarshalJSON(testedData[0]))
@@ -29,7 +29,7 @@ var _ = Describe("Load IDC data", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
-	It("The result should have at least [1] IDC data", func() {
+	It("The data \"[]*bmodel.IdcIps\" should have at least [1] IDC data", func() {
 		testedData := LoadIdcData()
 
 		GinkgoT().Logf("[IDC data] Size[%d] First row(JSON): %s", len(testedData), ojson.MarshalJSON(testedData[0]))
@@ -41,7 +41,7 @@ var _ = Describe("Load IDC bandwidth", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	// See model/boss for JSON specification of data
-	It("The result should have at least 1 bandwidth data", func() {
+	It("The data \"[]*IdcBandwidthRow\" should have at least 1 bandwidth data", func() {
 		sampleIdcName := LoadIdcData()[0].IpList[0].Pop
 
 		testedData := LoadIdcBandwidth(sampleIdcName)
@@ -57,7 +57,7 @@ var _ = Describe("Load IDC bandwidth", bossSkipper.PrependBeforeEach(func() {
 var _ = Describe("Load location data", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
-	It("The result should have corresponding data of location", func() {
+	It("The data \"*Location\" should have corresponding data of location", func() {
 		sampleIdcId, _ := strconv.Atoi(LoadIdcData()[0].IpList[0].PopId)
 
 		testedLocation := LoadLocationData(sampleIdcId)
@@ -86,10 +86,10 @@ var _ = XDescribe("encrypt the \"fctoken\" of BOSS service", bossSkipper.Prepend
 	})
 }))
 
-var _ = Describe("Load platforms type", func() {
+var _ = Describe("Load data of platforms' detail", func() {
 	SetupBossEnv()
 
-	It("The result should have at least 1 data", func() {
+	It("The data \"[]*PlatformDetail\" should have at least 1 row", func() {
 		testedResult := LoadDetailOfPlatforms()
 
 		GinkgoT().Logf("Total size: [%d]. First row: %s", len(testedResult), ojson.MarshalJSON(testedResult[0]))

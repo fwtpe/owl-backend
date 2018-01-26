@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/gomega/gstruct"
 )
 
-var _ = Describe("Use online BOSS", func() {
+var _ = XDescribe("Use online BOSS", func() {
 	SetupBossEnv()
 
 	var sqlxDb *osqlx.DbController
@@ -145,7 +145,9 @@ var _ = Describe("Use online BOSS", func() {
 			showRows(
 				`
 				SELECT hostname, ip, exist, status, type, updated, platform
-				FROM ips ORDER BY ip ASC LIMIT 5
+				FROM ips
+				WHERE exist = 1 AND status = 1
+				ORDER BY ip ASC LIMIT 5
 				`,
 				&struct {
 					Ip         string    `db:"ip"`
@@ -163,7 +165,9 @@ var _ = Describe("Use online BOSS", func() {
 				`
 				SELECT ip, hostname, exist, activate,
 					platform, platforms, isp, province, city, updated
-				FROM hosts ORDER BY idc DESC LIMIT 5
+				FROM hosts
+				WHERE activate = 1 AND exist = 1
+				ORDER BY idc DESC LIMIT 5
 				`,
 				&struct {
 					Hostname    string         `db:"hostname"`
@@ -199,7 +203,7 @@ var _ = Describe("Use online BOSS", func() {
 	})
 })
 
-var _ = Describe("[syncHostData] Mocked BOSS", func() {
+var _ = Describe("[syncHostData] Mocked BOSS", skipBossDb.PrependBeforeEach(func() {
 	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
 
 	BeforeEach(func() {
@@ -247,6 +251,13 @@ var _ = Describe("[syncHostData] Mocked BOSS", func() {
 							{Hostname: "ac-fww-097-006-012-043", Ip: "97.6.12.43", PopId: "153", Status: "1"},
 						},
 					},
+					{
+						Name: "p01.k02",
+						IpList: []*bmodel.PlatformIp{
+							{Hostname: "bj-cnc-097-006-001-041", Ip: "97.6.1.41", PopId: "141", Status: "1"},
+							{Hostname: "ac-fww-097-006-012-042", Ip: "97.6.12.42", PopId: "152", Status: "1"},
+						},
+					},
 				},
 			})
 
@@ -274,6 +285,7 @@ var _ = Describe("[syncHostData] Mocked BOSS", func() {
 				},
 			})
 	})
+
 	AfterEach(func() {
 		gockConfig.Off()
 
@@ -300,9 +312,10 @@ var _ = Describe("[syncHostData] Mocked BOSS", func() {
 		syncHostData()
 
 		testedResult := &struct {
-			CountIps       int `db:"count_ips"`
-			CountHosts     int `db:"count_hosts"`
-			CountPlatforms int `db:"count_platforms"`
+			CountIps                    int `db:"count_ips"`
+			CountHosts                  int `db:"count_hosts"`
+			CountHostsForMultiPlatforms int `db:"count_hosts_multi_platforms"`
+			CountPlatforms              int `db:"count_platforms"`
 		}{}
 
 		db.BossDbFacade.SqlxDbCtrl.Get(
@@ -320,23 +333,30 @@ var _ = Describe("[syncHostData] Mocked BOSS", func() {
 						AND updated >= ?
 				) AS count_hosts,
 				(
+					SELECT COUNT(*) FROM hosts
+					WHERE platform = 'p01.k02'
+						AND platforms LIKE '%,p01.k02'
+						AND updated >= ?
+				) AS count_hosts_multi_platforms,
+				(
 					SELECT COUNT(*) FROM platforms
 					WHERE platform LIKE 'c01.g%'
 						AND count = 3
 						AND updated >= ?
 				) AS count_platforms
 			`,
-			checkedTime, checkedTime, checkedTime,
+			checkedTime, checkedTime, checkedTime, checkedTime,
 		)
 
 		Expect(testedResult).To(PointTo(MatchAllFields(Fields{
-			"CountIps":       Equal(6),
-			"CountHosts":     Equal(6),
-			"CountPlatforms": Equal(2),
+			"CountIps":                    Equal(8),
+			"CountHosts":                  Equal(6),
+			"CountHostsForMultiPlatforms": Equal(2),
+			"CountPlatforms":              Equal(2),
 		})))
 	}
 
-	It(`The number of rows in "ips", "hosts", and "platforms" should have be (6, 6, 2)`, func() {
+	It(`The number of rows in "ips", "hosts", and "platforms" should have be (8, 6, 2)`, func() {
 		By("New data")
 		syncAndAssertData(time.Now())
 
@@ -365,7 +385,7 @@ var _ = Describe("[syncHostData] Mocked BOSS", func() {
 		By("Update data again(exceeding interval)")
 		syncAndAssertData(time.Now())
 	})
-})
+}))
 
 var _ = Describe("[syncIdcData] Mocked BOSS", skipBossDb.PrependBeforeEach(func() {
 	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
@@ -561,43 +581,41 @@ var _ = Describe("[updateHostsTable]", skipBossDb.PrependBeforeEach(func() {
 	})
 
 	It("The number of inserted/updated rows should be as expected", func() {
-		updateHostsTable(
-			map[string]map[string]string{
-				"gg-zhc-061-103-022-056": { // Updated data
-					"IP": "61.103.22.57", "hostname": "gg-zhc-061-103-022-056",
-					"platform": "pc33", "platforms": "pc34,pc35",
-					"activate": "1", "idcID": "104",
-				},
-				"gg-zhc-033-057-123-112": { // Updated data(IDC cannot be found)
-					"IP": "33.57.123.112", "hostname": "gg-zhc-033-057-123-112",
-					"platform": "pc33", "platforms": "pc34,pc35",
-					"activate": "1", "idcID": "501",
-				},
-				/**
-				 * New data
-				 */
-				"gg-zhc-061-093-022-033": {
-					"IP": "61.93.22.33", "hostname": "gg-zhc-061-093-022-033",
-					"platform": "np1", "platforms": "np1,g2",
-					"activate": "1", "idcID": "103",
-				},
-				"gg-zhc-061-093-022-034": {
-					"IP": "61.93.22.34", "hostname": "gg-zhc-061-093-022-034",
-					"platform": "np1", "platforms": "np1,g2",
-					"activate": "1", "idcID": "103",
-				},
-				// :~)
-				/**
-				 * New data(IDC cannot be found)
-				 */
-				"gg-zhc-033-057-123-113": {
-					"IP": "33.57.123.113", "hostname": "gg-zhc-033-057-123-113",
-					"platform": "np1", "platforms": "np1,g2",
-					"activate": "1", "idcID": "501",
-				},
-				// :~)
+		updateHostsTable([]*bmodel.Host{
+			{ // Updated data
+				Ip: "61.103.22.57", Hostname: "gg-zhc-061-103-022-056",
+				Isp: "gg", Platform: "pc33", Platforms: []string{"pc34", "pc35"},
+				Activate: "1", IdcId: "104",
 			},
-		)
+			{ // Updated data(IDC cannot be found)
+				Ip: "33.57.123.112", Hostname: "gg-zhc-033-057-123-112",
+				Isp: "gg", Platform: "pc33", Platforms: []string{"pc34", "pc35"},
+				Activate: "1", IdcId: "501",
+			},
+			/**
+			 * New data
+			 */
+			{
+				Ip: "61.93.22.33", Hostname: "gg-zhc-061-093-022-033",
+				Isp: "gg", Platform: "np1", Platforms: []string{"np1", "g2"},
+				Activate: "1", IdcId: "103",
+			},
+			{
+				Ip: "61.93.22.34", Hostname: "gg-zhc-061-093-022-034",
+				Isp: "gg", Platform: "np1", Platforms: []string{"np1", "g2"},
+				Activate: "1", IdcId: "103",
+			},
+			// :~)
+			/**
+			 * New data(IDC cannot be found)
+			 */
+			{
+				Ip: "33.57.123.113", Hostname: "gg-zhc-033-057-123-113",
+				Isp: "gg", Platform: "np1", Platforms: []string{"np1", "g2"},
+				Activate: "1", IdcId: "501",
+			},
+			// :~)
+		})
 
 		testedResult := &struct {
 			CountInserted     int `db:"count_inserted"`
@@ -690,7 +708,7 @@ var _ = Describe("[updateHostsTable]", skipBossDb.PrependBeforeEach(func() {
 	})
 }))
 
-var _ = Describe("[updateIpsTable]", func() {
+var _ = Describe("[updateIpsTable]", skipBossDb.PrependBeforeEach(func() {
 	BeforeEach(func() {
 		g.SetConfig(&g.GlobalConfig{
 			Hosts: &g.HostsConfig{
@@ -705,7 +723,7 @@ var _ = Describe("[updateIpsTable]", func() {
 				`
 				INSERT INTO ips(id, ip, exist, status, type, hostname, platform, updated)
 				VALUES
-					(3301, '10.11.87.191', 0, 0, 'OK', 'bp-cnc-010-011-087-191', 'CNC-01', NOW() - INTERVAL 10 SECOND),
+					(3301, '10.11.87.191', 0, 0, 'OK', 'bp-cnc-010-011-087-191', 'CNC-01', NOW() - INTERVAL 30 SECOND),
 					(3303, '10.12.87.191', 1, 0, 'OK', 'bp-cnc-010-012-087-191', 'g01.y55', NOW() - INTERVAL 11 MINUTE),
 					(3304, '10.12.87.192', 1, 0, 'OK', 'bp-cnc-010-012-087-192', 'g01.y55', NOW() - INTERVAL 11 MINUTE)
 				`,
@@ -722,18 +740,26 @@ var _ = Describe("[updateIpsTable]", func() {
 
 		It("The inserted/updated content should be as expected", func() {
 			updateIpsTable(
-				map[string]map[string]string{
-					"ubp-cnc-010-011-087-193": {
-						"IP": "10.11.87.191", "hostname": "ubp-cnc-010-011-087-193", "platform": "CNC-01",
-						"status": "1", "type": "UDD",
+				[]*bmodel.PlatformIps{
+					{
+						Name: "CNC-01",
+						IpList: []*bmodel.PlatformIp{
+							{Ip: "10.11.87.191", Hostname: "ubp-cnc-010-011-087-193", Status: "0", Type: "UDD"},
+						},
 					},
-					"bc-cnc-010-011-087-051": {
-						"IP": "10.11.87.51", "hostname": "bp-cnc-010-011-087-051", "platform": "CNC-02",
-						"status": "1", "type": "NDD",
+					{
+						Name: "CNC-02",
+						IpList: []*bmodel.PlatformIp{
+							{Ip: "10.11.87.51", Hostname: "bp-cnc-010-011-087-051", Status: "1", Type: "NDD"},
+							{Ip: "10.11.87.52", Hostname: "bp-cnc-010-011-087-052", Status: "1", Type: "NDD"},
+						},
 					},
-					"bc-cnc-010-011-087-052": {
-						"IP": "10.11.87.52", "hostname": "bp-cnc-010-011-087-052", "platform": "CNC-02",
-						"status": "1", "type": "NDD",
+					{
+						// Duplicated ip
+						Name: "CNC-01",
+						IpList: []*bmodel.PlatformIp{
+							{Ip: "10.11.87.191", Hostname: "ubp-cnc-010-011-087-193", Status: "1", Type: "UDD"},
+						},
 					},
 				},
 			)
@@ -776,7 +802,7 @@ var _ = Describe("[updateIpsTable]", func() {
 			})))
 		})
 	})
-})
+}))
 
 var _ = Describe("[updatePlatformsTable]", skipBossDb.PrependBeforeEach(func() {
 	BeforeEach(func() {
@@ -936,10 +962,10 @@ var _ = Describe("[updateIdcData]", skipBossDb.PrependBeforeEach(func() {
 	})
 }))
 
-var _ = Describe("Checking on passing of elapsed time for table \"idcs\"", skipBossDb.PrependBeforeEach(func() {
+var _ = Describe("Checking on passing of elapsed time for customized table and name(idcs)", skipBossDb.PrependBeforeEach(func() {
 	Context("Empty table", func() {
 		It("Should be passed", func() {
-			testedResult := isElapsedTimePassedForIdcsTable(time.Now(), 0)
+			testedResult := isElapsedTimePassed("idcs", "updated", time.Now(), 0)
 			Expect(testedResult).To(BeTrue())
 		})
 	})
@@ -967,7 +993,7 @@ var _ = Describe("Checking on passing of elapsed time for table \"idcs\"", skipB
 		DescribeTable("Passed result should be as expected",
 			func(time string, expected bool) {
 				sampleTime := testing.ParseTimeByGinkgo(time)
-				testedResult := isElapsedTimePassedForIdcsTable(sampleTime, 30)
+				testedResult := isElapsedTimePassed("idcs", "updated", sampleTime, 30)
 
 				Expect(testedResult).To(Equal(expected))
 			},
@@ -1023,6 +1049,20 @@ var _ = Describe("[loadDetailOfMatchedPlatforms]", func() {
 						Department: "gks", Team: "admin",
 						Visible: "1", Description: "since 1981",
 					},
+					/**
+					 * Non-imported platform
+					 */
+					{
+						Name: "p01.y34", Type: "low-end",
+						Department: "gks", Team: "admin",
+						Visible: "1", Description: "since 1981",
+					},
+					{
+						Name: "p01.y35", Type: "low-end",
+						Department: "gks", Team: "admin",
+						Visible: "1", Description: "since 1981",
+					},
+					// :~)
 				},
 			})
 	})
@@ -1032,10 +1072,10 @@ var _ = Describe("[loadDetailOfMatchedPlatforms]", func() {
 
 	Context("Loads detail of platforms from BOSS API", func() {
 		It("The loaded data should be as expected one", func() {
-			samplePlatforms := map[string]bool{
-				"p01.y31": true,
-				"p01.y32": true,
-				"p01.y33": true,
+			samplePlatforms := []*bmodel.PlatformIps{
+				{Name: "p01.y31"},
+				{Name: "p01.y32"},
+				{Name: "p01.y33"},
 			}
 			testedDetailOfPlatforms := loadDetailOfMatchedPlatforms(samplePlatforms)
 

@@ -18,42 +18,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("[queryPlatformJSON]", func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
-
-	BeforeEach(func() {
-		/**
-		 * Set-up environment
-		 */
-		apiConfig := &g.ApiConfig{
-			Name:     "mock-101",
-			Token:    "mock-token-101",
-			BossBase: gockConfig.NewHttpConfig().Url,
-			Map:      gockConfig.NewHttpConfig().Url + g.BOSS_URI_BASE_MAP,
-		}
-		g.SetConfig(&g.GlobalConfig{
-			Api: apiConfig,
-		})
-		// :~)
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
-
-		gockConfig.New().Get(fmt.Sprintf(
-			g.BOSS_URI_BASE_MAP+g.BOSS_PLATFORM_PATH_TMPL,
-			apiConfig.Name, boss.SecureFctoken(apiConfig.Token),
-		)).
-			Reply(http.StatusOK).
-			JSON(map[string]interface{}{})
-	})
-
-	AfterEach(func() {
-		gockConfig.Off()
-	})
-
-	It("The data of platform should be as expected", func() {
-	})
-})
 var _ = Describe("[queryIDCsBandwidths]", func() {
 	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
 
@@ -215,18 +179,5 @@ var _ = Describe("[getIpFromHostname]", func() {
 		Entry("Normal", "bj-cnc-019-061-123-201", "19.61.123.201"),
 		Entry("Cannot be parsed", "nothing", ""),
 		Entry("Cannot be parsed(one of ip value)", "kz-abk-019-8c-123-201", ""),
-	)
-})
-var _ = Describe("[getIspFromHostname]", func() {
-	DescribeTable("Checks the converted ISP string as expected",
-		func(sourceHostName string, expectedResult string) {
-			testedResult := getIspFromHostname(sourceHostName)
-			Expect(testedResult).To(Equal(expectedResult))
-		},
-		Entry("Normal", "bjb-ck-091-111-041-35", "bjb"),
-		Entry("Short name", "ack_zs_091_111", "ack"),
-		Entry("Short name(with partial IP)", "cjc-zs-091-111.ball.com", "cjc"),
-		Entry("Cannot be parsed", "nothing", ""),
-		Entry("Cannot be parsed", "ll.091", ""),
 	)
 })

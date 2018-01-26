@@ -16,6 +16,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/bitly/go-simplejson"
 
+	bmodel "github.com/fwtpe/owl-backend/modules/query/model/boss"
+
 	cmodel "github.com/fwtpe/owl-backend/common/model"
 	"github.com/fwtpe/owl-backend/common/utils"
 
@@ -1579,11 +1581,8 @@ func addApolloRemark(rw http.ResponseWriter, req *http.Request) {
 	setResponse(rw, nodes)
 }
 
-var hostnameRegexp = regexp.MustCompile(`^(\w+)-\w+-(\d+-\d+-\d+-\d+)$`)
-var ispOfHostnameRegexp = regexp.MustCompile(`^([[:alnum:]]+)[-_].*$`)
-
 func getIpFromHostname(hostname string, result map[string]interface{}) string {
-	finalIp := getIpFromHostnameWithDefault(hostname, "")
+	finalIp := bmodel.GetIpFromHostnameWithDefault(hostname, "")
 
 	if finalIp == "" {
 		setError(fmt.Errorf("Hostname[%s] cannot be parsed to IP.", hostname), result)
@@ -1592,26 +1591,11 @@ func getIpFromHostname(hostname string, result map[string]interface{}) string {
 	return finalIp
 }
 func getIpFromHostnameWithDefault(hostname string, defaultIp string) string {
-	matchResult := hostnameRegexp.FindStringSubmatch(hostname)
-	if matchResult == nil {
-		log.Debugf("Hostname: [%s] cannot be parsed to IP. Default IP [%s]", hostname, defaultIp)
-		return defaultIp
-	}
-
-	var ip1, ip2, ip3, ip4 uint8
-
-	fmt.Sscanf(matchResult[2], `%d-%d-%d-%d`, &ip1, &ip2, &ip3, &ip4)
-	return fmt.Sprintf("%d.%d.%d.%d", ip1, ip2, ip3, ip4)
+	return bmodel.GetIpFromHostnameWithDefault(hostname, defaultIp)
 }
 
 func getIspFromHostname(hostname string) string {
-	matchResult := ispOfHostnameRegexp.FindStringSubmatch(hostname)
-	if matchResult == nil {
-		log.Debugf("Cannot extract ISP from hostname: [%s]", hostname)
-		return ""
-	}
-
-	return matchResult[1]
+	return bmodel.GetIspFromHostname(hostname)
 }
 
 func getBandwidthsAverage(metricType string, duration string, hostnames []string, result map[string]interface{}) []interface{} {

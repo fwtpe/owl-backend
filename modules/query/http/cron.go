@@ -139,7 +139,7 @@ func syncIdcData() {
 	now := time.Now()
 	intervalSeconds := g.Config().Contacts.Interval
 	log.Debugf("[Refresh \"idcs\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
-	if !isElapsedTimePassedForIdcsTable(now, intervalSeconds) {
+	if !isElapsedTimePassed("idcs", "updated", now, intervalSeconds) {
 		log.Debugf("Skip synchronization")
 		return
 	}
@@ -247,10 +247,16 @@ func addBondingAndSpeedToHostsTable() {
 	}
 }
 
-func loadDetailOfMatchedPlatforms(neededPlatforms map[string]bool) []*bmodel.PlatformDetail {
+func loadDetailOfMatchedPlatforms(platformIps []*bmodel.PlatformIps) []*bmodel.PlatformDetail {
+	platformNameMap := make(map[string]bool)
+
+	for _, platform := range platformIps {
+		platformNameMap[platform.Name] = true
+	}
+
 	targetPlatforms := make([]*bmodel.PlatformDetail, 0)
 	for _, platform := range boss.LoadDetailOfPlatforms() {
-		if _, ok := neededPlatforms[platform.Name]; ok {
+		if _, ok := platformNameMap[platform.Name]; ok {
 			targetPlatforms = append(targetPlatforms, platform)
 		}
 	}
@@ -715,8 +721,11 @@ func syncHostData() {
 	 */
 	now := time.Now()
 	intervalSeconds := g.Config().Hosts.Interval
-	log.Infof("[Refresh \"ips, hosts, platforms\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
-	if !isElapsedTimePassedForIpsTable(now, intervalSeconds) {
+	log.Infof(
+		"[Refresh \"ips, hosts, platforms\"] Current time: [%s]. Interval: %d seconds",
+		now, intervalSeconds,
+	)
+	if !isElapsedTimePassed("ips", "updated", now, intervalSeconds) {
 		log.Debugf("Skip synchronization")
 		return
 	}
@@ -725,110 +734,17 @@ func syncHostData() {
 	/**
 	 * Loads IP data of platforms
 	 */
-	var ipDataOfPlatforms = make(map[string]interface{})
-	errors := []string{}
-	var result = make(map[string]interface{})
-	result["error"] = errors
-
-	loadIpDataOfPlatforms(ipDataOfPlatforms, result)
-
-	if ipDataOfPlatforms["status"] == nil {
-		return
-	} else if int(ipDataOfPlatforms["status"].(float64)) != 1 {
-		return
-	}
+	ipDataOfPlatforms := boss.LoadIpDataOfPlatforms()
 	// :~)
 
-	updatedPlatforms := map[string]bool{}
-	hostname := ""
-	hostData := map[string]map[string]string{}
-	ipData := map[string]map[string]string{}
+	log.Infof("Number of platforms: %d", len(ipDataOfPlatforms))
 
-	ipListOfPlatforms := ipDataOfPlatforms["result"].([]interface{})
+	updateIpsTable(ipDataOfPlatforms)
 
-	log.Infof("Number of platforms: %d", len(ipListOfPlatforms))
+	hostsData := bmodel.ConvertsPlatformIpsToHosts(ipDataOfPlatforms)
+	updateHostsTable(hostsData)
 
-	// Iterates every platform
-	for _, platform := range ipListOfPlatforms {
-		platformName := platform.(map[string]interface{})["platform"].(string)
-
-		ipList := platform.(map[string]interface{})["ip_list"].([]interface{})
-
-		log.Debugf("Platform[%s]. Number of IPs: [%d]", platformName, len(ipList))
-
-		// Iterates every ip_list of every platform
-		for _, device := range ipList {
-			log.Debugf("Current ip(device): %#v", device)
-
-			hostname = device.(map[string]interface{})["hostname"].(string)
-			ipAddress := device.(map[string]interface{})["ip"].(string)
-			status := device.(map[string]interface{})["ip_status"].(string)
-			ipType := device.(map[string]interface{})["ip_type"].(string)
-			item := map[string]string{
-				"IP":       ipAddress,
-				"status":   status,
-				"hostname": hostname,
-				"platform": platformName,
-				"type":     strings.ToLower(ipType),
-			}
-			ipKeyOfPlatform := platformName + "_" + ipAddress
-			if _, ok := ipData[ipAddress]; !ok {
-				ipData[ipKeyOfPlatform] = item
-			}
-
-			if len(hostname) == 0 {
-				continue
-			}
-
-			effectiveIpAddress := getIpFromHostnameWithDefault(hostname, ipAddress)
-
-			if host, ok := hostData[hostname]; !ok {
-				idcID := device.(map[string]interface{})["pop_id"].(string)
-				host := map[string]string{
-					"hostname":  hostname,
-					"activate":  "0",
-					"platforms": "",
-					"idcID":     idcID,
-					"IP":        ipAddress,
-				}
-				if len(effectiveIpAddress) > 0 {
-					host["ipAddress"] = effectiveIpAddress
-					host["platform"] = platformName
-					platforms := []string{}
-					if len(host["platforms"]) > 0 {
-						platforms = strings.Split(host["platforms"], ",")
-					}
-					platforms = appendUniqueString(platforms, platformName)
-					host["platforms"] = strings.Join(platforms, ",")
-				}
-				if status == "1" {
-					host["activate"] = "1"
-				}
-				hostData[hostname] = host
-			} else {
-				if len(effectiveIpAddress) > 0 {
-					host["ipAddress"] = effectiveIpAddress
-					host["platform"] = platformName
-					platforms := []string{}
-					if len(host["platforms"]) > 0 {
-						platforms = strings.Split(host["platforms"], ",")
-					}
-					platforms = appendUniqueString(platforms, platformName)
-					host["platforms"] = strings.Join(platforms, ",")
-				}
-				if status == "1" {
-					host["activate"] = "1"
-				}
-				hostData[hostname] = host
-			}
-		}
-
-		updatedPlatforms[platformName] = true
-	}
-
-	updateIpsTable(ipData)
-	updateHostsTable(hostData)
-	detailOfPlatforms := loadDetailOfMatchedPlatforms(updatedPlatforms)
+	detailOfPlatforms := loadDetailOfMatchedPlatforms(ipDataOfPlatforms)
 	updatePlatformsTable(detailOfPlatforms)
 }
 
@@ -1041,55 +957,55 @@ const turnOffExistToIpsSql = `
 		AND updated <= FROM_UNIXTIME(?) - INTERVAL 10 MINUTE
 `
 
-func updateIpsTable(IPsMap map[string]map[string]string) {
+func updateIpsTable(platformsAndIps []*bmodel.PlatformIps) {
 	now := time.Now()
 
 	/**
 	 * Checks time of interval on updating data
 	 */
-	if !isElapsedTimePassedForIpsTable(
-		now, g.Config().Hosts.Interval,
-	) {
+	if !isElapsedTimePassed("ips", "updated", now, g.Config().Hosts.Interval) {
 		return
 	}
 	// :~)
 
-	/**
-	 * Insert or update data
-	 */
-	utils.MakeAbstractMap(IPsMap).SimpleBatchProcess(
-		32,
-		func(row interface{}) {
-			ipData := row.(map[string]map[string]string)
+	for _, platformIps := range platformsAndIps {
+		/**
+		 * Insert or update data
+		 */
+		utils.MakeAbstractArray(platformIps.IpList).SimpleBatchProcess(
+			32,
+			func(row interface{}) {
+				ipData := row.([]*bmodel.PlatformIp)
 
-			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
-				txExt := osqlx.ToTxExt(tx)
+				qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+					txExt := osqlx.ToTxExt(tx)
 
-				insertStmt := txExt.PrepareNamed(insertIpsSql)
-				updatedStmt := txExt.PrepareNamed(updateIpsSql)
-				for _, row := range ipData {
-					params := map[string]interface{}{
-						"ip":          row["IP"],
-						"status":      row["status"],
-						"type":        row["type"],
-						"hostname":    row["hostname"],
-						"platform":    row["platform"],
-						"update_time": now,
+					insertStmt := txExt.PrepareNamed(insertIpsSql)
+					updatedStmt := txExt.PrepareNamed(updateIpsSql)
+					for _, row := range ipData {
+						log.Debugf("[Insert/Update] ip data(of platform): %+v", row)
+
+						params := map[string]interface{}{
+							"ip":          row.Ip,
+							"status":      row.Status,
+							"type":        row.Type,
+							"hostname":    row.Hostname,
+							"platform":    platformIps.Name,
+							"update_time": now,
+						}
+
+						if db.ToResultExt(updatedStmt.MustExec(params)).RowsAffected() > 0 {
+							continue
+						}
+
+						insertStmt.MustExec(params)
 					}
 
-					log.Debugf("[Insert/Update] ip param: %q", params)
-
-					if db.ToResultExt(updatedStmt.MustExec(params)).RowsAffected() > 0 {
-						continue
-					}
-
-					insertStmt.MustExec(params)
-				}
-
-				return db.TxCommit
-			}))
-		},
-	)
+					return db.TxCommit
+				}))
+			},
+		)
+	}
 
 	/**
 	 * Turns off the exist for ips which are updated at least 10 minutes ago
@@ -1159,7 +1075,7 @@ const updateCountOfIdc = `
 	SET idcs.count = IFNULL(hs.count_hosts, 0)
 `
 
-func updateHostsTable(hostData map[string]map[string]string) {
+func updateHostsTable(hostData []*bmodel.Host) {
 	now := time.Now()
 
 	/**
@@ -1167,28 +1083,18 @@ func updateHostsTable(hostData map[string]map[string]string) {
 	 */
 	intervalSeconds := g.Config().Hosts.Interval
 	log.Debugf("[Refresh \"hosts\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
-	if !isElapsedTimePassedForHostsTable(now, intervalSeconds) {
+	if !isElapsedTimePassed("hosts", "updated", now, intervalSeconds) {
 		return
 	}
 	// :~)
 
-	hosts := []map[string]string{}
-	for _, host := range hostData {
-		if len(host["platform"]) == 0 {
-			host["platform"] = strings.Split(host["platforms"], ",")[0]
-		}
-
-		host["ISP"] = getIspFromHostname(host["hostname"])
-		hosts = append(hosts, host)
-	}
-
 	/**
 	 * Insert or update data
 	 */
-	utils.MakeAbstractArray(hosts).SimpleBatchProcess(
+	utils.MakeAbstractArray(hostData).SimpleBatchProcess(
 		32,
 		func(batchData interface{}) {
-			hostData := batchData.([]map[string]string)
+			allHosts := batchData.([]*bmodel.Host)
 
 			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
 				txExt := osqlx.ToTxExt(tx)
@@ -1196,15 +1102,14 @@ func updateHostsTable(hostData map[string]map[string]string) {
 				insertStmt := txExt.PrepareNamed(insertHostsSql)
 				updateStmt := txExt.PrepareNamed(updateHostsSql)
 
-				for _, host := range hostData {
+				for _, host := range allHosts {
+					log.Debugf("[Insert/Update] Host: %#v", host)
 					params := map[string]interface{}{
-						"ip": host["IP"], "hostname": host["hostname"],
-						"platform": host["platform"], "platforms": host["platforms"],
-						"isp": host["ISP"], "activate": host["activate"], "update_time": now,
-						"idc_id": host["idcID"],
+						"ip": host.Ip, "hostname": host.Hostname,
+						"platform": host.Platform, "platforms": host.GetPlatformsAsString(),
+						"isp": host.Isp, "activate": host.Activate, "update_time": now,
+						"idc_id": host.IdcId,
 					}
-
-					log.Debugf("[Insert/Update] Host params: %q", params)
 
 					if result := db.ToResultExt(updateStmt.MustExec(params)); result.RowsAffected() > 0 {
 						continue
@@ -1228,9 +1133,13 @@ func updateHostsTable(hostData map[string]map[string]string) {
 	)
 	// :~)
 
+	/**
+	 * Updates the counter idcs
+	 */
 	qdb.BossDbFacade.SqlxDb.MustExec(
 		updateCountOfIdc,
 	)
+	// :~)
 }
 
 var insertPlatformSql = `
@@ -1294,22 +1203,6 @@ func updatePlatformsTable(platforms []*bmodel.PlatformDetail) {
 				return db.TxCommit
 			}))
 		},
-	)
-}
-
-func isElapsedTimePassedForIdcsTable(checkedTime time.Time, seconds int) bool {
-	return isElapsedTimePassed(
-		"idcs", "updated", checkedTime, seconds,
-	)
-}
-func isElapsedTimePassedForIpsTable(checkedTime time.Time, seconds int) bool {
-	return isElapsedTimePassed(
-		"ips", "updated", checkedTime, seconds,
-	)
-}
-func isElapsedTimePassedForHostsTable(checkedTime time.Time, seconds int) bool {
-	return isElapsedTimePassed(
-		"hosts", "updated", checkedTime, seconds,
 	)
 }
 

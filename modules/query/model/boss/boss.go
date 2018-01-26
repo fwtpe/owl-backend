@@ -131,15 +131,20 @@ func (l *Location) String() string {
 }
 
 // Represents result of "/Base/platform/get_ip ... /show_active/yes/hostname/yes/pop_id/yes/ip/yes/show_ip_type/yes.json"
+// The <platform> + <ip> is not guaranteed unique.
 /*
 {
   "status":1, "info":"当前操作成功了！",
-  "platform":"IDC-Test",
-  "ip_list":[
-    {
-	  "ip_status":"0","pop_id":"23","ip_type":"RIP",
-	  "ip":"122.228.199.122","hostname":"ctl-zj-122-228-199-122",
-    } ,...
+  "result: [
+  	{
+	  "name": "IDC-Test"
+	  "ip_list":[
+		{
+		  "ip_status":"0","pop_id":"23","ip_type":"RIP",
+		  "ip":"122.228.199.122","hostname":"ctl-zj-122-228-199-122",
+		} ,...
+	  ]
+	} ...,
   ]
 }
 */
@@ -158,6 +163,79 @@ type PlatformIp struct {
 	Status   string `json:"ip_status"`
 	PopId    string `json:"pop_id"`
 	Type     string `json:"ip_type"`
+}
+
+func (ip *PlatformIp) GetType() string {
+	return strings.ToLower(ip.Type)
+}
+
+type Host struct {
+	Ip        string
+	Hostname  string
+	Platform  string
+	Platforms []string
+	Isp       string
+	Activate  string
+	IdcId     string
+}
+
+func (h *Host) GetPlatformsAsString() string {
+	return strings.Join(h.Platforms, ",")
+}
+
+// Converts the data of platform to host
+// Identified by hostname, the duplicated data of "*PlatformIps.IpList[n]" would be
+// replaced by last one.
+func ConvertsPlatformIpsToHosts(platformIps []*PlatformIps) []*Host {
+	uniqueHost := make(map[string]*Host)
+
+	for _, platform := range platformIps {
+		for _, ip := range platform.IpList {
+			if len(ip.Hostname) == 0 {
+				continue
+			}
+
+			host, ok := uniqueHost[ip.Hostname]
+
+			if !ok {
+				host = &Host{
+					Ip:       ip.Ip,
+					Hostname: ip.Hostname,
+					Isp:      GetIspFromHostname(ip.Hostname),
+					IdcId:    ip.PopId,
+					Activate: ip.Status,
+				}
+			}
+
+			/**
+			 * ip 與 hostname 解出的 ip 一致，才把此平台納入資料
+			 */
+			effectiveIpAddress := GetIpFromHostnameWithDefault(ip.Hostname, "")
+			if effectiveIpAddress == ip.Ip {
+				host.Ip = effectiveIpAddress
+				host.Platform = platform.Name
+				host.Platforms = append(host.Platforms, platform.Name)
+			}
+
+			/**
+			 * If any of the status of ip is 1, sets the host status to 1
+			 */
+			if host.Activate == "0" && ip.Status == "1" {
+				host.Activate = ip.Status
+			}
+			// :~)
+			// :~)
+
+			uniqueHost[ip.Hostname] = host
+		}
+	}
+
+	result := make([]*Host, 0, len(uniqueHost))
+	for _, uniqueHost := range uniqueHost {
+		result = append(result, uniqueHost)
+	}
+
+	return result
 }
 
 // Represents result of "/base/platform/get_all_platform_pbc"
