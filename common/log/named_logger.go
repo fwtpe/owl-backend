@@ -25,6 +25,7 @@ package log
 
 import (
 	"io"
+	"os"
 	"strings"
 	"sync"
 
@@ -41,11 +42,11 @@ var (
 // Alias to "github.com/sirupsen/logrus"
 const (
 	PanicLevel = lf.PanicLevel
-    FatalLevel = lf.FatalLevel
-    ErrorLevel = lf.ErrorLevel
-    WarnLevel = lf.WarnLevel
-    InfoLevel = lf.InfoLevel
-    DebugLevel = lf.DebugLevel
+	FatalLevel = lf.FatalLevel
+	ErrorLevel = lf.ErrorLevel
+	WarnLevel  = lf.WarnLevel
+	InfoLevel  = lf.InfoLevel
+	DebugLevel = lf.DebugLevel
 
 	ROOT_LOGGER = "_root_"
 )
@@ -56,10 +57,12 @@ var defaultFactory = newLoggerFactory()
 func GetLogger(name string) *lf.Logger {
 	return defaultFactory.GetLogger(name)
 }
+
 // List all of the named loggers
 func ListAll() map[string]*lf.Logger {
 	return defaultFactory.ListAll()
 }
+
 // Sets the level to the named logger
 func SetLevel(name string, level lf.Level) {
 	defaultFactory.SetLevel(name, level)
@@ -101,14 +104,14 @@ func WithCurrentFrame(logger *lf.Logger) lf.FieldLogger {
 func newLoggerFactory() *loggerFactory {
 	return &loggerFactory{
 		namedLoggers: make(map[string]*lf.Logger),
-		lock: &sync.Mutex{},
+		lock:         &sync.Mutex{},
 	}
 }
 
 // Implementation for public functions
 type loggerFactory struct {
 	namedLoggers map[string]*lf.Logger
-	lock *sync.Mutex
+	lock         *sync.Mutex
 }
 
 func (l *loggerFactory) GetLogger(name string) *lf.Logger {
@@ -230,7 +233,8 @@ func toLogger(fieldLogger *lf.Logger) *lf.Logger {
 func newLogger(name string) *lf.Logger {
 	newLogger := lf.New()
 	newLogger.Level = lf.WarnLevel
-	newLogger.Formatter = &NameFormatter{ truncateModuleName(name, maximumModuleName) }
+	newLogger.Formatter = NewTextFormatter(name)
+	newLogger.Out = os.Stdout
 
 	return newLogger
 }
