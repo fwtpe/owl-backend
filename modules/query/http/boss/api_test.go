@@ -77,7 +77,7 @@ var _ = Describe("Load location data", bossSkipper.PrependBeforeEach(func() {
 	})
 }))
 
-var _ = Describe("Load data of platforms' detail", func() {
+var _ = Describe("Load data of platforms' detail", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	It("The data \"[]*PlatformDetail\" should have at least 1 row", func() {
@@ -88,9 +88,9 @@ var _ = Describe("Load data of platforms' detail", func() {
 
 		Expect(len(testedResult)).To(BeNumerically(">=", 1))
 	})
-})
+}))
 
-var _ = Describe("Load data of platform contacts", func() {
+var _ = Describe("Load data of platform contacts", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()
 
 	It("The data \"*ContactUsers\" should have at least 1 user on [Principals] and [Backupers]", func() {
@@ -108,7 +108,7 @@ var _ = Describe("Load data of platform contacts", func() {
 			Expect(len(platformContact.Backupers)).To(BeNumerically(">=", 1))
 		}
 	})
-})
+}))
 
 var _ = Describe("encrypt the \"fctoken\" of BOSS service", bossSkipper.PrependBeforeEach(func() {
 	SetupBossEnv()

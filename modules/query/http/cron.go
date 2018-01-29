@@ -224,12 +224,13 @@ SET bonding = :bonding,
 	speed = :speed, updated = :updated
 WHERE id = :id
 `
+
 func updateBondingOfHosts() {
 	type hostBonding struct {
-		Id int `db:"id"`
-		Hostname string `db:"hostname"`
-		Speed int `db:"speed"`
-		Bonding int `db:"bonding"`
+		Id         int       `db:"id"`
+		Hostname   string    `db:"hostname"`
+		Speed      int       `db:"speed"`
+		Bonding    int       `db:"bonding"`
 		UpdateTime time.Time `db:"updated"`
 	}
 

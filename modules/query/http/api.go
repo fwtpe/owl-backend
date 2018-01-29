@@ -1698,6 +1698,12 @@ func getPlatformBandwidthsFiveMinutesAverage(platformName string, metricType str
 }
 
 func getPlatformContact(platformsName string, nodes map[string]interface{}) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[getPlatformContact] has panic: %v", r)
+		}
+	}()
+
 	listOfPlatforms := strings.Split(platformsName, ",")
 
 	getPlatformContact2(listOfPlatforms, nodes)

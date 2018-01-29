@@ -1188,18 +1188,18 @@ var _ = Describe("[updateBondingOfHosts]", skipBossDb.PrependBeforeEach(func() {
 	BeforeEach(func() {
 		getBondingOfHost = func(name string) map[string]int {
 			if strings.HasPrefix(name, "nnb") {
-				return map[string]int {
+				return map[string]int{
 					"bonding": 3072,
 				}
 			} else if strings.HasPrefix(name, "nns") {
-				return map[string]int {
+				return map[string]int{
 					"speed": 9600,
 				}
 			}
 
-			return map[string]int {
+			return map[string]int{
 				"bonding": 40960,
-				"speed": 10000,
+				"speed":   10000,
 			}
 		}
 
@@ -1234,11 +1234,11 @@ var _ = Describe("[updateBondingOfHosts]", skipBossDb.PrependBeforeEach(func() {
 		updateBondingOfHosts()
 
 		testedResult := &struct {
-			CountBoth int `db:"count_both"`
-			CountBonding int `db:"count_bonding"`
-			CountSpeed int `db:"count_speed"`
+			CountBoth       int `db:"count_both"`
+			CountBonding    int `db:"count_bonding"`
+			CountSpeed      int `db:"count_speed"`
 			CountUneffected int `db:"count_uneffected"`
-		} {}
+		}{}
 
 		db.BossDbFacade.SqlxDbCtrl.Get(
 			testedResult,
@@ -1273,9 +1273,9 @@ var _ = Describe("[updateBondingOfHosts]", skipBossDb.PrependBeforeEach(func() {
 
 		Expect(testedResult).To(PointTo(MatchAllFields(
 			Fields{
-				"CountBoth": Equal(2),
-				"CountBonding": Equal(1),
-				"CountSpeed": Equal(1),
+				"CountBoth":       Equal(2),
+				"CountBonding":    Equal(1),
+				"CountSpeed":      Equal(1),
 				"CountUneffected": Equal(1),
 			},
 		)))
