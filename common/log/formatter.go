@@ -119,6 +119,7 @@ func checkIfTerminal(w io.Writer) bool {
 
 // Format renders a single log entry
 func (f *TextFormatter) Format(entry *logrus.Entry) ([]byte, error) {
+	entry.Data["name"] = f.Name
 	var b *bytes.Buffer
 	keys := make([]string, 0, len(entry.Data))
 	for k := range entry.Data {
@@ -156,6 +157,9 @@ func (f *TextFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 			f.appendKeyValue(b, "msg", entry.Message)
 		}
 		for _, key := range keys {
+			if key == "name" {
+				continue
+			}
 			f.appendKeyValue(b, key, entry.Data[key])
 		}
 	}
