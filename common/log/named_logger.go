@@ -141,23 +141,39 @@ func (l *loggerFactory) ListAll() []*LoggerEntry {
 			Name:   name,
 		})
 	}
-	sort.Sort(byName(loggers))
-
+	by(name).Sort(loggers)
 	return loggers
 }
 
-type byName []*LoggerEntry
+type by func(a, b *LoggerEntry) bool
 
-func (n byName) Len() int {
-	return len(n)
+func (b by) Sort(entries []*LoggerEntry) {
+	s := &sorter{
+		entries: entries,
+		less:    b,
+	}
+	sort.Sort(s)
 }
 
-func (n byName) Swap(i, j int) {
-	n[i], n[j] = n[j], n[i]
+var name = func(a, b *LoggerEntry) bool {
+	return a.Name < b.Name
 }
 
-func (n byName) Less(i, j int) bool {
-	return n[i].Name < n[j].Name
+type sorter struct {
+	entries []*LoggerEntry
+	less    by
+}
+
+func (s *sorter) Len() int {
+	return len(s.entries)
+}
+
+func (s *sorter) Swap(i, j int) {
+	s.entries[i], s.entries[j] = s.entries[j], s.entries[i]
+}
+
+func (s *sorter) Less(i, j int) bool {
+	return s.less(s.entries[i], s.entries[j])
 }
 
 func (l *loggerFactory) SetLevel(name string, level lf.Level) {
