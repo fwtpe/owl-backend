@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	ojson "github.com/fwtpe/owl-backend/common/json"
+	t "github.com/fwtpe/owl-backend/common/testing"
 
 	"github.com/fwtpe/owl-backend/modules/query/test"
 
@@ -76,24 +77,45 @@ var _ = Describe("Load location data", bossSkipper.PrependBeforeEach(func() {
 	})
 }))
 
-var _ = XDescribe("encrypt the \"fctoken\" of BOSS service", bossSkipper.PrependBeforeEach(func() {
-	SetupBossEnv()
-
-	// Any of "Load xxx" testing would test the encryption of token
-	It("The encrypted value of \"SecureFctoken()\" should be as expected", func() {
-		testedResult := SecureFctoken("hello")
-		Expect(testedResult).To(Equal("ecc65534b21a39c5df1c554dec7662c2"))
-	})
-}))
-
 var _ = Describe("Load data of platforms' detail", func() {
 	SetupBossEnv()
 
 	It("The data \"[]*PlatformDetail\" should have at least 1 row", func() {
 		testedResult := LoadDetailOfPlatforms()
 
-		GinkgoT().Logf("Total size: [%d]. First row: %s", len(testedResult), ojson.MarshalJSON(testedResult[0]))
+		GinkgoT().Logf("Total size: [%d]. First row: %s", len(testedResult),
+			ojson.MarshalJSON(testedResult[0]))
 
 		Expect(len(testedResult)).To(BeNumerically(">=", 1))
 	})
 })
+
+var _ = Describe("Load data of platform contacts", func() {
+	SetupBossEnv()
+
+	It("The data \"*ContactUsers\" should have at least 1 user on [Principals] and [Backupers]", func() {
+		idcData := LoadIdcData()
+
+		platformsContact := LoadDataOfPlatformContacts(
+			[]string{idcData[0].Platform, idcData[1].Platform},
+		)
+
+		Expect(len(platformsContact)).To(Equal(2))
+		for _, platformContact := range platformsContact {
+			GinkgoT().Logf("Contact data. Principal[0]: %#v. Backuper[0]: %#v", platformContact.Principals[0], platformContact.Backupers[0])
+
+			Expect(len(platformContact.Principals)).To(BeNumerically(">=", 1))
+			Expect(len(platformContact.Backupers)).To(BeNumerically(">=", 1))
+		}
+	})
+})
+
+var _ = Describe("encrypt the \"fctoken\" of BOSS service", bossSkipper.PrependBeforeEach(func() {
+	SetupBossEnv()
+
+	// Any of "Load xxx" testing would test the encryption of token
+	It("The encrypted value of \"SecureFctoken()\" should be as expected", func() {
+		testedResult := secureFctoken("hello", t.ParseTimeByGinkgo("2016-04-13T10:20:20+08:00"))
+		Expect(testedResult).To(Equal("8e0b1185425a6a80170e7335ce941846"))
+	})
+}))

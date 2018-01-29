@@ -301,3 +301,98 @@ func (p *PlatformDetail) ShortenDescription() string {
 
 	return shorten
 }
+
+// Represents result of "/Base/platform/get_platform_linkman"
+/**
+{
+	"status":1, "info":"当前操作成功了！", "count":1,
+	"result": {
+		"IDC-Test": {
+			"principal": [
+				{"user_id":"1051","realname":"陳小沖","cell":"3242343772","telphone":"981-23787432742-23423","email":"user1@some1.com"}
+			],
+			"backuper": [
+				{"user_id":"1051","realname":"張王八","cell":"27878234","telphone":"","email":"user1@some1.com"}
+			]
+		}
+	}
+}
+*/
+type PlatformContactResult struct {
+	Status int                      `json:"status"`
+	Info   string                   `json:"info"`
+	Result map[string]*ContactUsers `json:"result"`
+}
+
+type ContactUsers struct {
+	Principals []*ContactUser `json:"principal"`
+	Backupers  []*ContactUser `json:"backuper"`
+	Upgraders  []*ContactUser `json:"upgrader"`
+}
+
+func (self *ContactUsers) AllUsers() []*ContactUser {
+	allUsers := make(
+		[]*ContactUser, 0,
+		len(self.Principals)+len(self.Backupers)+len(self.Upgraders),
+	)
+
+	allUsers = append(allUsers, self.Principals...)
+	allUsers = append(allUsers, self.Backupers...)
+	allUsers = append(allUsers, self.Upgraders...)
+
+	return allUsers
+}
+func (self *ContactUsers) ExtractFirstContact() *NamesOfContactUsers {
+	names := new(NamesOfContactUsers)
+
+	if len(self.Principals) > 0 {
+		names.Principal = self.Principals[0].RealName
+	}
+	if len(self.Backupers) > 0 {
+		names.Deputy = self.Backupers[0].RealName
+	}
+	if len(self.Upgraders) > 0 {
+		names.Upgrader = self.Upgraders[0].RealName
+	}
+
+	return names
+}
+
+func (self *ContactUsers) String() string {
+	return fmt.Sprintf(
+		"#Principals: %d. #Backupers: %d. #Upgraders: %d",
+		len(self.Principals),
+		len(self.Backupers),
+		len(self.Upgraders),
+	)
+}
+
+type ContactUser struct {
+	Id              string `json:"user_id"`
+	RealName        string `json:"realname"`
+	CellPhoneNumber string `json:"cell"`
+	TelephoneNumber string `json:"telphone"`
+	Email           string `json:"email"`
+}
+
+type NamesOfContactUsers struct {
+	Principal string
+	Deputy    string
+	Upgrader  string
+}
+
+func (self *NamesOfContactUsers) GetListOfNames() []string {
+	names := make([]string, 0)
+
+	if self.Principal != "" {
+		names = append(names, self.Principal)
+	}
+	if self.Deputy != "" {
+		names = append(names, self.Deputy)
+	}
+	if self.Upgrader != "" {
+		names = append(names, self.Upgrader)
+	}
+
+	return names
+}

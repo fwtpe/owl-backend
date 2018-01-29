@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	gt "gopkg.in/h2non/gentleman.v2"
@@ -67,6 +68,49 @@ func SetupServerUrl(apiConfig *g.ApiConfig) {
 
 func SetPlugins(newPlugins ...gtp.Plugin) {
 	httpClientPlugins = newPlugins
+}
+
+func LoadDataOfPlatformContacts(platformNames []string) map[string]*bmodel.ContactUsers {
+	contacts := new(bmodel.PlatformContactResult)
+
+	if err := bindJson(loadDataOfPlatformContactsResp(platformNames), contacts); err != nil {
+		return nil
+	}
+
+	if contacts.Status != 1 {
+		message := fmt.Sprintf(
+			"Cannot load contact data of Platform[%s]. Error Code[%d]. Message[%s]",
+			platformNames, contacts.Status, contacts.Info,
+		)
+		logger.Warn(message)
+		panic(message)
+	}
+
+	logger.Debugf("#Platforms: %d", len(contacts.Result))
+
+	return contacts.Result
+}
+
+func LoadDataOfPlatformContactsToMap(platformNames []string, container *map[string]interface{}) {
+	err := bindJson(loadDataOfPlatformContactsResp(platformNames), container)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func loadDataOfPlatformContactsResp(platformNames []string) *gt.Response {
+	req := client.ToGentlemanReq(
+		bossContactBase.Clone().JSON(
+			map[string]string{
+				"fcname":       bossFcname,
+				"fctoken":      SecureFctokenByConfig(),
+				"platform_key": strings.Join(platformNames, ","),
+			},
+		),
+	)
+
+	return req.SendAndStatusMustMatch(http.StatusOK)
 }
 
 func LoadIdcBandwidth(idcName string) []*bmodel.IdcBandwidthRow {
@@ -232,10 +276,14 @@ func SecureFctokenByConfig() string {
 	return SecureFctoken(bossPlainFctoken)
 }
 func SecureFctoken(plainToken string) string {
+	return secureFctoken(plainToken, time.Now())
+}
+
+func secureFctoken(plainToken string, targetDate time.Time) string {
 	firstPhase := md5.Sum([]byte(plainToken))
 
 	timedValue := hex.EncodeToString(firstPhase[:md5.Size])
-	timedValue = time.Now().Format("20060102") + timedValue
+	timedValue = targetDate.Format("20060102") + timedValue
 
 	secondPhase := md5.Sum([]byte(timedValue))
 

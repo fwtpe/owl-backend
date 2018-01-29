@@ -3,8 +3,6 @@ package http
 import (
 	"net/http"
 
-	"gopkg.in/h2non/gentleman-mock.v2"
-
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	"github.com/fwtpe/owl-backend/modules/query/g"
@@ -16,18 +14,17 @@ import (
 )
 
 var _ = Describe("[getLocation(int)]", func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
 
 	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
 
 		/**
 		 * Set-up environment
 		 */
-		apiConfig := &g.ApiConfig{
-			Name:     "mock-3",
-			Token:    "mock-token-3",
-			BossBase: gockConfig.NewHttpConfig().Url,
-		}
 		g.SetConfig(&g.GlobalConfig{
 			Api: apiConfig,
 		})
@@ -50,9 +47,6 @@ var _ = Describe("[getLocation(int)]", func() {
 					City:     "city-v1",
 				},
 			})
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
 	})
 	AfterEach(func() {
 		gockConfig.Off()

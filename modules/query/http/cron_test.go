@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"gopkg.in/h2non/gentleman-mock.v2"
 
 	osqlx "github.com/fwtpe/owl-backend/common/db/sqlx"
 	ojson "github.com/fwtpe/owl-backend/common/json"
@@ -25,202 +24,22 @@ import (
 	. "github.com/onsi/gomega/gstruct"
 )
 
-var _ = XDescribe("Use online BOSS", func() {
-	SetupBossEnv()
-
-	var sqlxDb *osqlx.DbController
-	BeforeEach(func() {
-		sqlxDb = db.BossDbFacade.SqlxDbCtrl
-
-		g.SetConfig(&g.GlobalConfig{
-			Contacts: &g.ContactsConfig{Interval: 300},
-			Hosts:    &g.HostsConfig{Interval: 300},
-		})
-
-		log.Level = logrus.WarnLevel
-	})
-
-	AfterEach(func() {
-		bossInTx(
-			`DELETE FROM idcs`,
-			`DELETE FROM ips`,
-			`DELETE FROM hosts`,
-			`DELETE FROM platforms`,
-		)
-
-		log.Level = logrus.DebugLevel
-	})
-
-	showRows := func(sql string, container interface{}) {
-		rows := sqlxDb.QueryxExt(sql)
-		defer rows.Close()
-
-		for rows.Next() {
-			rows.StructScan(container)
-			GinkgoT().Logf("Row: %+v", container)
-		}
-	}
-
-	Context("[syncHostData, syncHostData] online BOSS", func() {
-		syncAndAssert := func() {
-			syncIdcData()
-			syncHostData()
-
-			testedResult := &struct {
-				CountIdcs      int `db:"count_idcs"`
-				CountIps       int `db:"count_ips"`
-				CountHosts     int `db:"count_hosts"`
-				CountPlatforms int `db:"count_platforms"`
-			}{}
-
-			sqlxDb.Get(
-				testedResult,
-				`
-				SELECT
-					(
-						SELECT COUNT(*) FROM idcs
-					) AS count_idcs,
-					(
-						SELECT COUNT(*) FROM ips
-					) AS count_ips,
-					(
-						SELECT COUNT(*) FROM hosts
-					) AS count_hosts,
-					(
-						SELECT COUNT(*) FROM platforms
-					) AS count_platforms
-				`,
-			)
-
-			GinkgoT().Logf(
-				`Number of "idcs[%d]", "ips"[%d], "hosts"[%d] and "platforms"[%d].`,
-				testedResult.CountIdcs, testedResult.CountIps,
-				testedResult.CountHosts, testedResult.CountPlatforms,
-			)
-
-			Expect(testedResult).To(PointTo(MatchAllFields(Fields{
-				"CountIdcs":      BeNumerically(">=", 1),
-				"CountIps":       BeNumerically(">=", 1),
-				"CountHosts":     BeNumerically(">=", 1),
-				"CountPlatforms": BeNumerically(">=", 1),
-			})))
-
-			GinkgoT().Logf("5 rows of \"idcs\"")
-			showRows(
-				`
-				SELECT popid, idc, count, area, province, city, updated
-				FROM idcs ORDER BY count DESC LIMIT 5
-				`,
-				&struct {
-					PopId       int       `db:"popid"`
-					Idc         string    `db:"idc"`
-					Count       int       `db:"count"`
-					Area        string    `db:"area"`
-					Province    string    `db:"province"`
-					City        string    `db:"city"`
-					UpdatedTime time.Time `db:"updated"`
-				}{},
-			)
-
-			GinkgoT().Logf("5 rows of \"platforms\" table")
-			showRows(
-				`
-				SELECT platform, type, count, visible,
-					department, team, description, updated
-				FROM platforms ORDER BY count DESC LIMIT 5
-				`,
-				&struct {
-					Platform    string    `db:"platform"`
-					Type        string    `db:"type"`
-					Count       int       `db:"count"`
-					Visible     int       `db:"visible"`
-					Department  string    `db:"department"`
-					Team        string    `db:"team"`
-					Description string    `db:"description"`
-					UpdatedTime time.Time `db:"updated"`
-				}{},
-			)
-
-			GinkgoT().Logf("5 rows of \"ips\" table")
-			showRows(
-				`
-				SELECT hostname, ip, exist, status, type, updated, platform
-				FROM ips
-				WHERE exist = 1 AND status = 1
-				ORDER BY ip ASC LIMIT 5
-				`,
-				&struct {
-					Ip         string    `db:"ip"`
-					Exist      int       `db:"exist"`
-					Status     int       `db:"status"`
-					Type       string    `db:"type"`
-					Hostname   string    `db:"hostname"`
-					Platform   string    `db:"platform"`
-					UpdateTime time.Time `db:"updated"`
-				}{},
-			)
-
-			GinkgoT().Logf("5 rows of \"hosts\" table")
-			showRows(
-				`
-				SELECT ip, hostname, exist, activate,
-					platform, platforms, isp, province, city, updated
-				FROM hosts
-				WHERE activate = 1 AND exist = 1
-				ORDER BY idc DESC LIMIT 5
-				`,
-				&struct {
-					Hostname    string         `db:"hostname"`
-					Ip          string         `db:"ip"`
-					Exist       int            `db:"exist"`
-					Activate    int            `db:"activate"`
-					Platform    string         `db:"platform"`
-					Platforms   string         `db:"platforms"`
-					Isp         sql.NullString `db:"isp"`
-					Province    sql.NullString `db:"province"`
-					City        sql.NullString `db:"city"`
-					UpdatedTime time.Time      `db:"updated"`
-				}{},
-			)
-
-		}
-
-		It("The number of idcs, platforms, ips, and hosts should >= 1", func() {
-			By("1st sync(insert)")
-			syncAndAssert()
-
-			By("Set time to past(before interval)")
-			bossInTx(
-				`UPDATE idcs SET updated = NOW() - INTERVAL 24 HOUR`,
-				`UPDATE ips SET updated = NOW() - INTERVAL 24 HOUR`,
-				`UPDATE hosts SET updated = NOW() - INTERVAL 24 HOUR`,
-				`UPDATE platforms SET updated = NOW() - INTERVAL 24 HOUR`,
-			)
-
-			By("2nd sync(updated)")
-			syncAndAssert()
-		})
-	})
-})
-
 var _ = Describe("[syncHostData] Mocked BOSS", skipBossDb.PrependBeforeEach(func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
 
 	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
+
 		/**
 		 * Set-up environment
 		 */
-		apiConfig := &g.ApiConfig{
-			Name: "sh-mock-c1", Token: "sh-mock-t1",
-			BossBase: gockConfig.NewHttpConfig().Url,
-		}
 		g.SetConfig(&g.GlobalConfig{
 			Api:   apiConfig,
 			Hosts: &g.HostsConfig{Interval: 8},
 		})
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
 		// :~)
 
 		gockConfig.New().Get(
@@ -388,23 +207,21 @@ var _ = Describe("[syncHostData] Mocked BOSS", skipBossDb.PrependBeforeEach(func
 }))
 
 var _ = Describe("[syncIdcData] Mocked BOSS", skipBossDb.PrependBeforeEach(func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
 
 	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
+
 		/**
 		 * Set-up environment
 		 */
-		apiConfig := &g.ApiConfig{
-			Name: "mock-77", Token: "mock-token-77",
-			BossBase: gockConfig.NewHttpConfig().Url,
-		}
 		g.SetConfig(&g.GlobalConfig{
 			Api:      apiConfig,
 			Contacts: &g.ContactsConfig{Interval: 8},
 		})
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
 		// :~)
 
 		gockConfig.New().Get(
@@ -526,6 +343,121 @@ var _ = Describe("[syncIdcData] Mocked BOSS", skipBossDb.PrependBeforeEach(func(
 
 		By("3rd sync(updated)")
 		syncAndAssert(time.Now())
+	})
+}))
+
+var _ = Describe("[syncContactData] Mocked BOSS", skipBossDb.PrependBeforeEach(func() {
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
+
+	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
+		/**
+		 * Set-up environment
+		 */
+		g.SetConfig(&g.GlobalConfig{
+			Api:      apiConfig,
+			Contacts: &g.ContactsConfig{Interval: 8},
+		})
+		// :~)
+
+		gockConfig.New().Post(g.BOSS_URI_BASE_CONTACT).
+			JSON(map[string]interface{}{
+				"fcname":       apiConfig.Name,
+				"fctoken":      boss.SecureFctoken(apiConfig.Token),
+				"platform_key": "mc01.tp01,mc01.tp02",
+			}).
+			Reply(http.StatusOK).
+			JSON(&bmodel.PlatformContactResult{
+				Status: 1,
+				Info:   "当前操作成功了！",
+				Result: map[string]*bmodel.ContactUsers{
+					"mc01.tp01": {
+						Principals: []*bmodel.ContactUser{
+							{
+								Id: "9981", RealName: "bok-1",
+								CellPhoneNumber: "875-19081141", TelephoneNumber: "0988117651", Email: "bok-1@fw.com.going",
+							},
+						},
+						Backupers: []*bmodel.ContactUser{
+							{
+								Id: "9982", RealName: "bok-2",
+								CellPhoneNumber: "875-19081142", TelephoneNumber: "0988117652", Email: "bok-2@fw.com.going",
+							},
+						},
+					},
+					"mc01.tp02": {
+						Principals: []*bmodel.ContactUser{
+							{
+								Id: "8041", RealName: "zs3-1",
+								CellPhoneNumber: "875-22081141", TelephoneNumber: "0913117651", Email: "lukg33@fw.com.going",
+							},
+						},
+						Backupers: []*bmodel.ContactUser{
+							{
+								Id: "8042", RealName: "zs3-2",
+								CellPhoneNumber: "875-32081141", TelephoneNumber: "0983117441", Email: "lukg71@fw.com.going",
+							},
+						},
+					},
+				},
+			})
+
+		bossInTx(
+			`
+			INSERT INTO platforms(platform)
+			VALUES ('mc01.tp01'), ('mc01.tp02')
+			`,
+		)
+	})
+	AfterEach(func() {
+		gockConfig.Off()
+
+		bossInTx(
+			`
+			DELETE FROM platforms
+			WHERE platform LIKE 'mc01.%'
+			`,
+			`
+			DELETE FROM contacts
+			WHERE name LIKE 'bok%'
+				OR name LIKE 'zs3%'
+			`,
+		)
+	})
+
+	It("The users of platform[mc01.tp01, mc01.tp02] should have [bok, zs3] users", func() {
+		syncContactData()
+
+		testedResult := &struct {
+			CountTp01     int `db:"count_tp01"`
+			CountContacts int `db:"count_contacts"`
+		}{}
+
+		db.BossDbFacade.SqlxDbCtrl.Get(
+			testedResult,
+			`
+			SELECT
+				(
+					SELECT COUNT(*) FROM platforms
+					WHERE platform = 'mc01.tp01'
+						AND principal = 'bok-1' AND deputy = 'bok-2'
+				) AS count_tp01,
+				(
+					SELECT COUNT(*) FROM contacts
+					WHERE phone LIKE '875-%'
+				) AS count_contacts
+			`,
+		)
+
+		Expect(testedResult).To(PointTo(MatchAllFields(
+			Fields{
+				"CountTp01":     Equal(1),
+				"CountContacts": Equal(4),
+			},
+		)))
 	})
 }))
 
@@ -962,66 +894,21 @@ var _ = Describe("[updateIdcData]", skipBossDb.PrependBeforeEach(func() {
 	})
 }))
 
-var _ = Describe("Checking on passing of elapsed time for customized table and name(idcs)", skipBossDb.PrependBeforeEach(func() {
-	Context("Empty table", func() {
-		It("Should be passed", func() {
-			testedResult := isElapsedTimePassed("idcs", "updated", time.Now(), 0)
-			Expect(testedResult).To(BeTrue())
-		})
-	})
-
-	Context("Has data", func() {
-		BeforeEach(func() {
-			bossInTx(
-				`
-				INSERT INTO idcs(popid, idc, area, province, city, updated)
-				VALUES
-					(1301, 't01-cc1', 'ar1', 'pv-1', 'ct-1', '2015-10-02 10:19:30'),
-					(1302, 't01-cc2', 'ar1', 'pv-1', 'ct-1', '2015-10-02 10:20:30')
-				`,
-			)
-		})
-		AfterEach(func() {
-			bossInTx(
-				`
-				DELETE FROM idcs
-				WHERE idc LIKE 't01-%'
-				`,
-			)
-		})
-
-		DescribeTable("Passed result should be as expected",
-			func(time string, expected bool) {
-				sampleTime := testing.ParseTimeByGinkgo(time)
-				testedResult := isElapsedTimePassed("idcs", "updated", sampleTime, 30)
-
-				Expect(testedResult).To(Equal(expected))
-			},
-			Entry("Has not passed", "2015-10-02T10:21:00+08:00", false),
-			Entry("Has passed", "2015-10-02T10:21:01+08:00", true),
-			Entry("Has passed", "2015-10-03T07:35:24+08:00", true),
-		)
-	})
-}))
-
 var _ = Describe("[loadDetailOfMatchedPlatforms]", func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
 
 	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
+
 		/**
 		 * Set-up environment
 		 */
-		apiConfig := &g.ApiConfig{
-			Name:     "ptmock-3",
-			Token:    "ptmock-token-3",
-			BossBase: gockConfig.NewHttpConfig().Url,
-		}
 		g.SetConfig(&g.GlobalConfig{
 			Api: apiConfig,
 		})
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
 		// :~)
 
 		gockConfig.New().Post(g.BOSS_URI_BASE_PLATFORM).
@@ -1090,6 +977,408 @@ var _ = Describe("[loadDetailOfMatchedPlatforms]", func() {
 				"Visible":     Equal("1"),
 				"Description": Equal("wuc is fine"),
 			})))
+		})
+	})
+})
+
+var _ = Describe("[updateContactsTable]", skipBossDb.PrependBeforeEach(func() {
+	BeforeEach(func() {
+		bossInTx(
+			`
+			INSERT INTO contacts(name, phone, email)
+			VALUES
+				('adu-05', '98070101', 'adu05@gmail.com')
+			`,
+		)
+	})
+	AfterEach(func() {
+		bossInTx(
+			`
+			DELETE FROM contacts
+			WHERE name LIKE 'adu-%'
+			`,
+		)
+	})
+
+	It("The updated(1)/inserted(2) data of \"contacts\" should be as expected", func() {
+		updateContactsTable(
+			map[string]*bmodel.ContactUsers{
+				"a01.k01": {
+					Principals: []*bmodel.ContactUser{
+						{
+							RealName:        "adu-05",
+							CellPhoneNumber: "0932-601601", Email: "adu31@nb.ak44.com",
+						},
+					},
+					Backupers: []*bmodel.ContactUser{
+						{
+							RealName:        "adu-31",
+							CellPhoneNumber: "0944-987001", Email: "adu77-1@dev.ak22.com",
+						},
+					},
+				},
+				"a01.k02": {
+					Principals: []*bmodel.ContactUser{
+						{
+							RealName:        "adu-32",
+							CellPhoneNumber: "0944-987002", Email: "adu77-2@dev.ak22.com",
+						},
+					},
+				},
+			},
+		)
+
+		testedResult := &struct {
+			CountInserted int `db:"count_inserted"`
+			CountUpdated  int `db:"count_updated"`
+		}{}
+
+		db.BossDbFacade.SqlxDbCtrl.Get(
+			testedResult,
+			`
+			SELECT
+				(
+					SELECT COUNT(*) FROM contacts
+					WHERE name LIKE 'adu-3%'
+						AND phone LIKE '0944-%'
+						AND email LIKE 'adu77-%'
+				) AS count_inserted,
+				(
+					SELECT COUNT(*) FROM contacts
+					WHERE name = 'adu-05'
+						AND phone = '0932-601601'
+						AND email = 'adu31@nb.ak44.com'
+				) AS count_updated
+			`,
+		)
+
+		Expect(testedResult).To(PointTo(MatchAllFields(
+			Fields{
+				"CountInserted": Equal(2),
+				"CountUpdated":  Equal(1),
+			},
+		)))
+	})
+}))
+
+var _ = Describe("[addContactsToPlatformsTable]", skipBossDb.PrependBeforeEach(func() {
+	BeforeEach(func() {
+		bossInTx(
+			`
+			INSERT INTO platforms(platform)
+			VALUES ('pac-01'), ('pac-02'), ('pac-03')
+			`,
+		)
+	})
+	AfterEach(func() {
+		bossInTx(
+			`
+			DELETE FROM platforms
+			WHERE platform LIKE 'pac-%'
+			`,
+		)
+	})
+
+	It("The contact[3], principal[1], deputy[1] and upgrader[1] should be as expected", func() {
+		addContactsToPlatformsTable(
+			map[string]*bmodel.ContactUsers{
+				"pac-01": {
+					Principals: []*bmodel.ContactUser{{RealName: "pr01"}},
+					Backupers:  []*bmodel.ContactUser{{RealName: "dp01"}},
+					Upgraders:  []*bmodel.ContactUser{{RealName: "up01"}},
+				},
+				"pac-02": {},
+				"pac-03": {
+					Upgraders: []*bmodel.ContactUser{{RealName: "up03"}},
+				},
+			},
+		)
+
+		testedResult := &struct {
+			Count01 int `db:"count_01"`
+			Count02 int `db:"count_02"`
+			Count03 int `db:"count_03"`
+		}{}
+
+		db.BossDbFacade.SqlxDbCtrl.Get(
+			testedResult,
+			`
+			SELECT
+				(
+					SELECT COUNT(*) FROM platforms
+					WHERE platform = 'pac-01'
+						AND contacts = 'pr01,dp01,up01'
+						AND principal = 'pr01'
+						AND deputy = 'dp01'
+						AND upgrader = 'up01'
+				) AS count_01,
+				(
+					SELECT COUNT(*) FROM platforms
+					WHERE platform = 'pac-02'
+						AND contacts = ''
+						AND principal = ''
+						AND deputy = ''
+						AND upgrader = ''
+				) AS count_02,
+				(
+					SELECT COUNT(*) FROM platforms
+					WHERE platform = 'pac-03'
+						AND contacts = 'up03'
+						AND principal = ''
+						AND deputy = ''
+						AND upgrader = 'up03'
+				) AS count_03
+			`,
+		)
+
+		Expect(testedResult).To(PointTo(MatchAllFields(
+			Fields{
+				"Count01": Equal(1),
+				"Count02": Equal(1),
+				"Count03": Equal(1),
+			},
+		)))
+	})
+}))
+
+var _ = Describe("Checking on passing of elapsed time for customized table and name(idcs)", skipBossDb.PrependBeforeEach(func() {
+	Context("Empty table", func() {
+		It("Should be passed", func() {
+			testedResult := isElapsedTimePassed("idcs", "updated", time.Now(), 0)
+			Expect(testedResult).To(BeTrue())
+		})
+	})
+
+	Context("Has data", func() {
+		BeforeEach(func() {
+			bossInTx(
+				`
+				INSERT INTO idcs(popid, idc, area, province, city, updated)
+				VALUES
+					(1301, 't01-cc1', 'ar1', 'pv-1', 'ct-1', '2015-10-02 10:19:30'),
+					(1302, 't01-cc2', 'ar1', 'pv-1', 'ct-1', '2015-10-02 10:20:30')
+				`,
+			)
+		})
+		AfterEach(func() {
+			bossInTx(
+				`
+				DELETE FROM idcs
+				WHERE idc LIKE 't01-%'
+				`,
+			)
+		})
+
+		DescribeTable("Passed result should be as expected",
+			func(time string, expected bool) {
+				sampleTime := testing.ParseTimeByGinkgo(time)
+				testedResult := isElapsedTimePassed("idcs", "updated", sampleTime, 30)
+
+				Expect(testedResult).To(Equal(expected))
+			},
+			Entry("Has not passed", "2015-10-02T10:21:00+08:00", false),
+			Entry("Has passed", "2015-10-02T10:21:01+08:00", true),
+			Entry("Has passed", "2015-10-03T07:35:24+08:00", true),
+		)
+	})
+}))
+
+var _ = XDescribe("Use online BOSS", func() {
+	SetupBossEnv()
+
+	var sqlxDb *osqlx.DbController
+	BeforeEach(func() {
+		sqlxDb = db.BossDbFacade.SqlxDbCtrl
+
+		g.SetConfig(&g.GlobalConfig{
+			Contacts: &g.ContactsConfig{Interval: 300},
+			Hosts:    &g.HostsConfig{Interval: 300},
+		})
+
+		log.Level = logrus.WarnLevel
+	})
+
+	AfterEach(func() {
+		bossInTx(
+			`DELETE FROM idcs`,
+			`DELETE FROM ips`,
+			`DELETE FROM hosts`,
+			`DELETE FROM platforms`,
+			`DELETE FROM contacts`,
+		)
+
+		log.Level = logrus.DebugLevel
+	})
+
+	showRows := func(sql string, container interface{}) {
+		rows := sqlxDb.QueryxExt(sql)
+		defer rows.Close()
+
+		for rows.Next() {
+			rows.StructScan(container)
+			GinkgoT().Logf("Row: %+v", container)
+		}
+	}
+
+	Context("[syncHostData, syncHostData, syncContactData] online BOSS", func() {
+		syncAndAssert := func() {
+			syncIdcData()
+			syncHostData()
+			syncContactData()
+
+			testedResult := &struct {
+				CountIdcs      int `db:"count_idcs"`
+				CountIps       int `db:"count_ips"`
+				CountHosts     int `db:"count_hosts"`
+				CountPlatforms int `db:"count_platforms"`
+				CountContacts  int `db:"count_contacts"`
+			}{}
+
+			sqlxDb.Get(
+				testedResult,
+				`
+				SELECT
+					(
+						SELECT COUNT(*) FROM idcs
+					) AS count_idcs,
+					(
+						SELECT COUNT(*) FROM ips
+					) AS count_ips,
+					(
+						SELECT COUNT(*) FROM hosts
+					) AS count_hosts,
+					(
+						SELECT COUNT(*) FROM platforms
+					) AS count_platforms,
+					(
+						SELECT COUNT(*) FROM contacts
+					) AS count_contacts
+				`,
+			)
+
+			GinkgoT().Logf(
+				`Number of "idcs[%d]", "ips"[%d], "hosts"[%d], "platforms"[%d] and "contacts[%d]".`,
+				testedResult.CountIdcs, testedResult.CountIps,
+				testedResult.CountHosts, testedResult.CountPlatforms,
+				testedResult.CountContacts,
+			)
+
+			Expect(testedResult).To(PointTo(MatchAllFields(Fields{
+				"CountIdcs":      BeNumerically(">=", 1),
+				"CountIps":       BeNumerically(">=", 1),
+				"CountHosts":     BeNumerically(">=", 1),
+				"CountPlatforms": BeNumerically(">=", 1),
+				"CountContacts":  BeNumerically(">=", 1),
+			})))
+
+			GinkgoT().Logf("5 rows of \"idcs\"")
+			showRows(
+				`
+				SELECT popid, idc, count, area, province, city, updated
+				FROM idcs ORDER BY count DESC LIMIT 5
+				`,
+				&struct {
+					PopId       int       `db:"popid"`
+					Idc         string    `db:"idc"`
+					Count       int       `db:"count"`
+					Area        string    `db:"area"`
+					Province    string    `db:"province"`
+					City        string    `db:"city"`
+					UpdatedTime time.Time `db:"updated"`
+				}{},
+			)
+
+			GinkgoT().Logf("5 rows of \"platforms\" table")
+			showRows(
+				`
+				SELECT platform, type, count, visible,
+					department, team, description, updated
+				FROM platforms ORDER BY count DESC LIMIT 5
+				`,
+				&struct {
+					Platform    string    `db:"platform"`
+					Type        string    `db:"type"`
+					Count       int       `db:"count"`
+					Visible     int       `db:"visible"`
+					Department  string    `db:"department"`
+					Team        string    `db:"team"`
+					Description string    `db:"description"`
+					UpdatedTime time.Time `db:"updated"`
+				}{},
+			)
+
+			GinkgoT().Logf("5 rows of \"ips\" table")
+			showRows(
+				`
+				SELECT hostname, ip, exist, status, type, updated, platform
+				FROM ips
+				WHERE exist = 1 AND status = 1
+				ORDER BY ip ASC LIMIT 5
+				`,
+				&struct {
+					Ip         string    `db:"ip"`
+					Exist      int       `db:"exist"`
+					Status     int       `db:"status"`
+					Type       string    `db:"type"`
+					Hostname   string    `db:"hostname"`
+					Platform   string    `db:"platform"`
+					UpdateTime time.Time `db:"updated"`
+				}{},
+			)
+
+			GinkgoT().Logf("5 rows of \"hosts\" table")
+			showRows(
+				`
+				SELECT ip, hostname, exist, activate,
+					platform, platforms, isp, province, city, updated
+				FROM hosts
+				WHERE activate = 1 AND exist = 1
+				ORDER BY idc DESC LIMIT 5
+				`,
+				&struct {
+					Hostname    string         `db:"hostname"`
+					Ip          string         `db:"ip"`
+					Exist       int            `db:"exist"`
+					Activate    int            `db:"activate"`
+					Platform    string         `db:"platform"`
+					Platforms   string         `db:"platforms"`
+					Isp         sql.NullString `db:"isp"`
+					Province    sql.NullString `db:"province"`
+					City        sql.NullString `db:"city"`
+					UpdatedTime time.Time      `db:"updated"`
+				}{},
+			)
+
+			GinkgoT().Logf("5 rows of \"contacts\" table")
+			showRows(
+				`
+				SELECT name, phone, email
+				FROM contacts
+				ORDER BY updated DESC LIMIT 5
+				`,
+				&struct {
+					Name  string `db:"name"`
+					Phone string `db:"phone"`
+					Email string `db:"email"`
+				}{},
+			)
+		}
+
+		It("The number of idcs, platforms, ips, hosts, and contacts should >= 1", func() {
+			By("1st sync(insert)")
+			syncAndAssert()
+
+			By("Set time to past(before interval)")
+			bossInTx(
+				`UPDATE idcs SET updated = NOW() - INTERVAL 24 HOUR`,
+				`UPDATE ips SET updated = NOW() - INTERVAL 24 HOUR`,
+				`UPDATE hosts SET updated = NOW() - INTERVAL 24 HOUR`,
+				`UPDATE platforms SET updated = NOW() - INTERVAL 24 HOUR`,
+				`UPDATE contacts SET updated = NOW() - INTERVAL 24 HOUR`,
+			)
+
+			By("2nd sync(updated)")
+			syncAndAssert()
 		})
 	})
 })

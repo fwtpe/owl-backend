@@ -108,9 +108,9 @@ func SyncHostsAndContactsTable() {
 			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncIdcData)
 		}
 		if g.Config().Contacts.Enabled {
-			syncContactsTable()
+			syncContactData()
 			intervalToSyncContactsTable := uint64(g.Config().Contacts.Interval)
-			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncContactsTable)
+			gocron.Every(intervalToSyncContactsTable).Seconds().Do(syncContactData)
 		}
 		if g.Config().Net.Enabled {
 			syncNetTable()
@@ -748,127 +748,216 @@ func syncHostData() {
 	updatePlatformsTable(detailOfPlatforms)
 }
 
-func syncContactsTable() {
-	log.Debugf("func syncContactsTable()")
-	o := NewBossOrm()
-	var rows []orm.Params
-	sql := "SELECT updated FROM `boss`.`contacts` ORDER BY updated DESC LIMIT 1"
-	num, err := o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
-		return
-	} else if num > 0 {
-		format := "2006-01-02 15:04:05"
-		updatedTime, _ := time.Parse(format, rows[0]["updated"].(string))
-		currentTime, _ := time.Parse(format, getNow())
-		diff := currentTime.Unix() - updatedTime.Unix()
-		if int(diff) < g.Config().Contacts.Interval {
-			return
+func syncContactData() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Errorf("[syncContactData()] Got panic: %v", r)
 		}
-	}
-	platformNames := []string{}
-	sql = "SELECT DISTINCT platform FROM boss.platforms ORDER BY platform ASC"
-	num, err = o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
+	}()
+
+	// Checks whether or not the latested update time of table is passed than <N> seconds
+	now := time.Now()
+	intervalSeconds := g.Config().Contacts.Interval
+	log.Debugf("[Refresh \"contacts\"] Current time: [%s]. Interval: %d seconds", now, intervalSeconds)
+	if !isElapsedTimePassed("contacts", "updated", now, intervalSeconds) {
+		log.Debugf("Skip synchronization")
 		return
-	} else if num > 0 {
-		for _, row := range rows {
-			platformNames = append(platformNames, row["platform"].(string))
-		}
 	}
 
-	var nodes = make(map[string]interface{})
-	errors := []string{}
-	var result = make(map[string]interface{})
-	result["error"] = errors
-	getPlatformContact(strings.Join(platformNames, ","), nodes)
-	contactNames := []string{}
-	contactsMap := map[string]map[string]string{}
-	contacts := nodes["result"].(map[string]interface{})["items"].(map[string]interface{})
-	for _, platformName := range platformNames {
-		if items, ok := contacts[platformName]; ok {
-			for _, user := range items.(map[string]map[string]string) {
-				contactName := user["name"]
-				if _, ok := contactsMap[contactName]; !ok {
-					contactsMap[contactName] = user
-					contactNames = append(contactNames, contactName)
-				}
-			}
-		}
-	}
-	sort.Strings(contactNames)
-	updateContactsTable(contactNames, contactsMap)
-	addContactsToPlatformsTable(contacts)
+	platformNames := []string{}
+	qdb.BossDbFacade.SqlxDbCtrl.Select(
+		&platformNames,
+		`
+		SELECT platform FROM platforms
+		ORDER BY platform ASC
+		`,
+	)
+
+	log.Debugf("Number of platforms: %d", len(platformNames))
+
+	mapOfContactsByPlatform := boss.LoadDataOfPlatformContacts(platformNames)
+
+	updateContactsTable(mapOfContactsByPlatform)
+	addContactsToPlatformsTable(mapOfContactsByPlatform)
 }
 
-func addContactsToPlatformsTable(contacts map[string]interface{}) {
-	log.Debugf("func addContactsToPlatformsTable()")
-	now := getNow()
-	o := NewBossOrm()
-	var platforms []Platforms
-	_, err := o.QueryTable("platforms").All(&platforms)
-	if err != nil {
-		log.Errorf(err.Error())
-	} else {
-		for _, platform := range platforms {
-			platformName := platform.Platform
-			if items, ok := contacts[platformName]; ok {
-				contacts := []string{}
-				for role, user := range items.(map[string]map[string]string) {
-					if role == "principal" {
-						platform.Principal = user["name"]
-					} else if role == "deputy" {
-						platform.Deputy = user["name"]
-					} else if role == "upgrader" {
-						platform.Upgrader = user["name"]
+const updatePlatformUsersSql = `
+	UPDATE platforms
+	SET contacts = :all_users,
+		principal = :principal, deputy = :deputy, upgrader = :upgrader
+	WHERE platform = :name
+`
+
+func addContactsToPlatformsTable(contacts map[string]*bmodel.ContactUsers) {
+	log.Debugf("Contacts: %+v", contacts)
+
+	utils.MakeAbstractMap(contacts).SimpleBatchProcess(32, func(batchData interface{}) {
+		contactsBatch := batchData.(map[string]*bmodel.ContactUsers)
+
+		qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+			txExt := osqlx.ToTxExt(tx)
+
+			updateStmt := txExt.PrepareNamed(updatePlatformUsersSql)
+
+			for platformName, platformUsers := range contactsBatch {
+				names := platformUsers.ExtractFirstContact()
+
+				params := map[string]interface{}{
+					"name": platformName, "all_users": strings.Join(names.GetListOfNames(), ","),
+					"principal": names.Principal, "deputy": names.Deputy, "upgrader": names.Upgrader,
+				}
+
+				log.Debugf("Users for platform[%s]: %s", platformName, params)
+
+				updateStmt.MustExec(params)
+			}
+
+			return db.TxCommit
+		}))
+	})
+}
+func addContactsToPlatformsTable_old(contacts map[string]map[string]map[string]string) {
+	log.Debugf("Contacts: %+v", contacts)
+
+	utils.MakeAbstractMap(contacts).SimpleBatchProcess(32, func(batchData interface{}) {
+		contactsBatch := batchData.(map[string]map[string]map[string]string)
+
+		qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+			txExt := osqlx.ToTxExt(tx)
+
+			updateStmt := txExt.PrepareNamed(updatePlatformUsersSql)
+
+			for platformName, platformUsers := range contactsBatch {
+				var principal, deputy, upgrader string
+				var allUsers = make([]string, 0)
+
+				for role, user := range platformUsers {
+					switch role {
+					case "principal":
+						principal = user["name"]
+					case "deputy":
+						deputy = user["name"]
+					case "upgrader":
+						upgrader = user["name"]
 					}
 				}
-				if len(platform.Principal) > 0 {
-					contacts = append(contacts, platform.Principal)
+
+				if principal != "" {
+					allUsers = append(allUsers, principal)
 				}
-				if len(platform.Deputy) > 0 {
-					contacts = append(contacts, platform.Deputy)
+				if deputy != "" {
+					allUsers = append(allUsers, deputy)
 				}
-				if len(platform.Upgrader) > 0 {
-					contacts = append(contacts, platform.Upgrader)
+				if upgrader != "" {
+					allUsers = append(allUsers, upgrader)
 				}
-				platform.Contacts = strings.Join(contacts, ",")
+
+				params := map[string]interface{}{
+					"name": platformName, "all_users": strings.Join(allUsers, ","),
+					"principal": principal, "deputy": deputy, "upgrader": upgrader,
+				}
+
+				log.Debugf("Users for platform[%s]: %s", platformName, params)
+
+				updateStmt.MustExec(params)
 			}
-			platform.Updated = now
-			_, err := o.Update(&platform)
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		}
-	}
+
+			return db.TxCommit
+		}))
+	})
 }
 
-func updateContactsTable(contactNames []string, contactsMap map[string]map[string]string) {
-	log.Debugf("func updateContactsTable()")
-	o := NewBossOrm()
-	var contact Contacts
-	for _, contactName := range contactNames {
-		user := contactsMap[contactName]
-		err := o.QueryTable("contacts").Filter("name", user["name"]).One(&contact)
-		if err == orm.ErrNoRows {
-			sql := "INSERT INTO `boss`.`contacts`(name, phone, email, updated) VALUES(?, ?, ?, ?)"
-			_, err := o.Raw(sql, user["name"], user["phone"], user["email"], getNow()).Exec()
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		} else if err != nil {
-			log.Errorf(err.Error())
-		} else {
-			contact.Email = user["email"]
-			contact.Phone = user["phone"]
-			contact.Updated = getNow()
-			_, err := o.Update(&contact)
-			if err != nil {
-				log.Errorf(err.Error())
-			}
-		}
-	}
+const (
+	insertContactSql = `
+	INSERT INTO contacts(name, phone, email, updated)
+	VALUES(:name, :phone, :email, :updated_time)
+	`
+	updateContactSql = `
+	UPDATE contacts
+	SET phone = :phone, email = :email, updated = :updated_time
+	WHERE name = :name
+	`
+)
+
+func updateContactsTable(allContacts map[string]*bmodel.ContactUsers) {
+	now := time.Now()
+
+	touchedNames := make(map[string]bool)
+	utils.MakeAbstractMap(allContacts).SimpleBatchProcess(
+		8,
+		func(batchData interface{}) {
+			usersOfPlatforms := batchData.(map[string]*bmodel.ContactUsers)
+
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
+
+				insertStmt := txExt.PrepareNamed(insertContactSql)
+				updateStmt := txExt.PrepareNamed(updateContactSql)
+
+				for _, users := range usersOfPlatforms {
+					for _, user := range users.AllUsers() {
+						if _, ok := touchedNames[user.RealName]; ok {
+							continue
+						}
+						touchedNames[user.RealName] = true
+
+						params := map[string]interface{}{
+							"name":         user.RealName,
+							"phone":        user.CellPhoneNumber,
+							"email":        user.Email,
+							"updated_time": now,
+						}
+
+						log.Debugf("[Contact] Params: %+v", params)
+
+						if db.ToResultExt(updateStmt.MustExec(params)).RowsAffected() > 0 {
+							continue
+						}
+
+						insertStmt.MustExec(params)
+					}
+				}
+
+				return db.TxCommit
+			}))
+		},
+	)
+}
+func updateContactsTable_old(contactsMap map[string]map[string]string) {
+	now := time.Now()
+
+	utils.MakeAbstractMap(contactsMap).SimpleBatchProcess(
+		32,
+		func(batchData interface{}) {
+			users := batchData.(map[string]map[string]string)
+
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
+
+				insertStmt := txExt.PrepareNamed(insertContactSql)
+				updateStmt := txExt.PrepareNamed(updateContactSql)
+
+				for _, user := range users {
+					params := map[string]interface{}{
+						"name":         user["name"],
+						"phone":        user["phone"],
+						"email":        user["email"],
+						"updated_time": now,
+					}
+
+					log.Debugf("[Contact] Params: %+v", params)
+
+					if db.ToResultExt(updateStmt.MustExec(params)).RowsAffected() > 0 {
+						continue
+					}
+
+					insertStmt.MustExec(params)
+				}
+
+				return db.TxCommit
+			}))
+		},
+	)
 }
 
 var insertIdcSql = `

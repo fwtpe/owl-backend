@@ -1697,68 +1697,49 @@ func getPlatformBandwidthsFiveMinutesAverage(platformName string, metricType str
 	return nodes
 }
 
-func getPlatformContact(platformName string, nodes map[string]interface{}) {
-	errors := []string{}
-	var result = make(map[string]interface{})
-	result["error"] = errors
-	var platformMap = make(map[string]interface{})
-	fcname := g.Config().Api.Name
-	fctoken := boss.SecureFctokenByConfig()
-	url := g.Config().Api.Contact
-	params := map[string]string{
-		"fcname":       fcname,
-		"fctoken":      fctoken,
-		"platform_key": platformName,
-	}
-	s, err := json.Marshal(params)
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(s)))
-	if err != nil {
-		setError(err, result)
-	}
-	reqPost.Header.Set("Content-Type", "application/json")
+func getPlatformContact(platformsName string, nodes map[string]interface{}) {
+	listOfPlatforms := strings.Split(platformsName, ",")
 
-	client := &http.Client{}
-	resp, err := client.Do(reqPost)
-	if err != nil {
-		setError(err, result)
-	} else {
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		err = json.Unmarshal(body, &nodes)
-		if err != nil {
-			setError(err, result)
-		} else if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
-			roles := []string{
-				"principal",
-				"backuper",
-				"upgrader",
-			}
-			for _, name := range strings.Split(platformName, ",") {
-				if platform, ok := nodes["result"].(map[string]interface{})[name].(map[string]interface{}); ok {
-					items := map[string]map[string]string{}
-					for _, role := range roles {
-						if value, ok := platform[role].([]interface{}); ok {
-							person := value[0]
-							item := map[string]string{
-								"name":  person.(map[string]interface{})["realname"].(string),
-								"phone": person.(map[string]interface{})["cell"].(string),
-								"email": person.(map[string]interface{})["email"].(string),
-							}
-							if role == "backuper" {
-								items["deputy"] = item
-							} else {
-								items[role] = item
-							}
+	getPlatformContact2(listOfPlatforms, nodes)
+}
+func getPlatformContact2(platformsName []string, nodes map[string]interface{}) {
+	boss.LoadDataOfPlatformContactsToMap(platformsName, &nodes)
+
+	var platformMap = make(map[string]interface{})
+
+	var result = make(map[string]interface{})
+	result["error"] = []string{}
+
+	if nodes["status"] != nil && int(nodes["status"].(float64)) == 1 {
+		roles := []string{
+			"principal",
+			"backuper",
+			"upgrader",
+		}
+		for _, name := range platformsName {
+			if platform, ok := nodes["result"].(map[string]interface{})[name].(map[string]interface{}); ok {
+				items := map[string]map[string]string{}
+				for _, role := range roles {
+					if value, ok := platform[role].([]interface{}); ok {
+						person := value[0]
+						item := map[string]string{
+							"name":  person.(map[string]interface{})["realname"].(string),
+							"phone": person.(map[string]interface{})["cell"].(string),
+							"email": person.(map[string]interface{})["email"].(string),
+						}
+						if role == "backuper" {
+							items["deputy"] = item
+						} else {
+							items[role] = item
 						}
 					}
-					platformMap[name] = items
 				}
+
+				platformMap[name] = items
 			}
 		}
 	}
+
 	if _, ok := nodes["info"]; ok {
 		delete(nodes, "info")
 	}
@@ -1768,7 +1749,7 @@ func getPlatformContact(platformName string, nodes map[string]interface{}) {
 	result["items"] = platformMap
 	nodes["result"] = result
 	nodes["count"] = len(platformMap)
-	nodes["platform"] = platformName
+	nodes["platform"] = strings.Join(platformsName, ",")
 }
 
 func getPlatforms(rw http.ResponseWriter, req *http.Request) {

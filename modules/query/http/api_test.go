@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"gopkg.in/h2non/gentleman-mock.v2"
-
 	ojson "github.com/fwtpe/owl-backend/common/json"
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
@@ -19,28 +17,23 @@ import (
 )
 
 var _ = Describe("[queryIDCsBandwidths]", func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
-
-	var idcName string
-	var bandwidthData []*bmodel.IdcBandwidthRow
-	var apiConfig *g.ApiConfig
+	var (
+		gockConfig    *gock.GockConfig
+		apiConfig     *g.ApiConfig
+		idcName       string
+		bandwidthData []*bmodel.IdcBandwidthRow
+	)
 
 	BeforeEach(func() {
+		apiConfig, gockConfig = randomMockBoss()
+
 		/**
 		 * Set-up environment
 		 */
-		apiConfig = &g.ApiConfig{
-			Name:     "mock-2",
-			Token:    "mock-token-2",
-			BossBase: gockConfig.NewHttpConfig().Url,
-		}
 		g.SetConfig(&g.GlobalConfig{
 			Api: apiConfig,
 		})
 		// :~)
-
-		boss.SetPlugins(mock.Plugin)
-		boss.SetupServerUrl(apiConfig)
 	})
 	AfterEach(func() {
 		gockConfig.Off()
@@ -102,25 +95,21 @@ var _ = Describe("[queryIDCsBandwidths]", func() {
 })
 
 var _ = Describe("[loadIpDataOfPlatforms]", func() {
-	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
 
 	Context("Normal case", func() {
 		BeforeEach(func() {
+			apiConfig, gockConfig = randomMockBoss()
 			/**
 			 * Set-up environment
 			 */
-			apiConfig := &g.ApiConfig{
-				Name:     "fmock-1",
-				Token:    "fmock-token-1",
-				BossBase: gockConfig.NewHttpConfig().Url,
-			}
 			g.SetConfig(&g.GlobalConfig{
 				Api: apiConfig,
 			})
 			// :~)
-
-			boss.SetPlugins(mock.Plugin)
-			boss.SetupServerUrl(apiConfig)
 
 			gockConfig.New().Get(
 				fmt.Sprintf(
@@ -180,4 +169,118 @@ var _ = Describe("[getIpFromHostname]", func() {
 		Entry("Cannot be parsed", "nothing", ""),
 		Entry("Cannot be parsed(one of ip value)", "kz-abk-019-8c-123-201", ""),
 	)
+})
+
+var _ = Describe("[getPlatformContact]", func() {
+	var (
+		gockConfig *gock.GockConfig
+		apiConfig  *g.ApiConfig
+	)
+
+	Context("Normal Case", func() {
+		BeforeEach(func() {
+			apiConfig, gockConfig = randomMockBoss()
+
+			/**
+			 * Set-up environment
+			 */
+			g.SetConfig(&g.GlobalConfig{
+				Api: apiConfig,
+			})
+			// :~)
+
+			gockConfig.New().Post(g.BOSS_URI_BASE_CONTACT).
+				JSON(map[string]interface{}{
+					"fcname":       apiConfig.Name,
+					"fctoken":      boss.SecureFctoken(apiConfig.Token),
+					"platform_key": "ck01.pf93,ck02.gj01",
+				}).
+				Reply(http.StatusOK).
+				JSON(&bmodel.PlatformContactResult{
+					Status: 1,
+					Info:   "当前操作成功了！",
+					Result: map[string]*bmodel.ContactUsers{
+						"ck01.pf93": {
+							Principals: []*bmodel.ContactUser{
+								{
+									Id: "4901", RealName: "john-1",
+									CellPhoneNumber: "19081141", TelephoneNumber: "0988117651", Email: "john-1@fw.com.going",
+								},
+								{
+									Id: "4902", RealName: "bob-1",
+									CellPhoneNumber: "21081141", TelephoneNumber: "0978187651", Email: "bob-1@fw.com.going",
+								},
+							},
+							Backupers: []*bmodel.ContactUser{
+								{
+									Id: "5021", RealName: "john-2",
+									CellPhoneNumber: "19081142", TelephoneNumber: "0988117652", Email: "john-2@fw.com.going",
+								},
+								{
+									Id: "5022", RealName: "bob-2",
+									CellPhoneNumber: "21081142", TelephoneNumber: "0978187652", Email: "bob-2@fw.com.going",
+								},
+							},
+							Upgraders: []*bmodel.ContactUser{
+								{
+									Id: "7348", RealName: "john-3",
+									CellPhoneNumber: "19081143", TelephoneNumber: "0988117653", Email: "john-3@fw.com.going",
+								},
+								{
+									Id: "7349", RealName: "bob-3",
+									CellPhoneNumber: "21081143", TelephoneNumber: "0978187653", Email: "bob-3@fw.com.going",
+								},
+							},
+						},
+						"ck02.gj01": {
+							Principals: []*bmodel.ContactUser{
+								{
+									Id: "14051", RealName: "kgg-1",
+									CellPhoneNumber: "22081141", TelephoneNumber: "0913117651", Email: "lukg33@fw.com.going",
+								},
+							},
+							Backupers: []*bmodel.ContactUser{
+								{
+									Id: "14052", RealName: "kgg-2",
+									CellPhoneNumber: "32081141", TelephoneNumber: "0983117441", Email: "lukg71@fw.com.going",
+								},
+							},
+						},
+					},
+				})
+		})
+		AfterEach(func() {
+			gockConfig.Off()
+		})
+
+		It("The data of \"result\" should be 2 backuper(deputy), 2 principals, and 2 upgraders", func() {
+			testedNodes := make(map[string]interface{})
+
+			getPlatformContact("ck01.pf93,ck02.gj01", testedNodes)
+
+			GinkgoT().Logf("Platform contacts: %#v", testedNodes)
+
+			Expect(testedNodes["count"]).To(Equal(2))
+			Expect(testedNodes["platform"]).To(Equal("ck01.pf93,ck02.gj01"))
+
+			resultPlatforms := testedNodes["result"].(map[string]interface{})["items"].(map[string]interface{})
+
+			testedPlatform := resultPlatforms["ck01.pf93"].(map[string]map[string]string)
+			Expect(testedPlatform["principal"]).To(And(
+				HaveKeyWithValue(Equal("name"), Equal("john-1")),
+				HaveKeyWithValue(Equal("phone"), Equal("19081141")),
+				HaveKeyWithValue(Equal("email"), Equal("john-1@fw.com.going")),
+			))
+			Expect(testedPlatform["deputy"]).To(And(
+				HaveKeyWithValue(Equal("name"), Equal("john-2")),
+				HaveKeyWithValue(Equal("phone"), Equal("19081142")),
+				HaveKeyWithValue(Equal("email"), Equal("john-2@fw.com.going")),
+			))
+			Expect(testedPlatform["upgrader"]).To(And(
+				HaveKeyWithValue(Equal("name"), Equal("john-3")),
+				HaveKeyWithValue(Equal("phone"), Equal("19081143")),
+				HaveKeyWithValue(Equal("email"), Equal("john-3@fw.com.going")),
+			))
+		})
+	})
 })

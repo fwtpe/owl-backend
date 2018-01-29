@@ -1,12 +1,15 @@
 package http
 
 import (
+	"fmt"
 	ch "gopkg.in/check.v1"
 	"testing"
 
+	rd "github.com/Pallinder/go-randomdata"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/sirupsen/logrus"
+	"gopkg.in/h2non/gentleman-mock.v2"
 
 	odb "github.com/fwtpe/owl-backend/common/db"
 	"github.com/fwtpe/owl-backend/common/db/facade"
@@ -14,6 +17,7 @@ import (
 	"github.com/fwtpe/owl-backend/common/testing/http/gock"
 
 	db "github.com/fwtpe/owl-backend/modules/query/database"
+	"github.com/fwtpe/owl-backend/modules/query/g"
 	"github.com/fwtpe/owl-backend/modules/query/http/boss"
 	qtest "github.com/fwtpe/owl-backend/modules/query/test"
 
@@ -74,3 +78,18 @@ var _ = AfterSuite(func() {
 
 	db.BossDbFacade = nil
 })
+
+func randomMockBoss() (*g.ApiConfig, *gock.GockConfig) {
+	mockName := fmt.Sprintf("mock-%s%02d", rd.Currency(), rd.Number(1, 999))
+
+	gockConfig := gock.GockConfigBuilder.NewConfigByRandom()
+	apiConfig := &g.ApiConfig{
+		Name: mockName, Token: mockName + "-token",
+		BossBase: gockConfig.NewHttpConfig().Url,
+	}
+
+	boss.SetPlugins(mock.Plugin)
+	boss.SetupServerUrl(apiConfig)
+
+	return apiConfig, gockConfig
+}
