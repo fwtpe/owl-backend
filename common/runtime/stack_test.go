@@ -22,9 +22,9 @@ var _ = Describe("Gets information of caller", func() {
 			Expect(callerInfo).To(PointTo(MatchFields(
 				IgnoreExtras,
 				Fields{
-					"FileName": Equal("stack_test.go"),
-					"PackageName": Equal("github.com/fwtpe/owl-backend/common/runtime"),
-					"Line": BeNumerically(">=", 0),
+					"FileName":     Equal("stack_test.go"),
+					"PackageName":  Equal("github.com/fwtpe/owl-backend/common/runtime"),
+					"Line":         BeNumerically(">=", 0),
 					"FunctionName": Equal("sampleFunction1"),
 				},
 			)))
@@ -39,9 +39,9 @@ var _ = Describe("Gets information of caller", func() {
 			Expect(callerInfo).To(PointTo(MatchFields(
 				IgnoreExtras,
 				Fields{
-					"FileName": Equal("stack_test.go"),
-					"PackageName": Equal("github.com/fwtpe/owl-backend/common/runtime"),
-					"Line": BeNumerically(">=", 0),
+					"FileName":     Equal("stack_test.go"),
+					"PackageName":  Equal("github.com/fwtpe/owl-backend/common/runtime"),
+					"Line":         BeNumerically(">=", 0),
 					"FunctionName": Equal("sampleFunction2"),
 				},
 			)))
@@ -69,17 +69,17 @@ var _ = Describe("toCallerInfo(*runtime.Frame)", func() {
 		It("\"sampleF1\" should be matched", func() {
 			testedInfo := toCallerInfo(&runtime.Frame{
 				Function: "github.com/some1/cool/utils.sampleF1",
-				File: "/home/some1/go/src/github.com/some1/cool/utils/staff.go",
-				Line: 30,
+				File:     "/home/some1/go/src/github.com/some1/cool/utils/staff.go",
+				Line:     30,
 			})
 
 			Expect(testedInfo).To(PointTo(MatchFields(
 				IgnoreExtras,
-				Fields {
-					"PackageName": Equal("github.com/some1/cool/utils"),
-					"FunctionName": Equal( "sampleF1"),
-					"FileName": Equal( "staff.go"),
-					"Line": Equal(30),
+				Fields{
+					"PackageName":  Equal("github.com/some1/cool/utils"),
+					"FunctionName": Equal("sampleF1"),
+					"FileName":     Equal("staff.go"),
+					"Line":         Equal(30),
 				},
 			)))
 		})
@@ -89,17 +89,17 @@ var _ = Describe("toCallerInfo(*runtime.Frame)", func() {
 		It("\"doLeap\" should be matched", func() {
 			testedInfo := toCallerInfo(&runtime.Frame{
 				Function: "github.com/some2/vendor/github.com/some1/cleaning/editor.doLeap",
-				File: "/home/some1/go/src/github.com/some2/vendor/github.com/some1/cleaning/editor/foot.go",
-				Line: 30,
+				File:     "/home/some1/go/src/github.com/some2/vendor/github.com/some1/cleaning/editor/foot.go",
+				Line:     30,
 			})
 
 			Expect(testedInfo).To(PointTo(MatchFields(
 				IgnoreExtras,
-				Fields {
-					"PackageName": Equal("github.com/some1/cleaning/editor"),
-					"FunctionName": Equal( "doLeap"),
-					"FileName": Equal( "foot.go"),
-					"Line": Equal(30),
+				Fields{
+					"PackageName":  Equal("github.com/some1/cleaning/editor"),
+					"FunctionName": Equal("doLeap"),
+					"FileName":     Equal("foot.go"),
+					"Line":         Equal(30),
 				},
 			)))
 		})
@@ -136,7 +136,7 @@ var _ = Describe("Benchmark \"toCallerInfo()\"", func() {
 		}
 	})
 
-	Measure("The time used for convertion of \"*runtime.Frame\" to \"*CallerInfo\"", func(b Benchmarker) {
+	Measure("The time used for conversion of \"*runtime.Frame\" to \"*CallerInfo\"", func(b Benchmarker) {
 
 		b.Time("runtime", func() {
 			zeroTimeCounter := 0
@@ -144,10 +144,10 @@ var _ = Describe("Benchmark \"toCallerInfo()\"", func() {
 			for i := 0; i < countOfSamples; i++ {
 				part1, part2, part3 := rd.Currency(), rd.LastName(), rd.Month()
 
-				currentFrame := &runtime.Frame {
+				currentFrame := &runtime.Frame{
 					Function: fmt.Sprintf("github.com/sample/car/%s/%s.%s", part1, part2, part3),
-					File: fmt.Sprintf("C:/Code/go/src/github.com/sample/car/%s/%s.go", part1, part2),
-					Line: rd.Number(5, 500),
+					File:     fmt.Sprintf("C:/Code/go/src/github.com/sample/car/%s/%s.go", part1, part2),
+					Line:     rd.Number(5, 500),
 				}
 
 				beforeExecute := time.Now()
@@ -161,11 +161,11 @@ var _ = Describe("Benchmark \"toCallerInfo()\"", func() {
 
 				Expect(testedInfo).To(PointTo(MatchFields(
 					IgnoreExtras,
-					Fields {
-						"PackageName": HaveSuffix(fmt.Sprintf("%s/%s", part1, part2)),
+					Fields{
+						"PackageName":  HaveSuffix(fmt.Sprintf("%s/%s", part1, part2)),
 						"FunctionName": Equal(part3),
-						"FileName": Equal(part2 + ".go"),
-						"Line": Equal(currentFrame.Line),
+						"FileName":     Equal(part2 + ".go"),
+						"Line":         Equal(currentFrame.Line),
 					},
 				)))
 			}

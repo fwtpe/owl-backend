@@ -132,8 +132,7 @@ type LoggerEntry struct {
 }
 
 func (l *loggerFactory) ListAll() []*LoggerEntry {
-	loggers := make([]*LoggerEntry, 0)
-	//
+	loggers := make([]*LoggerEntry, 0, len(l.namedLoggers))
 
 	for name, logger := range l.namedLoggers {
 		loggers = append(loggers, &LoggerEntry{

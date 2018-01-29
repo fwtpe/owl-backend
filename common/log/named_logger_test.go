@@ -25,7 +25,7 @@ var _ = Describe("Factory functions for named loggers", func() {
 	})
 
 	Context("Listing for all named loggers", func() {
-		It("The map of logger should contains \"m/mysqlapi/...\"", func() {
+		It("The entries of loggers should be sorted by names", func() {
 			loggers := testLoggerFactory.ListAll()
 
 			Expect(loggers).To(Equal([]*LoggerEntry{
@@ -57,7 +57,7 @@ var _ = Describe("Output message of logger", func() {
 		))
 	})
 
-	It("The message should contain caller infomation: \"sampleCaller1\"", func() {
+	It("The message should contain caller information: \"sampleCaller1\"", func() {
 		messageCatcher := new(catchMessageHook)
 
 		sampleCaller1(messageCatcher)
