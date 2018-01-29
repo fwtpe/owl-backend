@@ -15,16 +15,16 @@ package runtime
 
 import (
 	"fmt"
+	"regexp"
 	"runtime"
 	"strings"
-	"regexp"
 )
 
 // Information of the position in file and where line number is targeted
 type CallerInfo struct {
-	PackageName string
-	FileName string
-	Line int
+	PackageName  string
+	FileName     string
+	Line         int
 	FunctionName string
 
 	rawFile string
@@ -54,7 +54,7 @@ func (s CallerStack) ConcatStringStack(sep string) string {
 func GetCallerInfoStack(startDepth int, endDepth int) CallerStack {
 	callers := make([]*CallerInfo, 0)
 
-	for i := startDepth + 1; i < endDepth + 2; i++ {
+	for i := startDepth + 1; i < endDepth+2; i++ {
 		callerInfo := GetCallerInfoWithDepth(i)
 		if callerInfo == nil {
 			break
@@ -89,7 +89,7 @@ func GetCallerInfoWithDepth(countOfSkips int) *CallerInfo {
 	// Skips
 	// 1) this function
 	// 2) the caller of this function
-	n := runtime.Callers(2 + countOfSkips, pc)
+	n := runtime.Callers(2+countOfSkips, pc)
 
 	if n == 0 {
 		return nil
@@ -101,12 +101,13 @@ func GetCallerInfoWithDepth(countOfSkips int) *CallerInfo {
 
 var packageFromFunc = regexp.MustCompile("(.+/(?:\\w|-)+)\\.(.*)$")
 var fileFromPath = regexp.MustCompile("[^/]+\\.go$")
+
 func toCallerInfo(frame *runtime.Frame) *CallerInfo {
 	finalInfo := &CallerInfo{
-		PackageName: "<N/A>",
+		PackageName:  "<N/A>",
 		FunctionName: "<N/A>",
-		Line: -1,
-		FileName: "<N/A>",
+		Line:         -1,
+		FileName:     "<N/A>",
 	}
 
 	if frame.Line > 0 {

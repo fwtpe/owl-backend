@@ -37,5 +37,5 @@ func NewDatabaseErrorWithDepth(err error, depth int) *DbError {
 	}
 
 	// Skip this frame of callers
-	return &DbError{utils.BuildErrorWithCallerDepth(err, depth + 1)}
+	return &DbError{utils.BuildErrorWithCallerDepth(err, depth+1)}
 }

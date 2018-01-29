@@ -200,7 +200,7 @@ func BuildErrorWithCallerDepth(err error, depth int) *StackError {
 
 	return BuildErrorWithCallerInfo(
 		err,
-		gr.GetCallerInfoWithDepth(depth + 1),
+		gr.GetCallerInfoWithDepth(depth+1),
 	)
 }
 
