@@ -8,43 +8,45 @@ import (
 )
 
 var _ = Describe("Factory functions for named loggers", func() {
-	GetLogger("m/mysqlapi")
-	GetLogger("m/mysqlapi/db")
-	GetLogger("m/mysqlapi/restful")
-	GetLogger("m/query")
-	GetLogger("m/query/db")
+	testLoggerFactory := newLoggerFactory()
+	testLoggerFactory.GetLogger("m/mysqlapi")
+	testLoggerFactory.GetLogger("m/mysqlapi/db")
+	testLoggerFactory.GetLogger("m/mysqlapi/restful")
+	testLoggerFactory.GetLogger("m/query")
+	testLoggerFactory.GetLogger("m/query/db")
 
 	Context("Get loggers", func() {
 		It("The loggers with same name should be identical", func() {
-			firstLogger := GetLogger("m/mysqlapi")
+			firstLogger := testLoggerFactory.GetLogger("m/mysqlapi")
 
-			Expect(GetLogger("m/mysqlapi")).To(BeIdenticalTo(firstLogger))
-			Expect(GetLogger("m/mysqlapi")).To(BeIdenticalTo(firstLogger))
+			Expect(testLoggerFactory.GetLogger("m/mysqlapi")).To(BeIdenticalTo(firstLogger))
+			Expect(testLoggerFactory.GetLogger("m/mysqlapi")).To(BeIdenticalTo(firstLogger))
 		})
 	})
 
 	Context("Listing for all named loggers", func() {
 		It("The map of logger should contains \"m/mysqlapi/...\"", func() {
-			testedMap := ListAll()
+			loggers := testLoggerFactory.ListAll()
 
-			Expect(testedMap).To(And(
-				HaveKey("m/mysqlapi"),
-				HaveKey("m/mysqlapi/db"),
-				HaveKey("m/mysqlapi/restful"),
-				HaveKey("m/query"),
-				HaveKey("m/query/db"),
-			))
+			Expect(loggers).To(Equal([]*LoggerEntry{
+				{testLoggerFactory.GetLogger("m/mysqlapi"), "m/mysqlapi"},
+				{testLoggerFactory.GetLogger("m/mysqlapi/db"), "m/mysqlapi/db"},
+				{testLoggerFactory.GetLogger("m/mysqlapi/restful"), "m/mysqlapi/restful"},
+				{testLoggerFactory.GetLogger("m/query"), "m/query"},
+				{testLoggerFactory.GetLogger("m/query/db"), "m/query/db"},
+			}))
 		})
 	})
 })
 
 var _ = Describe("Output message of logger", func() {
 	It("The message should contain module name[t/m/assert/content]", func() {
-		logger := GetLogger("test/message/assert/content")
+		testLoggerFactory := newLoggerFactory()
+		logger := testLoggerFactory.GetLogger("test/message/assert/content")
 
 		messageCatcher := new(catchMessageHook)
 
-		AddHook("test/message/assert/content", messageCatcher)
+		testLoggerFactory.AddHook("test/message/assert/content", messageCatcher)
 
 		logger.Warnf("[GBC11] Testing[%d] on logging(WARN level)", 195)
 
@@ -71,6 +73,7 @@ var _ = Describe("Output message of logger", func() {
 type catchMessageHook struct {
 	message string
 }
+
 func (h *catchMessageHook) Levels() []lf.Level {
 	return AllLevels
 }

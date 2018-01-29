@@ -26,6 +26,7 @@ package log
 import (
 	"io"
 	"os"
+	"sort"
 	"strings"
 	"sync"
 
@@ -59,7 +60,7 @@ func GetLogger(name string) *lf.Logger {
 }
 
 // List all of the named loggers
-func ListAll() map[string]*lf.Logger {
+func ListAll() []*LoggerEntry {
 	return defaultFactory.ListAll()
 }
 
@@ -124,14 +125,39 @@ func (l *loggerFactory) GetLogger(name string) *lf.Logger {
 
 	return l.namedLoggers[name]
 }
-func (l *loggerFactory) ListAll() map[string]*lf.Logger {
-	newMap := make(map[string]*lf.Logger)
+
+type LoggerEntry struct {
+	Logger *lf.Logger
+	Name   string
+}
+
+func (l *loggerFactory) ListAll() []*LoggerEntry {
+	loggers := make([]*LoggerEntry, 0)
+	//
 
 	for name, logger := range l.namedLoggers {
-		newMap[name] = logger
+		loggers = append(loggers, &LoggerEntry{
+			Logger: logger,
+			Name:   name,
+		})
 	}
+	sort.Sort(byName(loggers))
 
-	return newMap
+	return loggers
+}
+
+type byName []*LoggerEntry
+
+func (n byName) Len() int {
+	return len(n)
+}
+
+func (n byName) Swap(i, j int) {
+	n[i], n[j] = n[j], n[i]
+}
+
+func (n byName) Less(i, j int) bool {
+	return n[i].Name < n[j].Name
 }
 
 func (l *loggerFactory) SetLevel(name string, level lf.Level) {
