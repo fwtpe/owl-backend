@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -1180,6 +1181,104 @@ var _ = Describe("Checking on passing of elapsed time for customized table and n
 			Entry("Has passed", "2015-10-02T10:21:01+08:00", true),
 			Entry("Has passed", "2015-10-03T07:35:24+08:00", true),
 		)
+	})
+}))
+
+var _ = Describe("[updateBondingOfHosts]", skipBossDb.PrependBeforeEach(func() {
+	BeforeEach(func() {
+		getBondingOfHost = func(name string) map[string]int {
+			if strings.HasPrefix(name, "nnb") {
+				return map[string]int {
+					"bonding": 3072,
+				}
+			} else if strings.HasPrefix(name, "nns") {
+				return map[string]int {
+					"speed": 9600,
+				}
+			}
+
+			return map[string]int {
+				"bonding": 40960,
+				"speed": 10000,
+			}
+		}
+
+		bossInTx(
+			`
+			INSERT INTO hosts(
+				ip, hostname, isp, bonding, speed, exist, updated
+			)
+			VALUES
+				('162.71.91.11', 'cyrc-gz-162-071-091-011', 'cyrc', 24, 36, 1, NOW() - INTERVAL 10 DAY),
+				('162.71.91.12', 'cyrc-gz-162-071-091-012', 'cyrc', 24, 36, 1, NOW() - INTERVAL 10 DAY),
+				('162.71.91.13', 'cyrc-gz-162-071-091-013', 'cyrc', 24, 36, 0, NOW() - INTERVAL 10 DAY),
+				('132.71.91.41', 'nnb-iz-132-071-091-041', 'nnb', 24, 36, 1, NOW() - INTERVAL 10 DAY),
+				('132.71.91.42', 'nns-iz-132-071-091-042', 'nns', 24, 36, 1, NOW() - INTERVAL 10 DAY)
+			`,
+		)
+	})
+	AfterEach(func() {
+		getBondingOfHost = getBondingOfHostFromGraph
+
+		bossInTx(
+			`
+			DELETE FROM hosts
+			WHERE ip LIKE '162.71.91.%'
+				OR
+				ip LIKE '132.71.91.%'
+			`,
+		)
+	})
+
+	It("The hosts of [162.71.91.%] should have bonding[40960] and speed[10000]", func() {
+		updateBondingOfHosts()
+
+		testedResult := &struct {
+			CountBoth int `db:"count_both"`
+			CountBonding int `db:"count_bonding"`
+			CountSpeed int `db:"count_speed"`
+			CountUneffected int `db:"count_uneffected"`
+		} {}
+
+		db.BossDbFacade.SqlxDbCtrl.Get(
+			testedResult,
+			`
+			SELECT
+				(
+					SELECT COUNT(*)
+					FROM hosts
+					WHERE ip LIKE '162.71.91.%'
+						AND bonding = 40960 AND speed = 10000
+				) AS count_both,
+				(
+					SELECT COUNT(*)
+					FROM hosts
+					WHERE ip = '132.71.91.41'
+						AND bonding = 3072	AND speed = 36
+				) AS count_bonding,
+				(
+					SELECT COUNT(*)
+					FROM hosts
+					WHERE ip = '132.71.91.42'
+						AND bonding = 24 AND speed = 9600
+				) AS count_speed,
+				(
+					SELECT COUNT(*)
+					FROM hosts
+					WHERE ip = '162.71.91.13'
+						AND bonding = 24 AND speed = 36
+				) AS count_uneffected
+			`,
+		)
+
+		Expect(testedResult).To(PointTo(MatchAllFields(
+			Fields{
+				"CountBoth": Equal(2),
+				"CountBonding": Equal(1),
+				"CountSpeed": Equal(1),
+				"CountUneffected": Equal(1),
+			},
+		)))
 	})
 }))
 

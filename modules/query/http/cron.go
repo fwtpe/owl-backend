@@ -121,8 +121,8 @@ func SyncHostsAndContactsTable() {
 			gocron.Every(1).Day().At(g.Config().Deviations.Time).Do(syncDeviationsTable)
 		}
 		if g.Config().Speed.Enabled {
-			addBondingAndSpeedToHostsTable()
-			gocron.Every(1).Day().At(g.Config().Speed.Time).Do(addBondingAndSpeedToHostsTable)
+			updateBondingOfHosts()
+			gocron.Every(1).Day().At(g.Config().Speed.Time).Do(updateBondingOfHosts)
 		}
 		<-gocron.Start()
 	}
@@ -186,8 +186,11 @@ type sourceIdcRow struct {
 	bandwidth int
 }
 
-func getHostsBondingAndSpeed(hostname string) map[string]int {
+var getBondingOfHost func(string) map[string]int = getBondingOfHostFromGraph
+
+func getBondingOfHostFromGraph(hostname string) map[string]int {
 	item := map[string]int{}
+
 	param := cmodel.GraphLastParam{
 		Endpoint: hostname,
 	}
@@ -211,40 +214,70 @@ func getHostsBondingAndSpeed(hostname string) map[string]int {
 			item["speed"] = value
 		}
 	}
+
 	return item
 }
 
-func addBondingAndSpeedToHostsTable() {
-	log.Debugf("func addBondingAndSpeedToHostsTable()")
-	o := NewBossOrm()
-	var rows []orm.Params
-	sql := "SELECT id, hostname FROM `boss`.`hosts` WHERE exist = 1"
-	num, err := o.Raw(sql).Values(&rows)
-	if err != nil {
-		log.Errorf(err.Error())
-	} else if num > 0 {
-		var host Hosts
-		for _, row := range rows {
-			hostname := row["hostname"].(string)
-			item := getHostsBondingAndSpeed(hostname)
-			err = o.QueryTable("hosts").Filter("hostname", hostname).One(&host)
-			if err != nil {
-				log.Errorf(err.Error())
-			} else {
-				if _, ok := item["bonding"]; ok {
-					host.Bonding = item["bonding"]
+const updateBondingOfHostSql = `
+UPDATE hosts
+SET bonding = :bonding,
+	speed = :speed, updated = :updated
+WHERE id = :id
+`
+func updateBondingOfHosts() {
+	type hostBonding struct {
+		Id int `db:"id"`
+		Hostname string `db:"hostname"`
+		Speed int `db:"speed"`
+		Bonding int `db:"bonding"`
+		UpdateTime time.Time `db:"updated"`
+	}
+
+	existingHosts := []*hostBonding{}
+
+	qdb.BossDbFacade.SqlxDbCtrl.Select(
+		&existingHosts,
+		`
+		SELECT id, hostname, bonding, speed, updated
+		FROM hosts
+		WHERE exist = 1
+		`,
+	)
+
+	now := time.Now()
+	utils.MakeAbstractArray(existingHosts).SimpleBatchProcess(
+		32,
+		func(batchData interface{}) {
+			typedHosts := batchData.([]*hostBonding)
+
+			/**
+			 * Loads bonding data for hosts
+			 */
+			for _, host := range typedHosts {
+				host.UpdateTime = now
+
+				lastBondingData := getBondingOfHost(host.Hostname)
+				if _, ok := lastBondingData["bonding"]; ok {
+					host.Bonding = lastBondingData["bonding"]
 				}
-				if _, ok := item["speed"]; ok {
-					host.Speed = item["speed"]
-				}
-				host.Updated = getNow()
-				_, err = o.Update(&host)
-				if err != nil {
-					log.Errorf(err.Error())
+				if _, ok := lastBondingData["speed"]; ok {
+					host.Speed = lastBondingData["speed"]
 				}
 			}
-		}
-	}
+			// :~)
+
+			qdb.BossDbFacade.SqlxDbCtrl.InTx(osqlx.TxCallbackFunc(func(tx *sqlx.Tx) db.TxFinale {
+				txExt := osqlx.ToTxExt(tx)
+				updateStmt := txExt.PrepareNamed(updateBondingOfHostSql)
+
+				for _, host := range typedHosts {
+					updateStmt.MustExec(host)
+				}
+
+				return db.TxCommit
+			}))
+		},
+	)
 }
 
 func loadDetailOfMatchedPlatforms(platformIps []*bmodel.PlatformIps) []*bmodel.PlatformDetail {
