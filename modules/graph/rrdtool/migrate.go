@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/fwtpe/consistent"
+	"github.com/toolkits/consistent"
 	pfc "github.com/niean/goperfcounter"
 
 	cmodel "github.com/fwtpe/owl-backend/common/model"

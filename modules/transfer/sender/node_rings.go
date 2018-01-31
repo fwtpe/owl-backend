@@ -1,7 +1,7 @@
 package sender
 
 import (
-	"github.com/fwtpe/consistent"
+	"github.com/toolkits/consistent"
 	"github.com/fwtpe/owl-backend/modules/transfer/g"
 )
 
