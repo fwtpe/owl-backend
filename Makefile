@@ -141,14 +141,13 @@ setup-govendor:
 	fi
 	govendor sync
 
-checkbin: bin/ config/ open-falcon cfg.json
+checkbin: bin/ open-falcon
 pack: checkbin
 	@if [ -e out ] ; then rm -rf out; fi
 	@mkdir out
 	@$(foreach var,$(CMD),mkdir -p ./out/$(var)/bin;)
 	@$(foreach var,$(CMD),mkdir -p ./out/$(var)/config;)
 	@$(foreach var,$(CMD),mkdir -p ./out/$(var)/logs;)
-	@$(foreach var,$(CMD),cp ./config/$(var).json ./out/$(var)/config/cfg.json;)
 	@$(foreach var,$(CMD),cp ./bin/$(var)/falcon-$(var) ./out/$(var)/bin;)
 	@cp -r ./modules/query/js ./modules/query/conf/lambdaSetup.json ./out/query/config
 	@cp -r ./modules/fe/{static,views,scripts} ./out/fe/bin
@@ -157,8 +156,6 @@ pack: checkbin
 	@cp -r ./modules/f2e-api/data ./out/f2e-api/bin
 	@cp -r ./modules/f2e-api/lambda_extends/js ./out/f2e-api/bin
 	@cp -r ./modules/f2e-api/lambda_extends/conf/lambdaSetup.json ./out/f2e-api/config
-	@cp cfg.json ./out/cfg.json
-	@bash ./config/confgen.sh
 	@cp $(TARGET) ./out/$(TARGET)
 	tar -C out -zcf open-falcon-v$(VERSION).tar.gz .
 	@rm -rf out

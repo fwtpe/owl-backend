@@ -1,0 +1,51 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "cron": {
+        "vacuum_query_objects": {
+            "enable": true,
+            "schedule": "0 0 4 * * *",
+            "for_days": 90
+        },
+        "vacuum_graph_index": {
+            "enable": true,
+            "schedule": "0 0 2 ? * 6",
+            "for_days": 7
+        },
+        "clear_task_log_entries": {
+            "enable": ${m.task.clear.log.enable},
+            "schedule": "@daily",
+            "for_days": 90
+        },
+        "sync_cmdb_from_boss" : {
+            "enable": ${m.task.sync.cmdb.enable},
+            "init_delay_seconds": 30,
+            "fixed_delay_seconds": ${m.task.sync.cmdb.delay.time},
+            "error_delay_seconds": 300
+        }
+    },
+    "http": {
+        "enable": true,
+        "listen": "0.0.0.0:${port.http.task}"
+    },
+    "index": {
+        "enable": true,
+        "dsn": "${dbuser.task.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+        "maxIdle": 4,
+        "cluster": {
+            ${m.task.index.cluster}
+        }
+    },
+    "collector":{
+        "enable": ${m.task.collector.enable},
+        "destUrl" : "${url.transfer}/api/push",
+        "srcUrlFmt" : "http://%s/statistics/all",
+        "cluster" : [
+            ${m.task.collector.cluster}
+        ]
+    },
+    "mysql_api": {
+         "host": "${url.mysqlapi}",
+         "resource": ""
+    }
+}

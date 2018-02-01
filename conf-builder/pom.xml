@@ -1,0 +1,368 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> <modelVersion>4.0.0</modelVersion>
+
+	<groupId>cn.com.fastweb.owl</groupId>
+	<artifactId>conf-builder</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>conf-builder</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!--
+			 OWL Setting
+		 -->
+		<log.level>debug</log.level>
+		<log.debug>true</log.debug>
+		<log.debug.python>True</log.debug.python>
+		<signup.option>true</signup.option>
+		<login.salt></login.salt>
+
+
+		<!--
+			 PORT(backend)
+		 -->
+		<port.http.transfer>6060</port.http.transfer>
+		<port.http.aggregator>6055</port.http.aggregator>
+		<port.http.alarm>9912</port.http.alarm>
+		<port.http.f2e>6050</port.http.f2e>
+		<port.http.fe>1234</port.http.fe>
+		<port.http.graph>6071</port.http.graph>
+		<port.http.hbs>6031</port.http.hbs>
+		<port.http.judge>6081</port.http.judge>
+		<port.http.nodata>6090</port.http.nodata>
+		<port.http.query>9966</port.http.query>
+		<port.http.sender>6066</port.http.sender>
+		<port.http.task>8002</port.http.task>
+		<port.http.mysqlapi>6040</port.http.mysqlapi>
+		<port.http.agent>1988</port.http.agent>
+
+		<port.rpc.transfer>8433</port.rpc.transfer>
+		<port.rpc.hbs>6030</port.rpc.hbs>
+		<port.rpc.judge>6080</port.rpc.judge>
+		<port.rpc.graph>6070</port.rpc.graph>
+		<port.rpc.query>1235</port.rpc.query>
+		<port.rpc.fe>1235</port.rpc.fe>
+
+		<port.http.gin.query>9967</port.http.gin.query>
+
+		<!--
+			 PORT(frontend)
+		 -->
+		<port.http.light1>5051</port.http.light1>
+		<port.http.light2>5052</port.http.light2>
+		<port.http.dashboard>8081</port.http.dashboard>
+		<port.http.links>5090</port.http.links>
+		<port.http.portal>5050</port.http.portal>
+		<port.http.grafana>3000</port.http.grafana>
+
+		<!--
+			 PORT(other system)
+		 -->
+		<port.http.smtp>9000</port.http.smtp>
+		<port.http.sms>9000</port.http.sms>
+		<port.cassandra>6171</port.cassandra>
+
+		<!--
+			 DOMAIN ,URL
+			 <owl.host> All module and system default is 127.0.0.1
+				You can change any module location.
+		 -->
+		<owl.host>127.0.0.1</owl.host>
+
+		<host.fe>${owl.host}</host.fe>
+		<host.portal>${owl.host}</host.portal>
+		<host.hbs>${owl.host}</host.hbs>
+		<host.transfer>${owl.host}</host.transfer>
+		<host.query>${owl.host}</host.query>
+		<host.links>${owl.host}</host.links>
+		<host.dashboard>${owl.host}</host.dashboard>
+		<host.grafana>${owl.host}</host.grafana>
+		<host.alarm>${owl.host}</host.alarm>
+		<host.light1>${owl.host}</host.light1>
+		<host.cassandra>${owl.host}</host.cassandra>
+		<host.redis>${owl.host}</host.redis>
+		<host.graph>${owl.host}</host.graph>
+		<host.task>${owl.host}</host.task>
+		<host.nodata>${owl.host}</host.nodata>
+		<host.judge>${owl.host}</host.judge>
+		<host.mysqlapi>${owl.host}</host.mysqlapi>
+		<host.f2e>${owl.host}</host.f2e>
+
+		<address.http.query>${host.query}:${port.http.query}</address.http.query>
+		<address.http.transfer>${host.transfer}:${port.http.transfer}</address.http.transfer>
+		<address.http.sms>${owl.host}:${port.http.sms}</address.http.sms>
+		<address.http.smtp>${owl.host}:${port.http.smtp}</address.http.smtp>
+		<address.http.qq>${owl.host}:5010</address.http.qq>
+		<address.http.cassandra>${host.cassandra}:${port.cassandra}</address.http.cassandra>
+
+		<url.fe>http://${host.fe}:${port.http.fe}</url.fe>
+		<url.portal>http://${host.portal}:${port.http.portal}</url.portal>
+		<url.transfer>http://${host.transfer}:${port.http.transfer}</url.transfer>
+		<url.query>http://${host.query}:${port.http.query}</url.query>
+		<url.links>http://${host.links}:${port.http.links}</url.links>
+		<url.dashboard>http://${host.dashboard}:${port.http.dashboard}</url.dashboard>
+		<url.dashboard.escaped>http%3A//${host.dashboard}:${port.http.dashboard}</url.dashboard.escaped>
+		<url.grafana>http://${host.grafana}:${port.http.grafana}</url.grafana>
+		<url.grafana.escaped>http%3A//${host.grafana}:${port.http.grafana}</url.grafana.escaped>
+		<url.alarm>http://${host.alarm}:${port.http.alarm}</url.alarm>
+		<url.alarm.escaped>http%3A//${host.alarm}:${port.http.alarm}</url.alarm.escaped>
+		<url.light1>http://${host.light1}:${port.http.light1}</url.light1>
+		<url.mysqlapi>http://${host.mysqlapi}:${port.http.mysqlapi}</url.mysqlapi>
+		<url.f2e>http://${host.f2e}:${port.http.f2e}</url.f2e>
+
+
+		<!--
+			 URL OTHER SYSTEM
+		 -->
+		<alert.url>http://127.0.0.1:10090/api/alerts</alert.url>
+		<alert.api.key>alert_api_key</alert.api.key>
+		<url.serverchan>http://127.0.0.1:10093</url.serverchan>
+		<url.boss.api>http://127.0.0.1:10091</url.boss.api>
+		<url.boss.login>http://127.0.0.1:10092</url.boss.login>
+
+		<!--
+			connection iformation
+		 -->
+
+		<cassandra.conn>http://${host.cassandra}:${port.cassandra}</cassandra.conn>
+
+		<redis.conn>${host.redis}:6379</redis.conn>
+		<rpc.conn.hbs>${host.hbs}:${port.rpc.hbs}</rpc.conn.hbs>
+		<rpc.conn.transfer>${host.transfer}:${port.rpc.transfer}</rpc.conn.transfer>
+		<grpc.conn>${host.query}:${port.rpc.query}</grpc.conn>
+
+		<!--
+			 PATH
+			 <path.judge.root> <path.query.root> <path.f2e.root> 
+				- Need use module's binary location.
+			 <path.judge.events> <path.graph.rrd> 
+				- You can setting data file location.
+			 <path.fe.view> <path.fe.static> <path.alarm.view> <path.alarm.static> <path.f2e.static> <path.f2e.site> <path.f2e.root>
+				- Need use resource file location.
+			 <path.dashbaord.base>
+				- Use python's module "dashboard" location
+			 <path.*.log.config>
+				- Setting python's module log location
+		 -->
+		<path.judge.root>/home/judge</path.judge.root>
+		<path.judge.events>/data/events_cache.json</path.judge.events>
+		<path.query.root>/home/query</path.query.root>
+		<path.fe.view>/home/fe/bin/views</path.fe.view>
+		<path.fe.static>/home/fe/bin/static</path.fe.static>
+		<path.alarm.view>/home/alarm/bin/views</path.alarm.view>
+		<path.alarm.static>/home/alarm/bin/static</path.alarm.static>
+		<path.f2e.static>./owlight/static</path.f2e.static>
+		<path.f2e.owlight.path>./owlight</path.f2e.owlight.path>
+		<path.f2e.site>./docs/_site</path.f2e.site>
+		<path.f2e.root>/home/f2e-api/bin</path.f2e.root>
+		<path.graph.rrd>/home/graph/data/6070</path.graph.rrd>
+
+		<path.dashboard.base>/home/dashboard/</path.dashboard.base>
+		<path.dashboard.log.config>/config/logging.conf</path.dashboard.log.config>
+		<path.links.log.config>/config/logging.conf</path.links.log.config>
+		<path.portal.log.config>/config/logging.conf</path.portal.log.config>
+
+		<!--
+			 BOSS variables
+		 -->
+		<boss.name>test_name</boss.name>
+		<boss.token.login>test_login_token</boss.token.login>
+		<boss.token.api>test_api_token</boss.token.api>
+		<boss.query.key>test_key</boss.query.key>
+		<boss.login.cookie>test_cookie</boss.login.cookie>
+
+		<!--
+			 GRAPH cluster
+			 If you have more then one graph service edit <cluster.graph>
+		 -->
+		<cluster.graph>
+			"graph-00" : "${host.graph}:${port.rpc.graph}"
+		</cluster.graph>
+
+		<!--
+			 MYSQL connection information
+		 -->
+		<mysql.port>3306</mysql.port>
+		<mysql.host>${owl.host}</mysql.host>
+		<mysql.conn>${mysql.host}:${mysql.port}</mysql.conn>
+		<dbconn.flags>charset=utf8&amp;parseTime=True&amp;loc=Local</dbconn.flags>
+
+		<mysql.port.apollo>3306</mysql.port.apollo>
+		<mysql.host.apollo>${owl.host}</mysql.host.apollo>
+		<mysql.conn.apollo>${mysql.host.apollo}:${mysql.port.apollo}</mysql.conn.apollo>
+
+		<mysql.port.phpnqm>3306</mysql.port.phpnqm>
+		<mysql.host.phpnqm>${owl.host}</mysql.host.phpnqm>
+		<mysql.conn.phpnqm>${mysql.host.phpnqm}:${mysql.port.phpnqm}</mysql.conn.phpnqm>
+
+		<!--
+			 MYSQL dev acconut
+		 -->
+		<dbuser.dev.account>root</dbuser.dev.account>
+		<dbuser.dev.password>cepave</dbuser.dev.password>
+		<!--
+			 MYSQL read only account
+		 -->
+
+		<dbuser.readonly.account>${dbuser.dev.account}</dbuser.readonly.account>
+		<dbuser.readonly.password>${dbuser.dev.password}</dbuser.readonly.password>
+
+		<!--
+			 MYSQL module account
+		 -->
+
+		<dbuser.aggregator.account>${dbuser.dev.account}</dbuser.aggregator.account>
+		<dbuser.alarm.account>${dbuser.dev.account}</dbuser.alarm.account>
+		<dbuser.dashboard.account>${dbuser.dev.account}</dbuser.dashboard.account>
+		<dbuser.f2e.account>${dbuser.dev.account}</dbuser.f2e.account>
+		<dbuser.fe.account>${dbuser.dev.account}</dbuser.fe.account>
+		<dbuser.grafana.account>${dbuser.dev.account}</dbuser.grafana.account>
+		<dbuser.graph.account>${dbuser.dev.account}</dbuser.graph.account>
+		<dbuser.light1.account>${dbuser.dev.account}</dbuser.light1.account>
+		<dbuser.links.account>${dbuser.dev.account}</dbuser.links.account>
+		<dbuser.mysqlapi.account>${dbuser.dev.account}</dbuser.mysqlapi.account>
+		<dbuser.nodata.account>${dbuser.dev.account}</dbuser.nodata.account>
+		<dbuser.portal.account>${dbuser.dev.account}</dbuser.portal.account>
+		<dbuser.query.account>${dbuser.dev.account}</dbuser.query.account>
+		<dbuser.task.account>${dbuser.dev.account}</dbuser.task.account>
+
+		<dbuser.password>${dbuser.dev.password}</dbuser.password>
+
+		<dbuser.apollo.account>${dbuser.dev.account}</dbuser.apollo.account>
+		<dbuser.apollo.password>${dbuser.dev.password}</dbuser.apollo.password>
+		<dbuser.phpnqm.account>${dbuser.dev.account}</dbuser.phpnqm.account>
+		<dbuser.phpnqm.password>${dbuser.dev.password}</dbuser.phpnqm.password>
+
+		<!--
+			 MYSQL databases
+		 -->
+
+		<dbname.boss>boss</dbname.boss>
+		<dbname.dashboard>dashboard</dbname.dashboard>
+		<dbname.portal>falcon_portal</dbname.portal>
+		<dbname.links>falcon_links</dbname.links>
+		<dbname.grafana>grafana</dbname.grafana>
+		<dbname.grafana.database>grafana_database</dbname.grafana.database>
+		<dbname.graph>graph</dbname.graph>
+		<dbname.imdb>imdb</dbname.imdb>
+		<dbname.uic>uic</dbname.uic>
+		<dbname.apollo>apollo</dbname.apollo>
+		<dbname.phpnqm>gz_nqm</dbname.phpnqm>
+
+		<!--
+			 HBS 
+			 Trustable ip is used on Agent white list.
+		 -->
+		<m.hbs.trustable.ip>
+			""
+		</m.hbs.trustable.ip>
+
+		<!--
+			 TASK 
+		 -->
+		<m.task.clear.log.enable>false</m.task.clear.log.enable>
+		<m.task.sync.cmdb.enable>false</m.task.sync.cmdb.enable>
+		<m.task.sync.cmdb.delay.time>190</m.task.sync.cmdb.delay.time>
+		<m.task.index.cluster>
+				"${host.graph}:${port.rpc.graph}" : "0 30 0 ? * 0-5"
+		</m.task.index.cluster>
+
+		<m.task.collector.enable>false</m.task.collector.enable>
+		<m.task.collector.cluster>
+				"transfer,${host.transfer}:${port.http.transfer}",
+				"graph,${host.graph}:${port.http.graph}",
+				"query,${host.query}:${port.http.query}",
+				"task,${host.task}:${port.http.task}",
+				"nodata,${host.nodata}:${port.http.nodata}"
+		</m.task.collector.cluster>
+
+		<!--
+			 LIGHT 
+		 -->
+		<m.light1.port.lambda.query>${port.http.gin.query}</m.light1.port.lambda.query>
+		<m.light1.lambda.addr>//${host.query}:${m.light1.port.lambda.query}</m.light1.lambda.addr>
+		<m.light1.static.addr>//${host.light1}/statics</m.light1.static.addr>
+
+		<!--
+			 F2E key
+		 -->
+		<m.f2e.service.key>
+		"test-api": "test-key"
+		</m.f2e.service.key>
+
+		<!--
+			 SMTP
+		 -->
+		<m.smtp.server>127.0.0.1</m.smtp.server>
+		<m.smtp.user>smtp@domain.com</m.smtp.user>
+		<m.smtp.password>smtppassword</m.smtp.password>
+		<m.smtp.from.addr>smtp@domain.com</m.smtp.from.addr>
+		<m.smtp.from.name>監控中心</m.smtp.from.name>
+
+		<!--
+			 TRANSFER
+			 <m.trasfner.staging> is used to pass data to other OWL.
+		 -->
+		<m.transfer.cluster.judge>
+				"judge-00" : "${host.judge}:${port.rpc.judge}"
+		</m.transfer.cluster.judge>
+		<m.transfer.nqm.enable>false</m.transfer.nqm.enable>
+		<m.transfer.staging.enable>false</m.transfer.staging.enable>
+		<m.transfer.staging.addr>127.0.0.1:10095</m.transfer.staging.addr>
+		<m.transfer.staging.filters>
+				""
+		</m.transfer.staging.filters>
+
+		<!--
+			 QUERY
+			 <m.query.boss.sync.enable> is sync switch from boss.
+		 -->
+		<m.query.boss.sync.enable>false</m.query.boss.sync.enable>
+
+		<!--
+			 DASHBOARD
+		 -->
+		<m.dashboard.secret.key>secret_key</m.dashboard.secret.key>
+		<m.dashboard.session.cookie>open-falcon</m.dashboard.session.cookie>
+		<m.dashboard.site.cookie>open-falcon-ck</m.dashboard.site.cookie>
+
+		<!--
+			 PORTAL
+		 -->
+		<m.portal.secret.key>secret_key</m.portal.secret.key>
+		<m.portal.session.cookie>falcon-portal</m.portal.session.cookie>
+
+		<!--
+			 LINKS
+		 -->
+		<m.links.secret.key>92j#Ffaas%W</m.links.secret.key>
+		<m.links.session.cookie>falcon-links</m.links.session.cookie>
+
+	</properties>
+	<build>
+		<outputDirectory>target/owl-conf</outputDirectory>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>*.swp</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
