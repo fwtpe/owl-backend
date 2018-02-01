@@ -357,17 +357,25 @@ func forward2StagingTask() {
 	}
 }
 
-const tooLateMinute = 5
-const tooLateTime = tooLateMinute * time.Minute
+const (
+	tooLateSecond = 180
+	tooLateTime   = tooLateSecond * time.Second
+)
 
 func logTooLateMetric(judgeItems []*cmodel.JudgeItem) {
 	now := time.Now()
 
 	for _, item := range judgeItems {
-		itemSourceTime := time.Unix(item.SourceTimestamp, 0)
+		reachTransferTime := time.Unix(item.ReachTransferTime, 0)
 
-		if now.Sub(itemSourceTime) > tooLateTime {
-			log.Warnf("[Late Metric(%d minutes)] Now[%s]. Item[%s]", tooLateMinute, now, item)
+		diffTime := now.Sub(reachTransferTime)
+		if diffTime > tooLateTime {
+			log.Warnf(
+				"[Too Long(%d{%d} seconds)] Reach/Now[%s - %s] Metric[%s]",
+				diffTime/time.Second, tooLateSecond,
+				reachTransferTime.Format(time.RFC3339), now.Format(time.RFC3339),
+				item,
+			)
 		}
 	}
 }
