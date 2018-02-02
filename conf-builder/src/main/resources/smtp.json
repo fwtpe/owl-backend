@@ -1,0 +1,10 @@
+{
+    "listenPort": ${port.http.smtp},
+    "smtpServer": "${m.smtp.server}",
+    "smtpPort": 25,
+    "authUsername": "${m.smtp.user}",
+    "authPassword": "${m.smtp.password}",
+    "fromName": "${m.smtp.from.name}",
+    "fromAddr": "${m.smtp.from.addr}"
+}
+

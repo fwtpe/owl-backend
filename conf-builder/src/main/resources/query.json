@@ -1,0 +1,95 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "root_dir": "${path.query.root}",
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.query}"
+    },
+    "hosts": {
+        "enabled": ${m.query.boss.sync.enable},
+        "interval": 60
+    },
+    "contacts": {
+        "enabled": ${m.query.boss.sync.enable},
+        "interval": 3600
+    },
+    "deviations": {
+        "enabled": false,
+        "time": "03:00"
+    },
+    "net": {
+        "enabled": false,
+        "time": "01:00"
+    },
+    "speed": {
+        "enabled": ${m.query.boss.sync.enable},
+        "time": "16:45"
+    },
+    "gin_http": {
+        "enabled":  true,
+        "listen":   "0.0.0.0:${port.http.gin.query}"
+    },
+    "graph": {
+        "connTimeout": 1000,
+        "callTimeout": 5000,
+        "maxConns": 32,
+        "maxIdle": 32,
+        "replicas": 500,
+        "cluster": {
+            ${cluster.graph}
+        }
+    },
+    "grpc": {
+      "enabled":  true,
+      "port": ${port.rpc.query}
+    },
+    "api": {
+        "name": "${boss.name}",
+        "token": "${boss.token.api}",
+        "contact": "${url.boss.api}/Base/platform/get_platform_linkman",
+        "event": "${url.boss.api}/Monitor/add_zabbix_event",
+        "map": "${url.boss.api}/Base/platform/get_ip",
+        "geo": "${url.boss.api}/pop/get_area",
+        "platform": "${url.boss.api}/base/platform/get_all_platform_pbc",
+        "uplink": "${url.boss.api}/base/get_uplink_list",
+        "query": "${url.query}",
+        "dashboard": "${url.dashboard}",
+        "max": 1000
+    },
+    "graphdb": {
+        "addr": "${dbuser.query.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100,
+        "limit": -1
+    },
+    "mysql_api": {
+        "host": "${url.mysqlapi}",
+        "resource": ""
+    },
+    "db": {
+        "addr": "${dbuser.query.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "apollodb": {
+        "addr": "${dbuser.apollo.account}:${dbuser.apollo.password}@tcp(${mysql.conn.apollo})/${dbname.apollo}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "bossdb": {
+        "addr": "${dbuser.query.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.boss}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "nqm": {
+        "addr": "${dbuser.phpnqm.account}:${dbuser.phpnqm.password}@tcp(${mysql.conn.phpnqm})/${dbname.phpnqm}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "local": "http://localhost:${port.http.query}",
+    "nqmlog": {
+        "serviceUrl": "${cassandra.conn}"
+    },
+    "fe": "${url.fe}"
+}

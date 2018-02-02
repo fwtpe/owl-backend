@@ -1,0 +1,22 @@
+{
+  "serverPort": ${port.http.light1},
+  "goAPIHost": "${url.fe}/api",
+  "query": "${url.query}",
+  "grpcHost": "${grpc.conn}",
+  "lambdaQuery": "${m.light1.lambda.addr}",
+  "lambdaQueryStep": 1200,
+  "remotePath": "${m.light1.static.addr}",
+  "thirdPartyLoginURL": "${url.boss.login}/Third/login",
+  "thirdPartyLoginToken": "${boss.token.login}||${url.light1}/api/v1/auth/login/__TOKEN__",
+  "thirdPartyLoginKey": "${boss.query.key}",
+  "thirdPartyLoginAccess": "${url.boss.login}/Third/get_access_info",
+  "owlDBAddr": "mysql://${dbuser.light1.account}:${dbuser.password}@${mysql.conn}/${dbname.uic}",
+  "alertaURL": "${alert.url}",
+  "alertaAPIKey": "${alert.api.key}",
+  "grafanaHost": "${url.grafana}/overview/",
+  "staticPath": "/static-local",
+  "nodeAPI": "/api/v1",
+  "realTimeAlarmLimit": 2000,
+  "historyAlarmLimit": 2000,
+  "csvAlarmLimit": 10000
+}
