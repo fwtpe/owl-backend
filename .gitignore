@@ -8,3 +8,4 @@ open-falcon*.tar.gz
 # Untrack the source code of the dependencies
 vendor/!vendor.json
 vendor/*
+!maven/bin

@@ -24,9 +24,8 @@
     docker inspect docker_redis_1
     cd ..
 
-## Change your environment setting
-
-    vi config/confgen.sh
+## Build your own config
+See [conf-builder/README.md](conf-builder/README.md)
 
 ## Start Backend modules
 

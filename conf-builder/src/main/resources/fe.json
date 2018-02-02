@@ -1,0 +1,95 @@
+{
+    "logLevel": "${log.level}",
+    "log": "${log.level}",
+    "company": "Cepave",
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.fe}",
+        "cookie": ".${owl.host}",
+        "view_path": "${path.fe.view}",
+        "static_path": "${path.fe.static}"
+    },
+    "cache": {
+        "enabled": true,
+        "redis": "${redis.conn}",
+        "idle": 10,
+        "max": 1000,
+        "timeout": {
+            "conn": 10000,
+            "read": 5000,
+            "write": 5000
+        }
+    },
+    "salt": "${login.salt}",
+    "canRegister": ${signup.option},
+    "ldap": {
+        "enabled": false,
+        "addr": "ldap.example.com:389",
+        "baseDN": "dc=example,dc=com",
+        "bindDN": "cn=mananger,dc=example,dc=com",
+        "bindPasswd": "12345678",
+        "userField": "uid",
+        "attributes": ["sn","mail","telephoneNumber"]
+    },
+    "uic": {
+        "addr": "${dbuser.fe.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.uic}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "graphdb": {
+        "addr": "${dbuser.fe.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100,
+        "limit": 500,
+        "limitHostGroup": 5
+    },
+    "falcon_portal": {
+        "addr": "${dbuser.fe.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100,
+        "limit": 3000
+    },
+    "boss": {
+        "addr": "${dbuser.fe.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.boss}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100,
+        "show_all": false
+    },
+    "shortcut": {
+        "falconPortal": "${url.portal}",
+        "falconDashboard": "${url.dashboard}",
+        "grafanaDashboard": "${url.grafana}",
+        "falconAlarm": "${url.alarm}"
+    },
+    "api": {
+        "name": "${boss.name}",
+        "token": "${boss.token.api}",
+        "contact": "${url.boss.api}/Base/platform/get_platform_linkman",
+        "map": "${url.boss.api}/Base/platform/get_ip",
+        "key": "${boss.query.key}",
+        "redirect": "${boss.token.login}||${url.fe}/auth/login/__TOKEN__",
+        "login": "${url.boss.login}/Third/login",
+        "access": "${url.boss.login}/Third/get_access_info",
+        "role": "${url.boss.login}/Third/api/get_user_role",
+        "logout": "${url.boss.login}/Third/logout"
+    },
+    "graph": {
+        "connTimeout": 1000,
+        "callTimeout": 5000,
+        "maxConns": 32,
+        "maxIdle": 32,
+        "replicas": 500,
+        "cluster": {
+            ${cluster.graph}
+        }
+    },
+    "grpc":{
+        "enabled": false,
+        "port": ${port.rpc.fe}
+    },
+    "mq":{
+        "enabled": false,
+        "queue": "amqp://mquser:mqpassword@${owl.host}:5672/",
+        "consumer": "${url.query}/api"
+    }
+}
