@@ -10,7 +10,8 @@ RUN apk add --no-cache ca-certificates bash git g++ perl make
 COPY . ${PROJ_PATH}
 WORKDIR ${PROJ_PATH}
 RUN \
-    make all \
+    make clean \
+    && make all \
     && make pack \
     && tar zxvf open-falcon-v*.tar.gz -C ${FALCON_DIR}
 

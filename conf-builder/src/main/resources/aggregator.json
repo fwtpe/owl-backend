@@ -1,0 +1,19 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.aggregator}"
+    },
+    "database": {
+        "addr": "${dbuser.aggregator.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.portal}?${dbconn.flags}",
+        "idle": 10,
+        "ids": [1, -1],
+        "interval": 55
+    },
+    "api": {
+        "hostnames": "${url.portal}/api/group/%s/hosts.json",
+        "push": "${url.transfer}/api/push",
+        "graphLast": "${url.query}/graph/last"
+    }
+}
