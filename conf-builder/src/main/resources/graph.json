@@ -1,0 +1,28 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.graph}"
+    },
+    "rpc": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.rpc.graph}"
+    },
+    "rrd": {
+        "storage": "${path.graph.rrd}"
+    },
+    "db": {
+        "dsn": "${dbuser.graph.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.graph}?${dbconn.flags}",
+        "maxIdle": 4
+    },
+    "callTimeout": 5000,
+    "migrate": {
+        "enabled": false,
+        "concurrency": 2,
+        "replicas": 500,
+        "cluster": {
+            "graph-00" : "127.0.0.1:6070"
+        }
+    }
+}
