@@ -3,12 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "2ECAzL3kjB89h9nO/kToOIhoJRU=",
-			"path": "github.com/fwtpe/consistent",
-			"revision": "e793e5e459c4af7c32a8541a10389950048e4069",
-			"revisionTime": "2016-05-17T02:40:03Z"
-		},
-		{
 			"checksumSHA1": "8G3MdcWpgaVSwl1Yh/n6yJo3w5o=",
 			"path": "github.com/Jeffail/gabs",
 			"revision": "9cef256b595a9e616eb6aec1da446529b7705613",
