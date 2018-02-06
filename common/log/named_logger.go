@@ -65,8 +65,8 @@ func ListAll() []*LoggerEntry {
 }
 
 // Sets the level to the named logger
-func SetLevel(name string, level lf.Level) {
-	defaultFactory.SetLevel(name, level)
+func SetLevel(name string, level lf.Level) bool {
+	return defaultFactory.SetLevel(name, level)
 }
 
 // Sets the level to tree of named loggers
@@ -175,13 +175,16 @@ func (s *sorter) Less(i, j int) bool {
 	return s.less(s.entries[i], s.entries[j])
 }
 
-func (l *loggerFactory) SetLevel(name string, level lf.Level) {
+func (l *loggerFactory) SetLevel(name string, level lf.Level) bool {
 	l.lock.Lock()
 	defer l.lock.Unlock()
 
+	var exist bool
 	if logger, ok := l.namedLoggers[name]; ok {
 		logger.SetLevel(level)
+		exist = ok
 	}
+	return exist
 }
 func (l *loggerFactory) SetLevelToTree(matchName string, level lf.Level) int {
 	l.lock.Lock()
@@ -278,4 +281,8 @@ func newLogger(name string) *lf.Logger {
 	newLogger.Out = os.Stdout
 
 	return newLogger
+}
+
+func parseLevel(lvl string) (lf.Level, error) {
+	return lf.ParseLevel(lvl)
 }
