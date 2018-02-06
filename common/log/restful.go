@@ -6,13 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RestLogger(prefixGroup gin.IRouter, b mvc.MvcBuilder) {
-	h := b.BuildHandler
-	prefixGroup.GET("/v1/list-all", h(RestListAllV1))
-	prefixGroup.POST("/v1/set-level", h(RestSetLevelV1))
+func RestLogger(prefixGroup gin.IRouter, h mvc.BuildHandlerFunc) {
+	prefixGroup.GET("/v1/list-all", h(restListAllV1))
+	prefixGroup.POST("/v1/set-level", h(restSetLevelV1))
 }
 
-func RestListAllV1() mvc.OutputBody {
+func restListAllV1() mvc.OutputBody {
 	loggers := ListAll()
 	reply := cModel.NamedLoggerList{make([]*cModel.NamedLogger, 0, len(loggers))}
 	for _, entry := range loggers {
@@ -24,7 +23,7 @@ func RestListAllV1() mvc.OutputBody {
 	return mvc.JsonOutputBody(reply)
 }
 
-func RestSetLevelV1(
+func restSetLevelV1(
 	setData cModel.NamedLogger,
 	q *struct {
 		Tree bool `mvc:"query[tree]"`
