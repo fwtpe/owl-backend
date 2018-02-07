@@ -7,7 +7,7 @@ fi
 
 SUFFIX=
 PREFIX=
-databases=(imdb falcon_portal uic falcon_links grafana graph boss dashboard)
+databases=(imdb falcon_portal uic falcon_links grafana graph boss dashboard apollo)
 mysql_args=()
 action=recreate
 yes=

@@ -5,7 +5,7 @@ if [[ ${BASH_VERSION:0:1} -lt 4 ]]; then
 	exit 1
 fi
 
-databases=(uic falcon_portal falcon_links grafana graph boss dashboard imdb)
+databases=(uic falcon_portal falcon_links grafana graph boss dashboard imdb apollo)
 
 declare -A dbAndChangelog
 dbAndChangelog[uic]="uic"
@@ -16,6 +16,7 @@ dbAndChangelog[grafana]="grafana"
 dbAndChangelog[graph]="graph"
 dbAndChangelog[boss]="boss"
 dbAndChangelog[dashboard]="dashboard"
+dbAndChangelog[apollo]="apollo"
 
 URL=
 PREFIX=
