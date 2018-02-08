@@ -49,7 +49,8 @@ const (
 	InfoLevel  = lf.InfoLevel
 	DebugLevel = lf.DebugLevel
 
-	ROOT_LOGGER = "_root_"
+	ROOT_LOGGER   = "_root_"
+	DEFAULT_LEVEL = WarnLevel
 )
 
 var defaultFactory = newLoggerFactory()
@@ -276,7 +277,7 @@ func toLogger(fieldLogger *lf.Logger) *lf.Logger {
 
 func newLogger(name string) *lf.Logger {
 	newLogger := lf.New()
-	newLogger.Level = lf.WarnLevel
+	newLogger.Level = DEFAULT_LEVEL
 	newLogger.Formatter = NewTextFormatter(name)
 	newLogger.Out = os.Stdout
 

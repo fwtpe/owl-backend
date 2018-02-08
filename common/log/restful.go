@@ -2,7 +2,7 @@ package log
 
 import (
 	mvc "github.com/fwtpe/owl-backend/common/gin/mvc"
-	cModel "github.com/fwtpe/owl-backend/common/model"
+	"github.com/fwtpe/owl-backend/common/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,9 +13,9 @@ func RestLogger(prefixGroup gin.IRouter, h mvc.BuildHandlerFunc) {
 
 func restListAllV1() mvc.OutputBody {
 	loggers := ListAll()
-	reply := cModel.NamedLoggerList{make([]*cModel.NamedLogger, 0, len(loggers))}
+	reply := model.NamedLoggerList{make([]*model.NamedLogger, 0, len(loggers))}
 	for _, entry := range loggers {
-		reply.Loggers = append(reply.Loggers, &cModel.NamedLogger{
+		reply.Loggers = append(reply.Loggers, &model.NamedLogger{
 			Name:  entry.Name,
 			Level: entry.Logger.Level.String(),
 		})
@@ -24,7 +24,7 @@ func restListAllV1() mvc.OutputBody {
 }
 
 func restSetLevelV1(
-	setData cModel.NamedLogger,
+	setData model.NamedLogger,
 	q *struct {
 		Tree bool `mvc:"query[tree]"`
 	},
