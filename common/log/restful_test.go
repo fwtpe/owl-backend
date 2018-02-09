@@ -24,6 +24,9 @@ var _ = Describe("Restful API of log framework", func() {
 
 	Context("/v1/list-all", func() {
 		testApi := "/_/test/v1/list-all"
+		BeforeEach(func() {
+			defaultFactory = newLoggerFactory()
+		})
 
 		It("The loggers is empty when no logger exists", func() {
 			req := httptest.NewRequest(http.MethodGet, testApi, nil)
@@ -52,9 +55,12 @@ var _ = Describe("Restful API of log framework", func() {
 		})
 	})
 
-	Context("/v1/list-all", func() {
+	Context("/v1/set-level", func() {
 		testApi := "/_/test/v1/set-level"
 		testApiTree := testApi + "?tree=true"
+		BeforeEach(func() {
+			defaultFactory = newLoggerFactory()
+		})
 
 		It("Invalid logger name", func() {
 			rawJson, _ := json.Marshal(NamedLogger{"test/setlevel-null", "debug"})
