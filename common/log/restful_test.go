@@ -23,11 +23,13 @@ var _ = Describe("Restful API of log framework", func() {
 	RestLogger(group, mvcBuilder.BuildHandler)
 
 	Context("/v1/list-all", func() {
+		testApi := "/_/test/v1/list-all"
+
 		It("The loggers is empty when no logger exists", func() {
-			req := httptest.NewRequest(http.MethodGet, "/_/test/v1/list-all", nil)
+			req := httptest.NewRequest(http.MethodGet, testApi, nil)
 			resp := httptest.NewRecorder()
 			engine.ServeHTTP(resp, req)
-			GinkgoT().Logf(resp.Body.String())
+			GinkgoT().Logf("Resp body: %s", resp.Body.String())
 
 			expBody, _ := json.Marshal(model.NamedLoggerList{make([]*model.NamedLogger, 0)})
 			Expect(resp.Body).To(MatchJSON(expBody))
@@ -36,15 +38,16 @@ var _ = Describe("Restful API of log framework", func() {
 		It("The loggers contains the element when logger exists", func() {
 			expName := "test/listall"
 			GetLogger(expName)
-			req := httptest.NewRequest(http.MethodGet, "/_/test/v1/list-all", nil)
+			req := httptest.NewRequest(http.MethodGet, testApi, nil)
 			resp := httptest.NewRecorder()
 			engine.ServeHTTP(resp, req)
-			GinkgoT().Logf(resp.Body.String())
+			GinkgoT().Logf("Resp body: %s", resp.Body.String())
 
 			expLevel := DEFAULT_LEVEL.String()
 			l := model.NamedLoggerList{make([]*model.NamedLogger, 0, 1)}
 			l.Loggers = append(l.Loggers, &model.NamedLogger{expName, expLevel})
 			expBody, _ := json.Marshal(l)
+
 			Expect(resp.Body).To(MatchJSON(expBody))
 		})
 	})
