@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RestLogger(prefixGroup gin.IRouter, h mvc.BuildHandlerFunc) {
+func RestfulLogger(prefixGroup gin.IRouter, h mvc.BuildHandlerFunc) {
 	prefixGroup.GET("/v1/list-all", h(restListAllV1))
 	prefixGroup.POST("/v1/set-level", h(restSetLevelV1))
 }

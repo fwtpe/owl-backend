@@ -20,7 +20,7 @@ var _ = Describe("Restful API of log framework", func() {
 		group      = engine.Group("/_/test")
 	)
 
-	RestLogger(group, mvcBuilder.BuildHandler)
+	RestfulLogger(group, mvcBuilder.BuildHandler)
 
 	Context("/v1/list-all", func() {
 		testApi := "/_/test/v1/list-all"
