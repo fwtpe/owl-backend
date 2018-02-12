@@ -108,13 +108,14 @@ func checkAndRefineMetric(metric *cmodel.MetricValue, startTime time.Time) (*cmo
 	// :~)
 
 	refinedMetric := &cmodel.MetaData{
-		Metric:       metric.Metric,
-		Endpoint:     metric.Endpoint,
-		Timestamp:    refinedTimestamp,
-		Step:         metric.Step,
-		CounterType:  metric.Type,
-		Tags:         cutils.DictedTagstring(metric.Tags), //TODO: tags键值对的个数,要做一下限制
-		SourceMetric: metric,
+		Metric:            metric.Metric,
+		Endpoint:          metric.Endpoint,
+		Timestamp:         refinedTimestamp,
+		Step:              metric.Step,
+		CounterType:       metric.Type,
+		Tags:              cutils.DictedTagstring(metric.Tags), //TODO: tags键值对的个数,要做一下限制
+		ReachTransferTime: startTime,
+		SourceMetric:      metric,
 	}
 
 	refinedMetric.Value = refinedValue

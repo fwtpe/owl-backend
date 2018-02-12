@@ -1,6 +1,8 @@
 package rdb
 
 import (
+	"fmt"
+
 	commonDb "github.com/fwtpe/owl-backend/common/db"
 	f "github.com/fwtpe/owl-backend/common/db/facade"
 	commonNqmDb "github.com/fwtpe/owl-backend/common/db/nqm"
@@ -106,11 +108,17 @@ func InitBossRdb(dbConfig *commonDb.DbConfig) {
 	)
 }
 
+type displayDbConfig commonDb.DbConfig
+
+func (c *displayDbConfig) String() string {
+	return fmt.Sprintf("DSN: [%s]. Max Idle: [%d]", hidePasswordOfDsn(c.Dsn), c.MaxIdle)
+}
+
 func openRdb(dbName string, dbConfig *commonDb.DbConfig, facadeCallback func(*f.DbFacade)) {
 	newFacade := &f.DbFacade{}
 	GlobalDbHolder.setDb(dbName, newFacade)
 
-	logger.Infof("Open RDB: %s ...", dbConfig)
+	logger.Infof("Open RDB: %s ...", (*displayDbConfig)(dbConfig))
 
 	err := newFacade.Open(dbConfig)
 	if err != nil {

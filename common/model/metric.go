@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"time"
 
 	MUtils "github.com/fwtpe/owl-backend/common/utils"
 )
@@ -17,14 +18,16 @@ type MetricValue struct {
 }
 
 func (this *MetricValue) String() string {
+	timeText := time.Unix(this.Timestamp, 0).Format(time.RFC3339)
+
 	return fmt.Sprintf(
-		"<Endpoint:%s, Metric:%s, Type:%s, Tags:%s, Step:%d, Time:%d, Value:%v>",
+		"<Endpoint:%s, Metric:%s, Type:%s, Tags:%s, Step:%d, Time:%s, Value:%v>",
 		this.Endpoint,
 		this.Metric,
 		this.Type,
 		this.Tags,
 		this.Step,
-		this.Timestamp,
+		timeText,
 		this.Value,
 	)
 }
@@ -46,19 +49,22 @@ func (t *JsonMetaData) String() string {
 }
 
 type MetaData struct {
-	Metric       string            `json:"metric"`
-	Endpoint     string            `json:"endpoint"`
-	Timestamp    int64             `json:"timestamp"`
-	Step         int64             `json:"step"`
-	Value        float64           `json:"value"`
-	CounterType  string            `json:"counterType"`
-	Tags         map[string]string `json:"tags"`
-	SourceMetric *MetricValue      `json:"-"`
+	Metric            string            `json:"metric"`
+	Endpoint          string            `json:"endpoint"`
+	Timestamp         int64             `json:"timestamp"`
+	Step              int64             `json:"step"`
+	Value             float64           `json:"value"`
+	CounterType       string            `json:"counterType"`
+	Tags              map[string]string `json:"tags"`
+	ReachTransferTime time.Time         `json:"-"`
+	SourceMetric      *MetricValue      `json:"-"`
 }
 
 func (t *MetaData) String() string {
-	return fmt.Sprintf("<MetaData Endpoint:%s, Metric:%s, Timestamp:%d, Step:%d, Value:%f, Tags:%v>",
-		t.Endpoint, t.Metric, t.Timestamp, t.Step, t.Value, t.Tags)
+	timeText := time.Unix(t.Timestamp, 0).Format(time.RFC3339)
+
+	return fmt.Sprintf("<MetaData Endpoint:%s, Metric:%s, Timestamp:%s, Step:%d, Value:%f, Tags:%v>",
+		t.Endpoint, t.Metric, timeText, t.Step, t.Value, t.Tags)
 }
 
 func (t *MetaData) PK() string {

@@ -1,0 +1,30 @@
+{
+    "logLevel": "${log.level}",
+    "debug": ${log.debug},
+    "http": {
+        "enabled": true,
+        "listen": "0.0.0.0:${port.http.sender}"
+    },
+    "redis": {
+        "addr": "${redis.conn}",
+        "maxIdle": 5
+    },
+    "queue": {
+        "sms": "/sms",
+        "mail": "/mail",
+        "qq": "/qq",
+        "serverchan": "/serverchan"
+    },
+    "worker": {
+        "sms": 10,
+        "mail": 50,
+        "qq": 10,
+        "serverchan": 10
+    },
+    "api": {
+        "sms": "${address.http.sms}",
+        "mail": "${address.http.smtp}",
+        "qq": "${address.http.qq}",
+        "serverchan": "${url.serverchan}"
+    }
+}

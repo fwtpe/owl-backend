@@ -1,0 +1,14 @@
+databaseChangeLog:
+    - changeSet:
+        id: "init-1"
+        author: "myhung"
+        preConditions:
+            onFail: MARK_RAN
+            onFailMessage: "\"remarks\" is existing, mark the init-1 as ran one"
+            not: { tableExists: { tableName: remarks } }
+        changes:
+            - sqlFile: { endDelimiter: ";", relativeToChangelogFile: true, path: apollo.ori.sql.gz }
+    - changeSet: {
+        id: "init-2", author: "myhung",
+        changes: [ tagDatabase: { tag: "init.180207" } ]
+    }

@@ -54,13 +54,13 @@ func judgeItemWithStrategy(L *SafeLinkedList, strategy model.Strategy, firstItem
 	}
 
 	event := &model.Event{
-		Id:              fmt.Sprintf("s_%d_%s", strategy.Id, firstItem.PrimaryKey()),
-		Strategy:        &strategy,
-		Endpoint:        firstItem.Endpoint,
-		LeftValue:       leftValue,
-		EventTime:       firstItem.Timestamp,
-		PushedTags:      firstItem.Tags,
-		SourceTimestamp: firstItem.SourceTimestamp,
+		Id:                fmt.Sprintf("s_%d_%s", strategy.Id, firstItem.PrimaryKey()),
+		Strategy:          &strategy,
+		Endpoint:          firstItem.Endpoint,
+		LeftValue:         leftValue,
+		EventTime:         firstItem.Timestamp,
+		PushedTags:        firstItem.Tags,
+		ReachTransferTime: firstItem.ReachTransferTime,
 	}
 
 	sendEventIfNeed(historyData, isTriggered, now, event, strategy.MaxStep)
@@ -181,12 +181,13 @@ func judgeItemWithExpression(L *SafeLinkedList, expression *model.Expression, fi
 	}
 
 	event := &model.Event{
-		Id:         fmt.Sprintf("e_%d_%s", expression.Id, firstItem.PrimaryKey()),
-		Expression: expression,
-		Endpoint:   firstItem.Endpoint,
-		LeftValue:  leftValue,
-		EventTime:  firstItem.Timestamp,
-		PushedTags: firstItem.Tags,
+		Id:                fmt.Sprintf("e_%d_%s", expression.Id, firstItem.PrimaryKey()),
+		Expression:        expression,
+		Endpoint:          firstItem.Endpoint,
+		LeftValue:         leftValue,
+		EventTime:         firstItem.Timestamp,
+		PushedTags:        firstItem.Tags,
+		ReachTransferTime: firstItem.ReachTransferTime,
 	}
 
 	sendEventIfNeed(historyData, isTriggered, now, event, expression.MaxStep)
@@ -246,14 +247,22 @@ func sendEventIfNeed(historyData []*model.HistoryData, isTriggered bool, now int
 	}
 }
 
-const tooLateMinute = 5
-const tooLateTime = tooLateMinute * time.Minute
+const (
+	tooLateSecond = 180
+	tooLateTime   = tooLateSecond * time.Second
+)
 
 func logTooLateMetric(eventData *model.Event) {
 	now := time.Now()
 
-	eventSourceTime := time.Unix(eventData.SourceTimestamp, 0)
-	if now.Sub(eventSourceTime) > tooLateTime {
-		log.Warnf("[Late Metric(%d minutes)] Now[%s]. Item[%s]", tooLateMinute, now, eventData)
+	reachTransferTime := time.Unix(eventData.ReachTransferTime, 0)
+	diffTime := now.Sub(reachTransferTime)
+	if diffTime > tooLateTime {
+		log.Warnf(
+			"[Too Long(%d{%d} seconds)] Reach/Now[%s - %s] Metric[%s]",
+			diffTime/time.Second, tooLateSecond,
+			reachTransferTime.Format(time.RFC3339), now.Format(time.RFC3339),
+			eventData,
+		)
 	}
 }

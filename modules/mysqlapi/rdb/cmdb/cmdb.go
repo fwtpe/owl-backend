@@ -286,13 +286,25 @@ func (syncTx *syncHostTx) InTx(tx *sqlx.Tx) commonDb.TxFinale {
 	)
 	// :~)
 
+	/**
+	 * Locks the table globally(for writing)
+	 */
+	tx.MustExec(
+		`
+		SELECT COUNT(*) FROM host
+		FOR UPDATE
+		`,
+	)
+	// :~)
+
 	/*
 	 *  update host table from temp_host
 	 */
 	tx.MustExec(
 		`
-		UPDATE host INNER JOIN temp_host
-		ON host.hostname = temp_host.hostname
+		UPDATE host
+			INNER JOIN temp_host
+			ON host.hostname = temp_host.hostname
 		SET host.ip = temp_host.ip,
 		    host.maintain_begin = temp_host.maintain_begin,
 			host.maintain_end   = temp_host.maintain_end
@@ -305,10 +317,11 @@ func (syncTx *syncHostTx) InTx(tx *sqlx.Tx) commonDb.TxFinale {
 		INSERT INTO host(hostname, ip, maintain_begin, maintain_end)
 		SELECT temp_host.hostname, temp_host.ip,
 		       temp_host.maintain_begin, temp_host.maintain_end
-		FROM temp_host LEFT JOIN host
-			ON temp_host.hostname = host.hostname
-		WHERE host.hostname IS NULL
+		FROM temp_host LEFT JOIN host AS check_host
+			ON temp_host.hostname = check_host.hostname
+		WHERE check_host.hostname IS NULL
 		`)
+
 	tx.MustExec(`DROP TEMPORARY TABLE temp_host`)
 	return commonDb.TxCommit
 }

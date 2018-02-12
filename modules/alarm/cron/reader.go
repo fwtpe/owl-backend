@@ -155,14 +155,22 @@ func popExternalEvent(queues []string) error {
 	return nil
 }
 
-const tooLateMinute = 5
-const tooLateTime = tooLateMinute * time.Minute
+const (
+	tooLateSecond = 180
+	tooLateTime   = tooLateSecond * time.Second
+)
 
 func logTooLateMetric(eventData *model.Event) {
 	now := time.Now()
 
-	eventSourceTime := time.Unix(eventData.SourceTimestamp, 0)
-	if now.Sub(eventSourceTime) > tooLateTime {
-		log.Warnf("[Late Metric(%d minutes)] Now[%s]. Item[%s]", tooLateMinute, now, eventData)
+	reachTransferTime := time.Unix(eventData.ReachTransferTime, 0)
+	diffTime := now.Sub(reachTransferTime)
+	if diffTime > tooLateTime {
+		log.Warnf(
+			"[Too Long(%d{%d} seconds)] Reach/Now[%s - %s] Metric[%s]",
+			diffTime/time.Second, tooLateSecond,
+			reachTransferTime.Format(time.RFC3339), now.Format(time.RFC3339),
+			eventData,
+		)
 	}
 }

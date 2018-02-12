@@ -1,0 +1,16 @@
+{
+    "db": {
+        "addr": "${dbuser.grafana.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.grafana}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "uicdb": {
+        "addr": "${dbuser.grafana.account}:${dbuser.password}@tcp(${mysql.conn})/${dbname.uic}?${dbconn.flags}",
+        "idle": 10,
+        "max": 100
+    },
+    "home": "${url.fe}/",
+    "login": "${url.fe}/auth/login?callback=${url.grafana}/",
+    "thirdPartyLoginCookie": "${boss.login.cookie}",
+    "thirdPartyLoginInfo": "${url.boss.login}/third/single/getUserInfo"
+}

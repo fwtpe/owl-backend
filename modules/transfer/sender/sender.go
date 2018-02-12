@@ -86,13 +86,13 @@ func Push2JudgeSendQueue(items []*cmodel.MetaData) {
 		ts := alignTs(item.Timestamp, int64(step))
 
 		judgeItem := &cmodel.JudgeItem{
-			Endpoint:        item.Endpoint,
-			Metric:          item.Metric,
-			Value:           item.Value,
-			JudgeType:       item.CounterType,
-			Tags:            item.Tags,
-			Timestamp:       ts,
-			SourceTimestamp: item.SourceMetric.Timestamp,
+			Endpoint:          item.Endpoint,
+			Metric:            item.Metric,
+			Value:             item.Value,
+			JudgeType:         item.CounterType,
+			Tags:              item.Tags,
+			Timestamp:         ts,
+			ReachTransferTime: item.ReachTransferTime.Unix(),
 		}
 		Q := JudgeQueues[node]
 		isSuccess := Q.PushFront(judgeItem)
