@@ -15,7 +15,8 @@ func PanicIfError(err error) {
 		return
 	}
 
-	panic(NewDatabaseError(err))
+	// Skip this frame of callers
+	panic(NewDatabaseErrorWithDepth(err, 1))
 }
 
 // Constructs an error of database
@@ -25,5 +26,16 @@ func NewDatabaseError(err error) *DbError {
 		return &DbError{stackError}
 	}
 
-	return &DbError{utils.BuildErrorWithCaller(err)}
+	// Skip this frame of callers
+	return NewDatabaseErrorWithDepth(err, 1)
+}
+
+func NewDatabaseErrorWithDepth(err error, depth int) *DbError {
+	stackError, ok := err.(*utils.StackError)
+	if ok {
+		return &DbError{stackError}
+	}
+
+	// Skip this frame of callers
+	return &DbError{utils.BuildErrorWithCallerDepth(err, depth+1)}
 }

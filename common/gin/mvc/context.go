@@ -84,6 +84,8 @@ func (b *MvcBuilder) BuildHandler(handlerFunc MvcHandler) gin.HandlerFunc {
 	}
 }
 
+type BuildHandlerFunc func(MvcHandler) gin.HandlerFunc
+
 type inputParamLoader func(c *gin.Context) interface{}
 
 func (b *MvcBuilder) buildInputFunc(targetTypes []reflect.Type) func(c *gin.Context) []reflect.Value {

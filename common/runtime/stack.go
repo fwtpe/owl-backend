@@ -15,33 +15,23 @@ package runtime
 
 import (
 	"fmt"
+	"regexp"
 	"runtime"
 	"strings"
 )
 
-var prefixLength int
-var goPath string
-
-func init() {
-	_, file, _, _ := runtime.Caller(0)
-
-	/**
-	 * Figures out the $GOPATH of current file
-	 */
-	size := len(file)
-	suffix := len("github.com/fwtpe/owl-backend/common/runtime/stack.go")
-
-	goPath = file[0 : size-suffix]
-	prefixLength = len(goPath)
-	// :~)
-}
-
 // Information of the position in file and where line number is targeted
 type CallerInfo struct {
-	Line int
+	PackageName  string
+	FileName     string
+	Line         int
+	FunctionName string
 
-	file    string
 	rawFile string
+}
+
+func (c *CallerInfo) String() string {
+	return fmt.Sprintf("%s[%s]:%d:%s", c.FileName, c.FunctionName, c.Line, c.PackageName)
 }
 
 type CallerStack []*CallerInfo
@@ -58,25 +48,13 @@ func (s CallerStack) ConcatStringStack(sep string) string {
 	return strings.Join(s.AsStringStack(), sep)
 }
 
-// Gets the file by trimming of $GOPATH
-//
-// The processing of file is delayed to improve performance
-func (c *CallerInfo) GetFile() string {
-	if c.file != "" {
-		return c.file
-	}
-
-	c.file = trimGoPath(c.rawFile)
-	return c.file
-}
-func (c *CallerInfo) String() string {
-	return fmt.Sprintf("%s:%d", c.GetFile(), c.Line)
-}
-
 // Gets stack of caller info
+//
+// 0 - The current function
 func GetCallerInfoStack(startDepth int, endDepth int) CallerStack {
 	callers := make([]*CallerInfo, 0)
-	for i := startDepth + 1; i < endDepth+1; i++ {
+
+	for i := startDepth + 1; i < endDepth+2; i++ {
 		callerInfo := GetCallerInfoWithDepth(i)
 		if callerInfo == nil {
 			break
@@ -90,28 +68,78 @@ func GetCallerInfoStack(startDepth int, endDepth int) CallerStack {
 
 // Gets caller info from current function
 func GetCallerInfo() *CallerInfo {
+	// Skips
+	// 1) this function
+	// 2) the function calls this function
+	return GetCallerInfoWithDepth(2)
+}
+
+func GetCurrentFuncInfo() *CallerInfo {
+	// Skips this function
 	return GetCallerInfoWithDepth(1)
 }
 
-// Gets caller info with depth.
+// Gets caller info with number of skipping frames.
 //
-// N means the Nth caller of caller.
-func GetCallerInfoWithDepth(depth int) *CallerInfo {
-	_, file, line, ok := runtime.Caller(depth + 2)
-	if !ok {
+// 0 - means the current function
+// N - means the Nth caller.
+func GetCallerInfoWithDepth(countOfSkips int) *CallerInfo {
+	pc := make([]uintptr, 1)
+
+	// Skips
+	// 1) this function
+	// 2) the caller of this function
+	n := runtime.Callers(2+countOfSkips, pc)
+
+	if n == 0 {
 		return nil
 	}
 
-	return &CallerInfo{
-		rawFile: file,
-		Line:    line,
-	}
+	frame, _ := runtime.CallersFrames(pc).Next()
+	return toCallerInfo(&frame)
 }
 
-func trimGoPath(filename string) string {
-	if strings.HasPrefix(filename, goPath) {
-		return filename[prefixLength:]
+var packageFromFunc = regexp.MustCompile("(.+/(?:\\w|-)+)\\.(.*)$")
+var fileFromPath = regexp.MustCompile("[^/]+\\.go$")
+
+func toCallerInfo(frame *runtime.Frame) *CallerInfo {
+	finalInfo := &CallerInfo{
+		PackageName:  "<N/A>",
+		FunctionName: "<N/A>",
+		Line:         -1,
+		FileName:     "<N/A>",
 	}
 
-	return filename
+	if frame.Line > 0 {
+		finalInfo.Line = frame.Line
+	}
+
+	/**
+	 * 1. Extracts package name
+	 * 2. Reduction for "/vendor/"
+	 */
+	matchPackage := packageFromFunc.FindStringSubmatch(frame.Function)
+	if len(matchPackage) == 3 {
+		finalInfo.PackageName = matchPackage[1]
+		finalInfo.FunctionName = matchPackage[2]
+	}
+
+	indexOfVendor := strings.Index(finalInfo.PackageName, "/vendor/")
+	if indexOfVendor >= 0 {
+		finalInfo.PackageName = finalInfo.PackageName[indexOfVendor+8:]
+	}
+	// :~)
+
+	/**
+	 * Extracts file name
+	 */
+	fileNameMatch := fileFromPath.FindString(frame.File)
+	if fileNameMatch != "" {
+		finalInfo.FileName = fileNameMatch
+	}
+	// :~)
+
+	finalInfo.rawFile = frame.File
+
+	return finalInfo
 }
